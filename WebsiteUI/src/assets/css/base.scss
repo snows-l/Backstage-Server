@@ -1,0 +1,97 @@
+@import './variables.module.scss';
+
+// 定义（在全局样式中定义）
+@font-face {
+  font-family: 优设标题黑5;
+  src: url('@/assets/fontFamily/优设标题黑.ttf');
+}
+
+@font-face {
+  font-family: apple;
+  src: url('@/assets/fontFamily/apple.ttf');
+}
+
+@font-face {
+  font-family: 华文行楷;
+  src: url('@/assets/fontFamily/STXINGKA.TTF');
+}
+
+@font-face {
+  font-family: DSDIGI;
+  src: url('@/assets/fontFamily/DSDIGI.TTF');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+:root {
+  --containerBgc: #f5f2f0;
+  --contentBgc: #fff;
+  --m-max-width: 600px;
+}
+
+/* 自定义整个滚动条 */
+::-webkit-scrollbar {
+  width: 2px; /* 设置滚动条的宽度 */
+  height: 2px;
+}
+
+/* 自定义滚动条轨道 */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 设置轨道的背景颜色 */
+}
+
+/* 自定义滚动条的滑块（thumb） */
+::-webkit-scrollbar-thumb {
+  background: #16add7; /* 设置滑块的背景颜色 */
+  border-radius: 2px;
+}
+
+/* 当滑块悬停或活动时，可以添加更多样式 */
+::-webkit-scrollbar-thumb:hover {
+  background: #21dc94; /* 设置滑块在悬停状态下的背景颜色 */
+  border-radius: 2px;
+}
+
+.el-scrollbar {
+  .el-scrollbar__bar.is-horizontal {
+    height: 2px; // 添加横向高度
+  }
+  .el-scrollbar__bar.is-vertical {
+    width: 2px; // 添加纵向宽度
+  }
+  // 横向滚动条
+  .el-scrollbar__bar.is-horizontal .el-scrollbar__thumb {
+    opacity: 1; // 默认滚动条自带透明度
+    height: 2px; // 横向滑块的宽度
+    border-radius: 2px; // 圆角度数
+    background-color: rgba(136, 219, 255, 1); // 滑块背景色
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.15); // 滑块阴影
+  }
+  // 纵向滚动条
+  .el-scrollbar__bar.is-vertical .el-scrollbar__thumb {
+    opacity: 1;
+    width: 2px; // 纵向滑块的宽度
+    border-radius: 2px;
+    background-color: rgba(136, 219, 255, 1);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+  }
+}
+
+body {
+  padding-right: 0 !important;
+  width: 100% !important;
+}
+
+.table-content-container {
+  border: 1px solid #eceef5;
+}

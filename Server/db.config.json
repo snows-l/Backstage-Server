@@ -1,0 +1,7 @@
+{
+  "host": "124.223.41.220",
+  "port": 3306,
+  "user": "snows_l",
+  "password": "Snow100107@",
+  "database": "backstage_db"
+}
