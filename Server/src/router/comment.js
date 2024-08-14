@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-13 20:46:36
+ * @LastEditTime: 2024-08-14 19:55:53
  * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -19,16 +19,25 @@ router.get('/comment/list', (req, res) => {
   let offset = (page - 1) * size;
   let sql = 'select* from comment where 1=1 ' + (comment ? ` and comment like '%${comment}%'` : '') + `order by time desc limit ${size} offset ${offset}`;
   let lenSql = 'select count(*) as total from comment where isPrivacy = 0 ' + (comment ? ` and comment like '%${comment}%'` : '');
-  db.queryAsync(sql).then(result => {
-    db.queryAsync(lenSql).then(lenResult => {
-      res.send({
-        code: 200,
-        data: result.results,
-        msg: 'success',
-        total: lenResult.results[0].total
+  try {
+    db.queryAsync(sql).then(result => {
+      db.queryAsync(lenSql).then(lenResult => {
+        res.send({
+          code: 200,
+          data: result.results,
+          msg: 'success',
+          total: lenResult.results[0].total
+        });
       });
     });
-  });
+  } catch (error) {
+    res.send({
+      code: 200,
+      data: [],
+      msg: '500 error=' + error,
+      total: 0
+    });
+  }
 });
 
 // 新增评论
@@ -42,13 +51,21 @@ router.post('/comment/add', (req, res) => {
   let sql = createSql
     .insert('comment')
     .set({ qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, os, browser, time: moment().format('YYYY-MM-DD HH:mm:ss') });
-  db.queryAsync(sql).then(result => {
-    res.send({
-      code: 200,
-      data: null,
-      msg: 'success'
+  try {
+    db.queryAsync(sql).then(result => {
+      res.send({
+        code: 200,
+        data: null,
+        msg: 'success'
+      });
     });
-  });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '500 error=' + error
+    });
+  }
 });
 
 module.exports = router;

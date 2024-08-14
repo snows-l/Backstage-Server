@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-11 12:02:52
+ * @LastEditTime: 2024-08-14 19:59:28
  * @FilePath: /webseteUI/Server/src/router/article.js
  */
 const createSql = require('../../utils/sql');
@@ -26,61 +26,93 @@ router.get('/article/list', async (req, res) => {
   let lensql = `SELECT count('id') as total FROM article WHERE 1=1 ${title ? `AND title LIKE '%${title}%'` : ''} ${type ? `AND type = '${type}'` : ''}`;
 
   const params = [0];
-  db.queryAsync(lensql, []).then(lenRes => {
-    const total = lenRes.results[0]['total'];
-    db.queryAsync(sql, params).then(ress => {
-      let result = ress.results;
-      res.send({
-        code: 200,
-        data: result,
-        total: total,
-        msg: '获取成功'
+  try {
+    db.queryAsync(lensql, []).then(lenRes => {
+      const total = lenRes.results[0]['total'];
+      db.queryAsync(sql, params).then(ress => {
+        let result = ress.results;
+        res.send({
+          code: 200,
+          data: result,
+          total: total,
+          msg: '获取成功'
+        });
       });
     });
-  });
+  } catch (error) {
+    res.send({
+      code: 200,
+      data: null,
+      msg: '500 error=' + error
+    });
+  }
 });
 
 // 获取文章详情
 router.get('/article/detail/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `SELECT * FROM article WHERE id = ${id}`;
-  db.queryAsync(sql, []).then(ress => {
-    let result = ress.results[0];
+  try {
+    db.queryAsync(sql, []).then(ress => {
+      let result = ress.results[0];
+      res.send({
+        code: 200,
+        data: {
+          ...result
+        },
+        msg: '获取成功'
+      });
+      db.queryAsync(`UPDATE article SET readCount = readCount + 1 WHERE id = ${id}`, []);
+    });
+  } catch (error) {
     res.send({
       code: 200,
-      data: {
-        ...result
-      },
-      msg: '获取成功'
+      data: null,
+      msg: '500 error=' + error
     });
-    db.queryAsync(`UPDATE article SET readCount = readCount + 1 WHERE id = ${id}`, []);
-  });
+  }
 });
 
 // 更新评论次数
 router.put('/article/commentCount', async (req, res) => {
   const { id } = req.body;
   const sql = `UPDATE article SET commentCount = commentCount + 1 WHERE id = ${id}`;
-  db.queryAsync(sql, []).then(ress => {
+  try {
+    db.queryAsync(sql, []).then(ress => {
+      res.send({
+        code: 200,
+        data: null,
+        msg: '更新成功'
+      });
+    });
+  } catch (error) {
     res.send({
       code: 200,
       data: null,
-      msg: '更新成功'
+      msg: '500 error=' + error
     });
-  });
+  }
 });
 
 // 更新分享次数
 router.put('/article/shareCount', async (req, res) => {
   const { id } = req.body;
   const sql = `UPDATE article SET shareCount = shareCount + 1 WHERE id = ${id}`;
-  db.queryAsync(sql, []).then(ress => {
+  try {
+    db.queryAsync(sql, []).then(ress => {
+      res.send({
+        code: 200,
+        data: null,
+        msg: '更新成功'
+      });
+    });
+  } catch (error) {
     res.send({
       code: 200,
       data: null,
-      msg: '更新成功'
+      msg: '500 error=' + error
     });
-  });
+  }
 });
 
 // 新增文章
@@ -154,7 +186,6 @@ router.put('/article/edit', async (req, res) => {
       });
     });
   } catch (error) {
-    console.log('-------- error --------', error);
     res.send({
       code: 500,
       data: null,
@@ -168,16 +199,24 @@ router.delete('/article/del/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `UPDATE from article SET delFlag = ? WHERE id = ${id}`;
   const params = [1];
-  db.queryAsync(sql, [params]).then(ress => {
-    res.send({
-      code: 200,
-      data: null,
-      msg: '删除成功'
+  try {
+    db.queryAsync(sql, [params]).then(ress => {
+      res.send({
+        code: 200,
+        data: null,
+        msg: '删除成功'
+      });
     });
-  });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '删除失败'
+    });
+  }
 });
 
-// 导出
+// 导出  // 没有实现
 router.get('/article/export', async (req, res) => {
   let { eDate, sDate, source, includePic } = req.query;
   let sql = `SELECT * FROM article`;
