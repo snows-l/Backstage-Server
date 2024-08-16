@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-16 23:23:39
+ * @LastEditTime: 2024-08-16 23:50:31
  * @FilePath: /webseteUI/WebsiteUI/src/views/article/write/index.vue
 -->
 <template>
@@ -168,6 +168,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
     console.error('onError', file, err, res);
   },
   async customUpload(file, interImg) {
+    console.log('-------- file --------', file);
     uploadArticleCover(file, file.name).then(res => {
       if (res.code === 200) {
         let url = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
