@@ -191,7 +191,7 @@ const getArticleListFn = () => {
         item.isCurrentMusic = false;
         item.updateTime = item.updateTime && moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss');
         if (item.cover) {
-          item.coverLocal = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + item.cover : import.meta.env.VITE_PROD_BASE_SERVER + item.cover;
+          item.coverLocal = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + item.cover : import.meta.env.VITE_PROD_BASE_SERVER + item.cover;
         }
         item.subTitle = item.subTitle.replace(/&#39;/g, "'");
       });

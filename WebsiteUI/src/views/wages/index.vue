@@ -229,7 +229,7 @@ const getWagesListFn = () => {
       res.data.forEach((item: { create_time: Date | string }) => {
         item.create_time = item.create_time && moment(item.create_time).format('YYYY-MM-DD HH:mm:ss');
         item.date = item.date && moment(item.date).format('YYYY-MM');
-        item.picLocal = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + item.pic : import.meta.env.VITE_PROD_BASE_SERVER + item.pic;
+        item.picLocal = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + item.pic : import.meta.env.VITE_PROD_BASE_SERVER + item.pic;
       });
       state.tableSource = res.data;
       state.page.total = res.total || 0;

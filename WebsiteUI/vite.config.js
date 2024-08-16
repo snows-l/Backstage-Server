@@ -3,8 +3,8 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2022-12-30 10:30:44
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-06-18 10:39:51
- * @FilePath: /Website/WebsiteUI/vite.config.js
+ * @LastEditTime: 2024-08-16 22:15:56
+ * @FilePath: /webseteUI/WebsiteUI/vite.config.js
  */
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
@@ -44,7 +44,7 @@ export default defineConfig(({ mode, command }) => {
       historyApiFallback: true, // 解决本地页面刷新 Cannot GET的问题
       proxy: {
         [config.VITE_DEV_BASE_URL]: {
-          target: config.VITE_DEV_BASE_SERVER,
+          target: config.VITE_CURRENT_ENV == 'dev' ? config.VITE_DEV_BASE_SERVER : config.VITE_PROD_BASE_SERVER,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         }

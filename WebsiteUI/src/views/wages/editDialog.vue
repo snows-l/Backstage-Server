@@ -108,7 +108,7 @@ const handleUpload = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
   uploadWages(file.file, name).then(res => {
     state.itemRecord.picLocal =
-      import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
+      import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.itemRecord.pic = res.data.path;
   });
 };
@@ -188,7 +188,7 @@ const showDialog = (type: string, row, companyList) => {
   } else {
     state.itemRecord = Object.assign({}, row);
     state.itemRecord.picLocal =
-      import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + state.itemRecord.pic : import.meta.env.VITE_PROD_BASE_SERVER + state.itemRecord.pic;
+      import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + state.itemRecord.pic : import.meta.env.VITE_PROD_BASE_SERVER + state.itemRecord.pic;
   }
   open.value = true;
 };

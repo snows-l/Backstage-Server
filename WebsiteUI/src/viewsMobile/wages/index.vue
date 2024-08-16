@@ -235,7 +235,7 @@ const getListFn = () => {
     .then(res => {
       res.data.forEach((item: { create_time: Date | string }) => {
         item.date = item.date && moment(item.date).format('YYYY-MM');
-        item.picLoacl = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + item.pic : import.meta.env.VITE_PROD_BASE_SERVER + item.pic;
+        item.picLoacl = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + item.pic : import.meta.env.VITE_PROD_BASE_SERVER + item.pic;
       });
       state.tableSource = res.data;
       state.page.total = res.total;

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-28 15:20:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-10 17:00:07
+ * @LastEditTime: 2024-08-16 22:33:11
  * @FilePath: /webseteUI/WebsiteUI/src/api/common.js
  */
 import request from '@/utils/request';
@@ -92,10 +92,11 @@ export function uploadArticleCover(file, name) {
   return request({
     url: '/sys/file/upload/article',
     method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    data: formData
+    // bug: 这里的 headers 去掉，否则会报错
+    // headers: {
+    //   'Content-Type': 'multipart/form-data'
+    // }
   });
 }
 

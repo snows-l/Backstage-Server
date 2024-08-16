@@ -80,7 +80,7 @@ export const useAppStore = defineStore('app', {
             }
             this.SET_USER(res.data.user);
             this.SET_AVATAR(
-              import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.user.avatar : import.meta.env.VITE_PROD_BASE_SERVER + res.data.user.avatar
+              import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.user.avatar : import.meta.env.VITE_PROD_BASE_SERVER + res.data.user.avatar
             );
             resolve();
           })

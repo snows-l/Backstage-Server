@@ -170,7 +170,7 @@ const getUserInfoFn = () => {
     state.editUser = Object.assign({}, res.data);
     res.data.create_time = res.data.create_time && moment(res.data.create_time).format('YYYY-MM-DD HH:mm:ss');
     state.user = res.data;
-    let server = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER : import.meta.env.VITE_PROD_BASE_SERVER;
+    let server = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER : import.meta.env.VITE_PROD_BASE_SERVER;
     state.user.avatar = state.user.avatar && server + state.user.avatar;
   });
 };

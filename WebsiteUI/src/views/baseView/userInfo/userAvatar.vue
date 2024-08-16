@@ -152,7 +152,7 @@ const uploadImg = () => {
     uploadAvatar(file).then(response => {
       state.open = false;
       state.options.img =
-        import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + response.data.path : import.meta.env.VITE_PROD_BASE_SERVER + response.data.path;
+        import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + response.data.path : import.meta.env.VITE_PROD_BASE_SERVER + response.data.path;
       ElMessage.success('头像修改成功！');
       store.SET_AVATAR(state.options.img);
       state.visible = false;

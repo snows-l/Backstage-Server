@@ -107,14 +107,14 @@ const getMusicListFn = () => {
   getMusicList({ isUnPage: false }).then(res => {
     musicList.value = res.data.map(item => {
       let cover = '';
-      if (item.cover) cover = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + item.cover : import.meta.env.VITE_PROD_BASE_SERVER + item.cover;
+      if (item.cover) cover = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + item.cover : import.meta.env.VITE_PROD_BASE_SERVER + item.cover;
       return {
         id: item.id,
         title: item.title,
         artist: item.artist,
         type: item.type,
         img: cover,
-        src: import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + item.src : import.meta.env.VITE_PROD_BASE_SERVER + item.src
+        src: import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + item.src : import.meta.env.VITE_PROD_BASE_SERVER + item.src
       };
     });
 

@@ -121,7 +121,7 @@ const handleUpload = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
   uploadMusicCover(file.file, name).then(res => {
     state.itemRecord.coverLocal =
-      import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
+      import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.itemRecord.cover = res.data.path;
   });
 };
@@ -231,7 +231,7 @@ const showDialog = (type: string, row, typeList) => {
     let suffix = state.itemRecord.src && state.itemRecord.src.split('.')[1];
     if (state.itemRecord.coverLocal) {
       state.itemRecord.coverLocal =
-        import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + state.itemRecord.cover : import.meta.env.VITE_PROD_BASE_SERVER + state.itemRecord.cover;
+        import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + state.itemRecord.cover : import.meta.env.VITE_PROD_BASE_SERVER + state.itemRecord.cover;
     }
     state.itemRecord.musicList = [
       {
@@ -239,7 +239,7 @@ const showDialog = (type: string, row, typeList) => {
         url: row.src
       }
     ];
-    import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + state.itemRecord.cover : import.meta.env.VITE_PROD_BASE_SERVER + state.itemRecord.cover;
+    import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + state.itemRecord.cover : import.meta.env.VITE_PROD_BASE_SERVER + state.itemRecord.cover;
   }
   open.value = true;
 };

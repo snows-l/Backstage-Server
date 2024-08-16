@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-11 11:57:46
+ * @LastEditTime: 2024-08-16 23:23:39
  * @FilePath: /webseteUI/WebsiteUI/src/views/article/write/index.vue
 -->
 <template>
@@ -135,26 +135,25 @@ const editorConfig = {
 
 const { fullScreen } = useWangEditorHook();
 
-// 上传图片配置
+// // 上传图片配置
 editorConfig.MENU_CONF['uploadImage'] = {
-  server: '/api/sys/file/upload/article',
+  server: null,
   // server: '/api/upload-img-10s', // test timeout
   // server: '/api/upload-img-failed', // test failed
   // server: '/api/xxx', // test 404
 
   timeout: 5 * 1000, // 5s
-  fieldName: 'custom-fileName',
+  fieldName: 'file',
   // meta: {},
-  metaWithUrl: false, // join params to url
-  headers: { 'Content-Type': 'multipart/form-data' },
-  maxFileSize: 10 * 1024 * 1024, // 10M
+  withCredentials: true,
+  metaWithUrl: false, // join params to url'Content-Type': 'multipart/form-data' },
+  maxFileSize: 5 * 1024 * 1024, // 10M
   base64LimitSize: 5 * 1024, // insert base64 format, if file's size less than 5kb
 
   onBeforeUpload(file) {
     console.log('onBeforeUpload', file);
 
     return file; // will upload this file
-    // return false // prevent upload
   },
   onProgress(progress) {
     console.log('onProgress', progress);
@@ -167,6 +166,17 @@ editorConfig.MENU_CONF['uploadImage'] = {
   },
   onError(file, err, res) {
     console.error('onError', file, err, res);
+  },
+  async customUpload(file, interImg) {
+    uploadArticleCover(file, file.name).then(res => {
+      if (res.code === 200) {
+        let url = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
+        interImg(url);
+      } else {
+        ElMessage.error('上传失败');
+        return false;
+      }
+    });
   }
 };
 
@@ -195,7 +205,7 @@ if (route.query.id) {
       state.form.subTitle = res.data.subTitle.replace(/&#39;/g, "'");
       state.form.type = res.data.type + '';
       state.form.coverLocal =
-        import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
+        import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
       state.form.cover = res.data.cover;
       state.form.content = res.data.content.replace(/&#39;/g, "'");
       valueHtml.value = decodeURIComponent(state.form.content);
@@ -229,7 +239,8 @@ const beforeUpload = file => {
 const handleUpload = file => {
   let name = file.file.name && file.file.name.split('.')[0];
   uploadArticleCover(file.file, name).then(res => {
-    state.form.coverLocal = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
+    state.form.coverLocal =
+      import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.form.cover = res.data.path;
   });
 };

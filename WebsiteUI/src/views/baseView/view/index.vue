@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-24 17:51:09
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-26 20:53:07
+ * @LastEditTime: 2024-08-16 21:50:16
  * @FilePath: /webseteUI/WebsiteUI/src/views/baseView/view/index.vue
 -->
 <template>
@@ -54,8 +54,9 @@
           </div>
 
           <div class="to-warp" v-if="!state.isScreenFull" style="width: 100%; display: flex; justify-content: center; margin-top: 30px; align-items: center">
-            <img class="to" @click="handleTo('/m/favors')" style="width: 20px; height: 20px; margin-right: 20px" src="../../../assets/icon/华为mate40pro.png" alt="" srcset="" />
-            <i :style="{ color: state.themeColor, fontSize: '22px' }" @click="handleTo('/index')" class="iconfont to icon-PC"></i>
+            <img class="to" @click="handleTo('/m/favors')" style="width: 20px; height: 20px; margin-right: 20px" src="../../../assets/icon/华为mate40pro.png" />
+            <i :style="{ color: state.themeColor, fontSize: '22px', marginRight: '20px' }" @click="handleTo('/index')" class="iconfont to icon-PC"></i>
+            <img class="to" @click="handleBlog" style="width: 20px; height: 20px" src="../../../assets/images/blog.png" />
             <el-popover placement="bottom" title="APP下载" width="300" trigger="hover">
               <div class="qr">
                 <div class="tip" style="font-size: 12px; margin-bottom: 10px; width: 100%; color: #999">请扫描下载APP或者点击下方按钮直接下载</div>
@@ -172,6 +173,11 @@ const handleTo = path => {
       duration: 5000
     });
   }
+};
+
+// 跳转到博客
+const handleBlog = () => {
+  window.open('http://192.168.31.211:3000/', '_blank');
 };
 
 // 全屏/退出全屏 兼容性处理

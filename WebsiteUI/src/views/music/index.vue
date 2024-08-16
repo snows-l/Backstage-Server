@@ -227,7 +227,7 @@ const getMusicListFn = () => {
         item.isCurrentMusic = false;
         item.updat_time = item.updat_time && moment(item.updat_time).format('YYYY-MM-DD HH:mm:ss');
         if (item.cover) {
-          item.coverLocal = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + item.cover : import.meta.env.VITE_PROD_BASE_SERVER + item.cover;
+          item.coverLocal = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + item.cover : import.meta.env.VITE_PROD_BASE_SERVER + item.cover;
         }
       });
       state.tableSource = res.data;
@@ -298,7 +298,7 @@ const handleDel = (row: { id: number }) => {
 // 下载
 const handleDownload = ({ src, title }) => {
   state.downLoading = true;
-  let url = import.meta.env.MODE == 'development' ? import.meta.env.VITE_DEV_BASE_SERVER + src : import.meta.env.VITE_PROD_BASE_SERVER + src;
+  let url = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + src : import.meta.env.VITE_PROD_BASE_SERVER + src;
   const x = new XMLHttpRequest();
   x.open('GET', url, true);
   x.responseType = 'blob';
