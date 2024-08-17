@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-16 23:50:31
+ * @LastEditTime: 2024-08-17 16:34:48
  * @FilePath: /webseteUI/WebsiteUI/src/views/article/write/index.vue
 -->
 <template>
@@ -15,7 +15,7 @@
           <div class="article-title-warp">
             <input class="input" :value="state.form.title" placeholder="标题..." clearable @change="handleTitleChange" />
           </div>
-          <Editor class="editor-content-warp" v-model="valueHtml" :defaultConfig="editorConfig" :mode="mode" @onCreated="handleCreated" />
+          <Editor class="editor-content-warp" v-model="valueHtml" :defaultConfig="editorConfig" :mode="mode" @onCreated="handleCreated" @customPaste="customPaste" />
         </div>
         <div class="form-warp">
           <el-form :model="state.form" ref="formRef" :rules="rules" label-width="70px">
@@ -137,7 +137,7 @@ const { fullScreen } = useWangEditorHook();
 
 // // 上传图片配置
 editorConfig.MENU_CONF['uploadImage'] = {
-  server: null,
+  server: null, // 自定义 上传图片的接口地址
   // server: '/api/upload-img-10s', // test timeout
   // server: '/api/upload-img-failed', // test failed
   // server: '/api/xxx', // test 404
@@ -168,7 +168,6 @@ editorConfig.MENU_CONF['uploadImage'] = {
     console.error('onError', file, err, res);
   },
   async customUpload(file, interImg) {
-    console.log('-------- file --------', file);
     uploadArticleCover(file, file.name).then(res => {
       if (res.code === 200) {
         let url = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
@@ -178,6 +177,46 @@ editorConfig.MENU_CONF['uploadImage'] = {
         return false;
       }
     });
+  }
+};
+
+const customPaste = (editor, event) => {
+  console.log('-------- editor --------', editor, event);
+  // 获取粘贴的html部分（？？没错粘贴word时候，一部分内容就是html），该部分包含了图片img标签
+  let html = event.clipboardData.getData('text/html');
+
+  // 获取rtf数据（从word、wps复制粘贴时有），复制粘贴过程中图片的数据就保存在rtf中
+  const rtf = event.clipboardData.getData('text/rtf');
+
+  if (html && rtf) {
+    // 该条件分支即表示要自定义word粘贴
+
+    // 列表缩进会超出边框，直接过滤掉
+    html = html.replace(/text\-indent:\-(.*?)pt/gi, '');
+
+    // 从html内容中查找粘贴内容中是否有图片元素，并返回img标签的属性src值的集合
+    const imgSrcs = findAllImgSrcsFromHtml(html);
+
+    // 如果有
+    if (imgSrcs && Array.isArray(imgSrcs) && imgSrcs.length) {
+      // 从rtf内容中查找图片数据
+      const rtfImageData = extractImageDataFromRtf(rtf);
+
+      // 如果找到
+      if (rtfImageData.length) {
+        // TODO：此处可以将图片上传到自己的服务器上
+
+        // 执行替换：将html内容中的img标签的src替换成ref中的图片数据，如果上面上传了则为图片路径
+        html = replaceImagesFileSourceWithInlineRepresentation(html, imgSrcs, rtfImageData);
+        editor.dangerouslyInsertHtml(html);
+      }
+    }
+
+    // 阻止默认的粘贴行为
+    event.preventDefault();
+    return false;
+  } else {
+    return true;
   }
 };
 
@@ -281,7 +320,6 @@ const handleSubmit = () => {
       };
       if (state.id) {
         params.id = state.id;
-        console.log('-------- params --------', valueHtml.value);
         editArticle(params).then(res => {
           if (res.code === 200) {
             ElMessage.success('修改成功');
