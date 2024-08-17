@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-17 16:34:48
+ * @LastEditTime: 2024-08-17 16:56:48
  * @FilePath: /webseteUI/WebsiteUI/src/views/article/write/index.vue
 -->
 <template>
@@ -41,7 +41,7 @@
             </el-form-item>
           </el-form>
           <div class="btn-warp">
-            <el-button type="primary" size="small" @click="handleSubmit">发 布</el-button>
+            <el-button type="primary" class="btn" size="small" @click="handleSubmit">发 布</el-button>
           </div>
         </div>
       </div>
@@ -181,7 +181,6 @@ editorConfig.MENU_CONF['uploadImage'] = {
 };
 
 const customPaste = (editor, event) => {
-  console.log('-------- editor --------', editor, event);
   // 获取粘贴的html部分（？？没错粘贴word时候，一部分内容就是html），该部分包含了图片img标签
   let html = event.clipboardData.getData('text/html');
 
@@ -382,6 +381,7 @@ onBeforeUnmount(() => {
       overflow-x: hidden;
       overflow-y: auto;
       position: relative;
+      background-color: #fff;
       .editor-toolbar {
         position: sticky !important;
         top: 0px;
@@ -417,10 +417,17 @@ onBeforeUnmount(() => {
         max-width: 850px;
         margin: 0 auto;
         .btn-warp {
-          margin-top: 30px;
+          margin-top: 50px;
+          margin-bottom: 30px;
           padding: 10px;
           display: flex;
-          justify-content: flex-end;
+          justify-content: center;
+          .btn {
+            height: 40px;
+            padding: 15px 30px;
+            min-width: 200px;
+            border: 5px;
+          }
         }
       }
     }

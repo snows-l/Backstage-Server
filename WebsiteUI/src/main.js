@@ -3,13 +3,14 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2023-01-12 16:56:13
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-20 15:35:30
+ * @LastEditTime: 2024-08-17 16:49:03
  * @FilePath: /webseteUI/WebsiteUI/src/main.js
  */
 import '@/assets/css/base.scss';
 import '@/assets/css/common.scss';
 import '@/assets/css/reset.scss';
 import { useAppStore } from '@/store/common';
+import { Boot } from '@wangeditor/editor';
 import AppleMusicPlayer from 'apple-music-player';
 import 'default-passive-events';
 import ElementPlus from 'element-plus';
@@ -24,6 +25,9 @@ import Empty from './components/golbal/Empty/index.vue'; // 暂无数据组件
 import FlipClock from './components/golbal/FlipClock/index.vue'; // 通用弹窗组件
 import IconSelect from './components/golbal/IconSelect/index.vue'; // 自定义图标选择器
 import XDialog from './components/golbal/XDialog/index.vue'; // 通用弹窗组件
+// with-editor-api.js文件的路径
+import withEditorApi from '@/utils/with-editor-api.js';
+Boot.registerPlugin(withEditorApi);
 
 import pinia from '@/store';
 import App from './App.vue';
