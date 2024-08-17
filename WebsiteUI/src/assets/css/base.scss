@@ -95,3 +95,37 @@ body {
 .table-content-container {
   border: 1px solid #eceef5;
 }
+
+/*
+ * Add your custom styles here
+ * 标题样式居然消失了 只能自己加一下咯
+ */
+h1 {
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 500;
+}
