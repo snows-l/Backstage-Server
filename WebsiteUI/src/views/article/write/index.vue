@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-17 16:56:48
+ * @LastEditTime: 2024-08-17 17:53:06
  * @FilePath: /webseteUI/WebsiteUI/src/views/article/write/index.vue
 -->
 <template>
@@ -264,8 +264,8 @@ getDict({ dictType: 'article_type' }).then(res => {
 
 // 上传文章封面之前的校验
 const beforeUpload = file => {
-  if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
-    ElMessage.error('请上传jpeg, jpg, png格式的图片!');
+  if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/gif') {
+    ElMessage.error('请上传jpeg, jpg, png, gif格式的图片!');
     return false;
   } else if (file.size / 1024 / 1024 > 10) {
     ElMessage.error('附件不能大于10M!');
