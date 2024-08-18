@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-18 18:40:48
+ * @LastEditTime: 2024-08-18 20:01:49
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/zone/index.vue
 -->
 <template>
@@ -226,7 +226,7 @@ const handleCurrentChange = (page: number) => {
 
 // 新增
 const hanldeAdd = () => {
-  editDialogRef.value.showDialog();
+  editDialogRef.value.showDialog(false);
 };
 
 // 编辑

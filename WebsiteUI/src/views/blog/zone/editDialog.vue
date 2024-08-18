@@ -148,11 +148,11 @@ const edit = () => {
 
 // 提交
 const handleSubmit = () => {
-  let tipText = state.title === '新增' ? '确认新增嘛？' : '确认修改嘛？';
+  let tipText = state.type === 'add' ? '确认新增嘛？' : '确认修改嘛？';
   (formRef.value as any).validate((valid: any) => {
     if (valid) {
       ElMessageBox.confirm(tipText, '提示').then(() => {
-        state.title === '新增' ? add() : edit();
+        state.type === 'add' ? add() : edit();
       });
     }
   });
@@ -160,15 +160,17 @@ const handleSubmit = () => {
 
 // 打开弹窗
 const showDialog = row => {
-  state.title = !row == 'add' ? '新增' : '修改';
-
   if (!row) {
+    state.title = '新增';
+    state.type = 'add';
     state.itemRecord = {
       text: '',
       file: [],
       remark: ''
     };
   } else {
+    state.title = '修改';
+    state.type = 'edit';
     state.itemRecord = Object.assign({}, row);
     state.itemRecord.file = state.itemRecord.imgSrcs.map((item, i) => {
       return {
