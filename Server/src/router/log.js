@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-08 10:39:40
- * @FilePath: /Website/Server/src/router/log.js
+ * @LastEditTime: 2024-08-18 18:17:24
+ * @FilePath: /webseteUI/Server/src/router/log.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
 const express = require('express');
@@ -12,6 +12,7 @@ const { generateToken, verifyToken } = require('../../utils/handleToken');
 // 数据库操作
 const db = require('../../utils/connDB');
 const Excel = require('exceljs');
+const IP2Region = require('ip2region').default;
 
 const router = express.Router();
 

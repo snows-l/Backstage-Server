@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-06-18 09:23:08
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-10 17:03:17
+ * @LastEditTime: 2024-08-18 18:10:40
  * @FilePath: /webseteUI/Server/src/router/common.js
  */
 
@@ -241,6 +241,46 @@ router.post('/file/upload/mp3', musicSrcUpload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/mp3/${musicSrcFileName}`;
+    //将图片存放的地址返回
+    res.send({
+      code: 200,
+      msg: '上传成功',
+      data: {
+        path
+      }
+    });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '系统异常，请稍候再试！'
+    });
+  }
+});
+
+/**
+ *
+ * @description: 指定 空间 上传的路径 也就是跟目录下的public/imgs/zone
+ *
+ */
+let zoneFileName = '';
+const zoneStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../public/imgs/zone');
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const time = moment().format('YYYYMMDDHHmmss');
+    zoneFileName = 'zone_cover_' + file.originalname.replace(ext, '') + time + ext;
+    cb(null, zoneFileName);
+  }
+});
+const zoneUpload = multer({ storage: zoneStorage });
+// 文章封面
+router.post('/file/upload/zone', zoneUpload.single('file'), (req, res) => {
+  try {
+    const file = req.file;
+    let path = `/imgs/zone/${zoneFileName}`;
     //将图片存放的地址返回
     res.send({
       code: 200,

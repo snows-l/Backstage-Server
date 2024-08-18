@@ -3,8 +3,8 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-12 15:38:57
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-04-24 14:31:06
- * @FilePath: /Website/Server/utils/connDB.js
+ * @LastEditTime: 2024-08-18 18:20:23
+ * @FilePath: /webseteUI/Server/utils/connDB.js
  */
 const moment = require('moment');
 class DBPool {
@@ -55,7 +55,7 @@ class DBPool {
           connection.release(); //释放链接
           connection.destroy(); //销毁链接
           if (err) {
-            console.log('数据库操作失败');
+            console.log('数据库操作失败', err);
             reject(err);
             return;
           }

@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-15 19:00:39
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-13 19:46:03
+ * @LastEditTime: 2024-08-18 17:11:56
  * @FilePath: /webseteUI/Server/src/index.js
  */
 
@@ -29,6 +29,7 @@ const homeRouter = require('./router/home');
 const logRouter = require('./router/log');
 const articleRouter = require('./router/article');
 const commentRouter = require('./router/comment');
+const zoneRouter = require('./router/zone');
 
 // 获取.env中的环境变量
 const dotenv = require('dotenv').config({ path: './.env' });
@@ -60,6 +61,7 @@ app.use('/sys', homeRouter);
 app.use('/sys', logRouter);
 app.use('/sys', articleRouter);
 app.use('/sys', commentRouter);
+app.use('/sys', zoneRouter);
 
 //设置静态资源访问路径   这样就可以直接通过 http://localhost:3333/[path]/[filename] 访问public目录下的静态资源文件
 app.use(express.static(path.join(__dirname, '../public')));

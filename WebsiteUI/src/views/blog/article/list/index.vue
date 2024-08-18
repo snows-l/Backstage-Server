@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-11 16:48:14
- * @FilePath: /webseteUI/WebsiteUI/src/views/article/list/index.vue
+ * @LastEditTime: 2024-08-18 16:48:48
+ * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/list/index.vue
 -->
 <template>
   <div class="musics-container-warp">
@@ -234,12 +234,12 @@ const handleCurrentChange = (page: number) => {
 
 // 新增
 const hanldeAdd = () => {
-  router.push('/article/write');
+  router.push('/blog/article/write');
 };
 
 // 编辑
 const handleEdit = (row: any) => {
-  router.push({ path: '/article/write', query: { id: row.id } });
+  router.push({ path: '/blog/article/write', query: { id: row.id } });
 };
 
 // 删除
