@@ -68,3 +68,14 @@ export default () => {
     longTimeStopScreen(true, time, fn);
   };
 };
+
+// android点击手机物理返回键退出app bug解决
+document.addEventListener('plusready', function () {
+  plus.key.addEventListener(
+    'backbutton',
+    function () {
+      window.history.go(-1);
+    },
+    false
+  );
+});
