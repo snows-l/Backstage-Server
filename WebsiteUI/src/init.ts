@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2023-05-30 16:28:08
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-19 21:34:19
+ * @LastEditTime: 2024-08-19 21:55:01
  * @FilePath: /webseteUI/WebsiteUI/src/init.ts
  */
 
@@ -68,14 +68,3 @@ export default () => {
     longTimeStopScreen(true, time, fn);
   };
 };
-
-// android点击手机物理返回键退出app bug解决
-document.addEventListener('plusready', function () {
-  plus.key.addEventListener(
-    'backbutton',
-    function () {
-      window.history.go(-1);
-    },
-    false
-  );
-});
