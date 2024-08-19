@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-24 17:51:09
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-16 21:50:16
+ * @LastEditTime: 2024-08-19 20:22:59
  * @FilePath: /webseteUI/WebsiteUI/src/views/baseView/view/index.vue
 -->
 <template>
@@ -177,7 +177,7 @@ const handleTo = path => {
 
 // 跳转到博客
 const handleBlog = () => {
-  window.open('http://192.168.31.211:3000/', '_blank');
+  window.open('http://124.223.41.220', '_blank');
 };
 
 // 全屏/退出全屏 兼容性处理
