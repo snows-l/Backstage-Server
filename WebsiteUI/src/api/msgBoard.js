@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-06-17 12:24:28
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 15:17:59
+ * @LastEditTime: 2024-08-20 16:31:00
  * @FilePath: /webseteUI/WebsiteUI/src/api/msgBoard.js
  */
 import request from '@/utils/request';

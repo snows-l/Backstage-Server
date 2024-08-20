@@ -113,6 +113,7 @@ const state = reactive({
 });
 
 const rules = {
+  comment: [{ required: true, message: '请输入', trigger: 'blur' }],
   qq: [{ required: true, message: '请输入', trigger: 'blur' }],
   nickName: [{ required: true, message: '请输入', trigger: 'blur' }],
   email: [{ required: true, message: '请输入', trigger: 'blur' }],
