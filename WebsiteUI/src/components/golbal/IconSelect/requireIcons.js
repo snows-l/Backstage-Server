@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-05-31 14:08:40
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-25 19:55:15
+ * @LastEditTime: 2024-08-20 14:56:06
  * @FilePath: /webseteUI/WebsiteUI/src/components/golbal/IconSelect/requireIcons.js
  */
 // const modules = import.meta.glob('./../../assets/icons/svg/*.svg');
@@ -79,7 +79,10 @@ const icons = [
   'icon-gengduo2',
   'icon-siyecao',
   'icon-gengduo2',
-  'icon-APK'
+  'icon-APK',
+  'icon-iconfontzhizuobiaozhunbduan36',
+  'icon-guanyu1',
+  'icon-liuyanban-xian'
 ];
 
 export default icons;

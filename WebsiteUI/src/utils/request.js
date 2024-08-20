@@ -34,8 +34,8 @@ service.interceptors.request.use(
 
     const userInfo = JSON.parse(localStorage.getItem('__LOCAL__USER_INFO')) || {};
     // 无权限访问的接口
-    let noAuthPath = ['add', 'edit', 'delete', 'del', '/favors/export', '/wages/export'];
-    const authPath = ['/sys/musics/add', '/sys/musics/edit'];
+    let noAuthPath = ['add', 'edit', 'delete', 'del', '/favors/export', '/wages/export', 'upload'];
+    const authPath = ['/sys/musics/add', '/sys/file/upload/music'];
     if (userInfo?.user?.role_key == 'snow' && noAuthPath.some(item => config.url.includes(item)) && !authPath.some(item => config.url.includes(item))) {
       // 取消请求
       if (cancel) {
