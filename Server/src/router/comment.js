@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-14 19:55:53
+ * @LastEditTime: 2024-08-20 15:56:04
  * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -51,6 +51,54 @@ router.post('/comment/add', (req, res) => {
   let sql = createSql
     .insert('comment')
     .set({ qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, os, browser, time: moment().format('YYYY-MM-DD HH:mm:ss') });
+  try {
+    db.queryAsync(sql).then(result => {
+      res.send({
+        code: 200,
+        data: null,
+        msg: 'success'
+      });
+    });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '500 error=' + error
+    });
+  }
+});
+
+// 编辑留言
+router.put('/comment/edit', (req, res) => {
+  let { id, qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback } = req.body;
+  isPrivacy = isPrivacy ? 1 : 0;
+  isEmailFeekback = isEmailFeekback ? 1 : 0;
+
+  let sql = createSql
+    .update('comment')
+    .set({ qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback })
+    .where('id=' + id);
+  try {
+    db.queryAsync(sql).then(result => {
+      res.send({
+        code: 200,
+        data: null,
+        msg: 'success'
+      });
+    });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '500 error=' + error
+    });
+  }
+});
+
+// 删除留言
+router.post('/comment/del/:id', (req, res) => {
+  let { id } = req.params;
+  let sql = createSql.delete('comment').where({ id });
   try {
     db.queryAsync(sql).then(result => {
       res.send({

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-05-31 14:08:40
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 14:56:06
+ * @LastEditTime: 2024-08-20 15:05:47
  * @FilePath: /webseteUI/WebsiteUI/src/components/golbal/IconSelect/requireIcons.js
  */
 // const modules = import.meta.glob('./../../assets/icons/svg/*.svg');
@@ -82,6 +82,7 @@ const icons = [
   'icon-APK',
   'icon-iconfontzhizuobiaozhunbduan36',
   'icon-guanyu1',
+  'icon-boke',
   'icon-liuyanban-xian'
 ];
 

@@ -107,11 +107,7 @@ const beforeUpload = (file: any) => {
 const handleClose = () => {
   state.itemRecord = {
     text: '',
-    cover: '',
-    artist: '',
-    src: '',
-    file: '',
-    musicList: [],
+    file: [],
     remark: ''
   };
   open.value = false;

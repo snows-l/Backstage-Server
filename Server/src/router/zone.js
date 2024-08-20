@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 13:03:25
+ * @LastEditTime: 2024-08-20 15:11:36
  * @FilePath: /webseteUI/Server/src/router/zone.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -25,7 +25,7 @@ router.get('/zone/list', (req, res) => {
   let sql = `select * from zone where status = 1 ${text ? `and text like '%${text}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
   } order by createTime desc limit ${size} offset ${offset}`;
-  let sqlCount = `select count(*) as total from zone where sttus = 1 ${text ? `and text like '%${text}%'` : ''} ${
+  let sqlCount = `select count(*) as total from zone where status = 1 ${text ? `and text like '%${text}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
   }`;
   db.queryAsync(sqlCount, [])
