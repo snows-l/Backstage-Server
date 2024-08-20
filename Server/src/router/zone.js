@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-18 18:46:01
+ * @LastEditTime: 2024-08-20 13:03:25
  * @FilePath: /webseteUI/Server/src/router/zone.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -22,10 +22,10 @@ const IP2Region = require('ip2region').default;
 router.get('/zone/list', (req, res) => {
   let { page, size, text, startTime, endTime } = req.query;
   let offset = (page - 1) * size;
-  let sql = `select * from zone where 1=1 ${text ? `and text like '%${text}%'` : ''} ${
+  let sql = `select * from zone where status = 1 ${text ? `and text like '%${text}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
   } order by createTime desc limit ${size} offset ${offset}`;
-  let sqlCount = `select count(*) as total from zone where 1=1 ${text ? `and text like '%${text}%'` : ''} ${
+  let sqlCount = `select count(*) as total from zone where sttus = 1 ${text ? `and text like '%${text}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
   }`;
   db.queryAsync(sqlCount, [])
@@ -76,7 +76,7 @@ router.post('/zone/add', (req, res) => {
   const os = getOS(req.headers['user-agent']);
   const browser = getBrowserName(req.headers['user-agent']);
 
-  let sql = `insert into zone (text, imgs, createTime, city, remark, os, browser) values (?, ?, ?, ?, ?, ?, ?)`;
+  let sql = `insert into zone (text, imgs, createTime, city, remark, os, browser, status) values (?, ?, ?, ?, ?, ?, ?, 1)`;
   let params = [text, imgs, moment().format('YYYY-MM-DD HH:mm:ss'), city, remark, os, browser];
   try {
     db.queryAsync(sql, params)
