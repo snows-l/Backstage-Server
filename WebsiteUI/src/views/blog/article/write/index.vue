@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-23 21:46:58
+ * @LastEditTime: 2024-08-23 21:56:13
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
@@ -249,12 +249,13 @@ if (route.query.id) {
       state.form.title = res.data.title;
       state.form.subTitle = res.data.subTitle.replace(/&#39;/g, "'");
       state.form.type = res.data.type + '';
-      state.isPreview = res.data.isPreview == 1 ? 1 : 0;
+      state.form.isPreview = res.data.isPreview == 1 ? 1 : 0;
       state.form.coverLocal =
         import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
       state.form.cover = res.data.cover;
       state.form.content = res.data.content.replace(/&#39;/g, "'");
       valueHtml.value = decodeURIComponent(state.form.content);
+      console.log('-------- state, valueHtmls --------', state.form);
     }
   });
 }
@@ -321,6 +322,7 @@ const handleSubmit = () => {
         subTitle: state.form.subTitle.replace(/'/g, '&#39;'),
         type: state.form.type,
         cover: state.form.cover,
+        isPreview: state.form.isPreview,
         // content: valueHtml.value
         content: valueHtml.value.replace(/'/g, '&#39;')
       };
@@ -330,7 +332,7 @@ const handleSubmit = () => {
           if (res.code === 200) {
             ElMessage.success('修改成功');
             // 跳转到文章列表
-            router.push('/article/list');
+            router.push('/blog/article/list');
           } else {
             ElMessage.error('修改失败');
           }
@@ -348,7 +350,7 @@ const handleSubmit = () => {
             // 重置编辑器
             editorRef.value.clear();
             // 跳转到文章列表
-            router.push('/article/list');
+            router.push('/blog/article/list');
           } else {
             ElMessage.error('发布失败');
           }
