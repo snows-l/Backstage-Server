@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-14 19:59:28
+ * @LastEditTime: 2024-08-23 21:44:31
  * @FilePath: /webseteUI/Server/src/router/article.js
  */
 const createSql = require('../../utils/sql');
@@ -127,7 +127,7 @@ router.post('/article/add', async (req, res) => {
         msg: '请先登录'
       });
     }
-    let { title, subTitle, cover, content, type } = req.body;
+    let { title, subTitle, cover, content, type, isPreview } = req.body;
     let sql = createSql
       .insert('article')
       .set({
@@ -138,7 +138,8 @@ router.post('/article/add', async (req, res) => {
         type,
         createTime: new Date(),
         status: 1,
-        delFlag: 0
+        delFlag: 0,
+        isPreview
       })
       .end();
     // const sql = `INSERT INTO article (title, subTitle, cover, content, type, createTime, status, delFlag) VALUES ('${title}', '${subTitle}', '${cover}', '${content}', ${type}, ?, ?, ?);`;
@@ -161,13 +162,14 @@ router.post('/article/add', async (req, res) => {
 
 // 修改文章
 router.put('/article/edit', async (req, res) => {
-  let { id, title, subTitle, cover, content, type } = req.body;
+  let { id, title, subTitle, cover, content, type, isPreview } = req.body;
   let data = {
     title,
     subTitle,
     cover,
     content: encodeURIComponent(content),
     type,
+    isPreview,
     updateTime: new Date()
   };
 

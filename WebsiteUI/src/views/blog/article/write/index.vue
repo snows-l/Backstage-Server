@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-17 17:53:06
- * @FilePath: /webseteUI/WebsiteUI/src/views/article/write/index.vue
+ * @LastEditTime: 2024-08-23 21:46:58
+ * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
   <div class="editor-container-warp p20" id="editor-container-warp">
@@ -21,6 +21,10 @@
           <el-form :model="state.form" ref="formRef" :rules="rules" label-width="70px">
             <el-form-item label="摘要：" prop="subTitle" style="width: 100%">
               <el-input type="textarea" :rows="10" v-model="state.form.subTitle" placeholder="请输入" :show-word-limit="true"></el-input>
+            </el-form-item>
+
+            <el-form-item label="预览：" prop="isPreview" style="width: 100%">
+              <el-switch v-model="state.form.isPreview" :active-value="1" :inactive-value="0"></el-switch>
             </el-form-item>
 
             <el-form-item label="类型：" prop="type" style="width: 100%">
@@ -74,7 +78,8 @@ const valueHtml = ref('');
 const rules = {
   subTitle: [{ required: true, message: '请输入摘要', trigger: 'blur' }],
   type: [{ required: true, message: '请选择类型', trigger: 'change' }],
-  coverLocal: [{ required: true, message: '请上传封面', trigger: 'change' }]
+  coverLocal: [{ required: true, message: '请上传封面', trigger: 'change' }],
+  isPreview: [{ required: true, message: '请选择是否支持预览', trigger: 'change' }]
 };
 
 const state = reactive({
@@ -84,6 +89,7 @@ const state = reactive({
     type: '',
     coverLocal: '',
     cover: '',
+    isPreview: 0,
     content: ''
   },
   typeList: []
@@ -243,6 +249,7 @@ if (route.query.id) {
       state.form.title = res.data.title;
       state.form.subTitle = res.data.subTitle.replace(/&#39;/g, "'");
       state.form.type = res.data.type + '';
+      state.isPreview = res.data.isPreview == 1 ? 1 : 0;
       state.form.coverLocal =
         import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
       state.form.cover = res.data.cover;
