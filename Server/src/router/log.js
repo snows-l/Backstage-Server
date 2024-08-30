@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-18 18:17:24
+ * @LastEditTime: 2024-08-30 18:34:20
  * @FilePath: /webseteUI/Server/src/router/log.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -35,8 +35,8 @@ router.post('/log/add', (req, res) => {
       }
       const os = getOS(req.headers['user-agent']);
       const browser = getBrowserName(req.headers['user-agent']);
-      const sql = `INSERT INTO logs (username, ip, city, browser, os, create_time) VALUES (?,?,?,?,?,?)`;
-      const params = [user.username, ip, city, browser, os, moment().format('YYYY-MM-DD HH:mm:ss')];
+      const sql = `INSERT INTO logs (username, ip, city, browser, os, create_time, type) VALUES (?,?,?,?,?,?)`;
+      const params = [user.username, ip, city, browser, os, moment().format('YYYY-MM-DD HH:mm:ss'), 0];
       db.queryAsync(sql, params).then(_ => {
         res.send({
           code: 200,
@@ -56,12 +56,15 @@ router.post('/log/add', (req, res) => {
 
 // 日志列表
 router.get('/log/list', (req, res) => {
-  const { page, size, city, username } = req.query;
+  const { page, size, city, username, type } = req.query;
+  console.log('-------- type --------', type);
   let offset = (page - 1) * size;
-  const sql = `SELECT * FROM logs WHERE 1=1 ${city ? `AND city LIKE '%${city}%'` : ''} ${
+  const sql = `SELECT * FROM logs WHERE 1=1 ${type ? `AND type = ${type}` : ''} ${city ? `AND city LIKE '%${city}%'` : ''} ${
     username ? `AND username LIKE '%${username}%'` : ''
   } ORDER BY id DESC LIMIT ${size} OFFSET ${offset}`;
-  let totalSql = `SELECT COUNT(*) as total FROM logs WHERE 1=1 ${city ? `AND city LIKE '%${city}%'` : ''} ${username ? `AND username LIKE '%${username}%'` : ''}`;
+  let totalSql = `SELECT COUNT(*) as total FROM logs WHERE 1=1 ${type ? `AND type = ${type}` : ''} ${city ? `AND city LIKE '%${city}%'` : ''} ${
+    username ? `AND username LIKE '%${username}%'` : ''
+  }`;
   try {
     db.queryAsync(sql, []).then(logRes => {
       db.queryAsync(totalSql, []).then(totalRes => {

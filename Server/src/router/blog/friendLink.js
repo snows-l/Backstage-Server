@@ -3,11 +3,11 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 14:12:51
- * @FilePath: /webseteUI/Server/src/router/friendLink.js
+ * @LastEditTime: 2024-08-30 17:46:04
+ * @FilePath: /webseteUI/Server/src/router/blog/friendLink.js
  */
 const express = require('express');
-const db = require('../../utils/connDB');
+const db = require('../../../utils/connDB');
 const router = express.Router();
 const moment = require('moment');
 

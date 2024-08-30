@@ -3,15 +3,15 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-23 21:44:31
- * @FilePath: /webseteUI/Server/src/router/article.js
+ * @LastEditTime: 2024-08-30 17:46:12
+ * @FilePath: /webseteUI/Server/src/router/blog/article.js
  */
-const createSql = require('../../utils/sql');
+const createSql = require('../../../utils/sql');
 const express = require('express');
-const db = require('../../utils/connDB');
+const db = require('../../../utils/connDB');
 const router = express.Router();
 const Excel = require('exceljs');
-const { verifyToken } = require('../../utils/handleToken');
+const { verifyToken } = require('../../../utils/handleToken');
 const fs = require('fs');
 const axios = require('axios');
 

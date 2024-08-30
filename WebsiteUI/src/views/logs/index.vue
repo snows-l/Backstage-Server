@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-11 12:35:28
- * @FilePath: /Website/WebsiteUI/src/views/logs/index.vue
+ * @LastEditTime: 2024-08-30 18:32:00
+ * @FilePath: /webseteUI/WebsiteUI/src/views/logs/index.vue
 -->
 <template>
   <div class="container-warp">
@@ -17,8 +17,15 @@
         :label-width="state.isMobile ? '0px' : '90px'"
         style="display: flex; align-items: center"
         :style="{ justifyContent: state.isMobile ? 'space-around' : 'flex-start' }">
-        <el-form-item :style="{ width: state.isMobile ? '46%' : '' }" :label="state.isMobile ? '' : '登录账号:'">
+        <el-form-item v-if="!state.isMobile" :style="{ width: state.isMobile ? '46%' : '' }" :label="state.isMobile ? '' : '登录账号:'">
           <el-input style="width: 160px" v-model="state.form.username" placeholder="请输入登录账号" clearable @blur="handleSelect"></el-input>
+        </el-form-item>
+
+        <el-form-item :style="{ width: state.isMobile ? '46%' : '' }" :label="state.isMobile ? '' : '日志类型:'">
+          <el-select style="width: 160px" v-model="state.form.type" placeholder="请选择" clearable @change="handleSelect">
+            <el-option :label="'登录日志'" :value="0"></el-option>
+            <el-option :label="'BLOG访问'" :value="1"></el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item :style="{ width: state.isMobile ? '50%' : '' }" :label="state.isMobile ? '' : '登录地点:'">
@@ -52,6 +59,9 @@
               </template>
               <template v-if="col.prop == 'create_time'">
                 {{ parseTime(row[col.prop]) }}
+              </template>
+              <template v-if="col.prop == 'type'">
+                <span>{{ row[col.prop] === 0 ? '登录日志' : 'BLOG访问日志' }}</span>
               </template>
             </template>
           </el-table-column>
@@ -108,6 +118,7 @@ let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)'
 const columns = [
   { id: 1, label: 'ID', minWidth: '60px', prop: 'id', align: 'center' },
   { id: 2, label: '登录账号', minWidth: '100px', prop: 'username', align: 'center' },
+  { id: 2, label: '日志类型', minWidth: '100px', prop: 'type', align: 'center' },
   { id: 3, label: '主机IP', minWidth: '140px', prop: 'ip', align: 'center' },
   { id: 4, label: '登录地点', minWidth: '80px', prop: 'city', align: 'center' },
   { id: 5, label: '操作系统', minWidth: '90px', prop: 'os' },
@@ -121,6 +132,7 @@ const getListFn = () => {
   let params = {
     username: state.form.username,
     city: state.form.city,
+    type: state.form.type,
     page: pagination.page,
     size: pagination.size
   };
