@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-06-18 09:23:08
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-18 18:10:40
+ * @LastEditTime: 2024-08-30 22:17:11
  * @FilePath: /webseteUI/Server/src/router/common.js
  */
 
@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 // 公共上传文件;
-router.post('/file/upload/common', upload.single('file'), (req, res) => {
+router.post('/upload/common', upload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/common/${commonFileName}`;
@@ -71,7 +71,7 @@ const avatarStorage = multer.diskStorage({
 });
 const avatarUpload = multer({ storage: avatarStorage });
 // 上传头像
-router.post('/file/upload/avatar', avatarUpload.single('file'), (req, res) => {
+router.post('/upload/avatar', avatarUpload.single('file'), (req, res) => {
   const file = req.file;
   const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
   try {
@@ -117,7 +117,7 @@ const wagesStorage = multer.diskStorage({
 });
 const wagesUpload = multer({ storage: wagesStorage });
 // 上传工资记录
-router.post('/file/upload/wages', wagesUpload.single('file'), (req, res) => {
+router.post('/upload/wages', wagesUpload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/imgs/wages/${wagesFileName}`;
@@ -157,7 +157,7 @@ const musicsStorage = multer.diskStorage({
 });
 const musicsUpload = multer({ storage: musicsStorage });
 // 歌曲封面
-router.post('/file/upload/music', musicsUpload.single('file'), (req, res) => {
+router.post('/upload/music', musicsUpload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/imgs/musics/${musicsFileName}`;
@@ -197,7 +197,7 @@ const articleStorage = multer.diskStorage({
 });
 const articleUpload = multer({ storage: articleStorage });
 // 文章封面
-router.post('/file/upload/article', articleUpload.single('file'), (req, res) => {
+router.post('/upload/article', articleUpload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/imgs/article/${articleFileName}`;
@@ -237,7 +237,7 @@ const musicSrcStorage = multer.diskStorage({
 });
 const musicSrcUpload = multer({ storage: musicSrcStorage });
 // 上传工资记录
-router.post('/file/upload/mp3', musicSrcUpload.single('file'), (req, res) => {
+router.post('/upload/mp3', musicSrcUpload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/mp3/${musicSrcFileName}`;
@@ -277,7 +277,7 @@ const zoneStorage = multer.diskStorage({
 });
 const zoneUpload = multer({ storage: zoneStorage });
 // 文章封面
-router.post('/file/upload/zone', zoneUpload.single('file'), (req, res) => {
+router.post('/upload/zone', zoneUpload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/imgs/zone/${zoneFileName}`;
@@ -294,39 +294,6 @@ router.post('/file/upload/zone', zoneUpload.single('file'), (req, res) => {
       code: 500,
       data: null,
       msg: '系统异常，请稍候再试！'
-    });
-  }
-});
-
-// 修改项目配置
-router.post('/appconfig/update', (req, res) => {
-  const { appconfig } = req.body;
-  if (req.headers.authorization) {
-    const token = req.headers.authorization.split(' ')[1];
-    try {
-      const userInfo = verifyToken(token);
-      if (userInfo) {
-        const sql_update = `UPDATE sys_user SET app_config = ? WHERE user_id = ${userInfo.user_id}`;
-        db.queryAsync(sql_update, [appconfig]).then(() => {
-          res.send({
-            code: 200,
-            msg: '修改成功',
-            data: null
-          });
-        });
-      }
-    } catch (error) {
-      res.send({
-        code: 401,
-        data: null,
-        msg: '请重新登录'
-      });
-    }
-  } else {
-    res.send({
-      code: 200,
-      data: null,
-      msg: '本地配置，无需登录'
     });
   }
 });

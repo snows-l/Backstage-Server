@@ -3,15 +3,15 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-06-27 18:11:47
- * @FilePath: /Website/Server/src/router/role.js
+ * @LastEditTime: 2024-08-30 22:03:30
+ * @FilePath: /webseteUI/Server/src/router/role.js
  */
 const express = require('express');
 const db = require('../../utils/connDB');
 
 const router = express.Router();
 
-router.get('/role/list', (req, res) => {
+router.get('/list', (req, res) => {
   const { page, size, roleKey, name } = req.query;
   let offset = (page - 1) * size;
   let sql = `SELECT * FROM sys_role`;
@@ -42,7 +42,7 @@ router.get('/role/list', (req, res) => {
 });
 
 // 角色编辑
-router.put('/role/edit', (req, res) => {
+router.put('/edit', (req, res) => {
   const { role_id, role_name, role_key, role_sort, remark, status } = req.body;
   const sql = `UPDATE sys_role SET role_name = '${role_name}', role_key = '${role_key}', role_sort = ${role_sort}, remark = '${remark}', status = ${status}, update_time = ?WHERE role_id = ${role_id}`;
   let params = [new Date()];
@@ -56,7 +56,7 @@ router.put('/role/edit', (req, res) => {
 });
 
 // 角色权限编辑
-router.post('/role/auth/edit', (req, res) => {
+router.post('/auth/edit', (req, res) => {
   const { role_id, menu_ids } = req.body;
   const sql = `UPDATE sys_role SET menu_ids = '${menu_ids}', update_time = ?WHERE role_id = ${role_id}`;
   let params = [new Date()];
@@ -70,7 +70,7 @@ router.post('/role/auth/edit', (req, res) => {
 });
 
 // 角色新增
-router.post('/role/add', (req, res) => {
+router.post('/add', (req, res) => {
   const { role_name, role_key, role_sort, status, remark } = req.body;
   db.queryAsync(`SELECT* FROM sys_role where role_key = '${role_key}'`).then(resKey => {
     if (resKey.results.length > 0) {
@@ -94,7 +94,7 @@ router.post('/role/add', (req, res) => {
 });
 
 // 角色删除
-router.delete('/role/del/:id', (req, res) => {
+router.delete('/del/:id', (req, res) => {
   const { id } = req.params;
   if (id == 1 || id == 2) {
     return res.send({

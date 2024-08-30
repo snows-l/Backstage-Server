@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-13 12:24:23
+ * @LastEditTime: 2024-08-30 22:02:35
  * @FilePath: /webseteUI/Server/src/router/user.js
  */
 const express = require('express');
@@ -16,7 +16,7 @@ const { decryptPwd } = require('../../utils/node-rsa');
 const router = express.Router();
 
 // 获取user列表
-router.get('/user/list', (req, res) => {
+router.get('/list', (req, res) => {
   if (req.headers.authorization) {
     let token = req.headers.authorization.split(' ')[1];
     const { page = 1, size = 10, role, name } = req.query;
@@ -61,7 +61,7 @@ router.get('/user/list', (req, res) => {
 });
 
 // 新增用户
-router.post('/user/add', (req, res) => {
+router.post('/add', (req, res) => {
   const { user_name, password, role = 2, roke_key = 'common', email, phonenumber, sex, nick_name } = req.body;
   db.queryAsync(`SELECT * FROM sys_user WHERE user_name = '${user_name}'`).then(res2 => {
     if (res2.results.length > 0) {
@@ -86,7 +86,7 @@ router.post('/user/add', (req, res) => {
 });
 
 // 修改资料
-router.put('/user/edit', (req, res) => {
+router.put('/edit', (req, res) => {
   const { user_id, user_name, role, role_str, role_key, email, phonenumber, sex, nick_name } = req.body;
   const sql = `UPDATE sys_user SET role = ?, role_str = ?, role_key = ?, email = ?, phonenumber = ?, sex = ?, nick_name = ?, user_name = ?, update_time = ? WHERE user_id = ?;`;
   const params = [role, role_str, role_key, email, phonenumber, sex, nick_name, user_name, new Date(), user_id];
@@ -101,7 +101,7 @@ router.put('/user/edit', (req, res) => {
 });
 
 // 修改密码
-router.put('/user/pwd/edit', (req, res) => {
+router.put('/pwd/edit', (req, res) => {
   const { user_id, new_password, old_password } = req.body;
   const pwdSql = `SELECT password FROM sys_user WHERE user_id = ?`;
   const pwdparams = [user_id];
@@ -136,7 +136,7 @@ router.put('/user/pwd/edit', (req, res) => {
 });
 
 // 删除
-router.delete('/user/del/:id', (req, res) => {
+router.delete('/del/:id', (req, res) => {
   const { id } = req.params;
   if (id == 1 || id == 2) {
     return res.send({
@@ -157,7 +157,7 @@ router.delete('/user/del/:id', (req, res) => {
   });
 });
 
-router.get('/user/info', (req, res) => {
+router.get('/info', (req, res) => {
   if (req.headers.authorization) {
     let token = req.headers.authorization.split(' ')[1];
     try {

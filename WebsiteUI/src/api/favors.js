@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取人情列表
 export function getFavorsList(data) {
   return request({
-    url: '/sys/favors/list',
+    url: '/favors/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getFavorsList(data) {
 // 修改人情回礼
 export function editFavors(data) {
   return request({
-    url: '/sys/favors/edit',
+    url: '/favors/edit',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function editFavors(data) {
 // 修改人情回礼
 export function addFavors(data) {
   return request({
-    url: '/sys/favors/add',
+    url: '/favors/add',
     method: 'post',
     data
   });
@@ -38,7 +38,7 @@ export function addFavors(data) {
 // 修改人情回礼
 export function delFavors(id) {
   return request({
-    url: `/sys/favors/del?id=${id}`,
+    url: `/favors/del?id=${id}`,
     method: 'delete'
   });
 }
@@ -46,7 +46,7 @@ export function delFavors(id) {
 // 导出人情回礼
 export function exportFavors(data) {
   return request({
-    url: '/sys/favors/export',
+    url: '/favors/export',
     method: 'get',
     params: data,
     responseType: 'blob'

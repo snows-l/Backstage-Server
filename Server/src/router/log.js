@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 18:34:20
+ * @LastEditTime: 2024-08-30 22:10:13
  * @FilePath: /webseteUI/Server/src/router/log.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -17,7 +17,7 @@ const IP2Region = require('ip2region').default;
 const router = express.Router();
 
 // 新增日志
-router.post('/log/add', (req, res) => {
+router.post('/add', (req, res) => {
   try {
     if (req.headers.authorization) {
       let token = req.headers.authorization.split(' ')[1];
@@ -55,7 +55,7 @@ router.post('/log/add', (req, res) => {
 });
 
 // 日志列表
-router.get('/log/list', (req, res) => {
+router.get('/list', (req, res) => {
   const { page, size, city, username, type } = req.query;
   console.log('-------- type --------', type);
   let offset = (page - 1) * size;
@@ -87,7 +87,7 @@ router.get('/log/list', (req, res) => {
 });
 
 // 日志导出
-router.get('/log/export', (req, res) => {
+router.get('/export', (req, res) => {
   const { city, username } = req.query;
   const sql = `SELECT * FROM logs WHERE 1=1 ${city ? `AND city LIKE '%${city}%'` : ''} ${username ? `AND username LIKE '%${username}%'` : ''} ORDER BY id DESC`;
   db.queryAsync(sql, []).then(async logRes => {

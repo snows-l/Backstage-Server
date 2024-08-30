@@ -10,7 +10,7 @@ import request from '@/utils/request';
 // 获取字典
 export function getDict(data) {
   return request({
-    url: '/sys/dict/list',
+    url: '/dict/list',
     method: 'get',
     params: data
   });
@@ -19,7 +19,7 @@ export function getDict(data) {
 // 新增字典
 export function addDict(data) {
   return request({
-    url: '/sys/dict/add',
+    url: '/dict/add',
     method: 'post',
     data
   });
@@ -28,7 +28,7 @@ export function addDict(data) {
 // 修改字典
 export function updateDict(data) {
   return request({
-    url: '/sys/dict/edit',
+    url: '/dict/edit',
     method: 'post',
     data
   });
@@ -37,7 +37,7 @@ export function updateDict(data) {
 // 删除字典
 export function deleteDict(data) {
   return request({
-    url: '/sys/dict/delete',
+    url: '/dict/delete',
     method: 'delete',
     data
   });
