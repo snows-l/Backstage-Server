@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-30 17:03:07
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:12:42
+ * @LastEditTime: 2024-08-31 00:08:31
  * @FilePath: /webseteUI/Server/src/router/blog/index.js
  */
 const { getOS, getBrowserName } = require('../../../utils/common');
@@ -34,9 +34,9 @@ router.get('/visit/add', (req, res) => {
     )} 23:59:59'`;
     db.queryAsync(querySql).then(result => {
       if (result.results.length === 0) {
-        let insertSql = `insert into logs (ip, city, os, browser, create_time, type) values ('${ip}', '${city}', '${os}', '${browser}', '${moment().format(
+        let insertSql = `insert into logs (ip, city, os, browser, create_time, last_visit_time, type) values ('${ip}', '${city}', '${os}', '${browser}', '${moment().format(
           'YYYY-MM-DD HH:mm:ss'
-        )}', ${1})`;
+        )}', '${moment().format('YYYY-MM-DD HH:mm:ss')}', ${1})`;
         db.queryAsync(insertSql).then(result => {
           res.send({
             code: 200,
@@ -50,15 +50,21 @@ router.get('/visit/add', (req, res) => {
           });
         });
       } else {
-        res.send({
-          code: 200,
-          msg: 'ip has been visited today',
-          data: {
-            ip,
-            city,
-            os,
-            browser
-          }
+        // 修改最后一次访问时间
+        let updateSql = `update logs set last_visit_time = '${moment().format('YYYY-MM-DD HH:mm:ss')}' where ip = '${ip}' and create_time >= '${moment().format(
+          'YYYY-MM-DD'
+        )} 00:00:00' AND create_time <= '${moment().format('YYYY-MM-DD')} 23:59:59'`;
+        db.queryAsync(updateSql).then(result => {
+          res.send({
+            code: 200,
+            msg: 'ip has been visited today',
+            data: {
+              ip,
+              city,
+              os,
+              browser
+            }
+          });
         });
       }
     });

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 18:32:00
+ * @LastEditTime: 2024-08-31 00:10:50
  * @FilePath: /webseteUI/WebsiteUI/src/views/logs/index.vue
 -->
 <template>
@@ -123,7 +123,8 @@ const columns = [
   { id: 4, label: '登录地点', minWidth: '80px', prop: 'city', align: 'center' },
   { id: 5, label: '操作系统', minWidth: '90px', prop: 'os' },
   { id: 6, label: '浏览器', minWidth: '120px', prop: 'browser' },
-  { id: 8, label: '登录时间', minWidth: '120px', prop: 'create_time' }
+  { id: 8, label: '登录时间/第一次访问时间', minWidth: '180px', prop: 'create_time' },
+  { id: 9, label: '最后访问时间', minWidth: '120px', prop: 'last_visit_time', fixed: 'right' }
 ];
 
 // 获取列表
