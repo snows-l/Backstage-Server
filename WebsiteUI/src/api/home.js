@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取首页统计
 export function getTotal(data) {
   return request({
-    url: '/sys/home/count',
+    url: '/home/count',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getTotal(data) {
 // 获取近年年收入
 export function getWageCurrentYear(data) {
   return request({
-    url: '/sys/home/yearIncome',
+    url: '/home/yearIncome',
     method: 'get',
     params: data
   });
@@ -29,7 +29,7 @@ export function getWageCurrentYear(data) {
 // 获取人情来往
 export function getFavorsList(data) {
   return request({
-    url: '/sys/home/favors/list',
+    url: '/home/favors/list',
     method: 'get',
     params: data
   });

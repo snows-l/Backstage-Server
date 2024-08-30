@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 16:28:35
+ * @LastEditTime: 2024-08-30 22:11:18
  * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -14,7 +14,7 @@ const { getOS, getBrowserName } = require('../../utils/common');
 const moment = require('moment');
 
 // 获取评论列表
-router.get('/comment/list', (req, res) => {
+router.get('/list', (req, res) => {
   let { page = 1, size = 5, comment } = req.query;
   let offset = (page - 1) * size;
   let sql = 'select* from comment where 1=1 ' + (comment ? ` and comment like '%${comment}%'` : '') + `order by time desc limit ${size} offset ${offset}`;
@@ -41,7 +41,7 @@ router.get('/comment/list', (req, res) => {
 });
 
 // 新增评论
-router.post('/comment/add', (req, res) => {
+router.post('/add', (req, res) => {
   let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback } = req.body;
   isPrivacy = isPrivacy ? 1 : 0;
   isEmailFeekback = isEmailFeekback ? 1 : 0;
@@ -70,7 +70,7 @@ router.post('/comment/add', (req, res) => {
 });
 
 // 编辑留言
-router.put('/comment/edit', (req, res) => {
+router.put('/edit', (req, res) => {
   let { id, qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback } = req.body;
   isPrivacy = isPrivacy ? 1 : 0;
   isEmailFeekback = isEmailFeekback ? 1 : 0;
@@ -98,7 +98,7 @@ router.put('/comment/edit', (req, res) => {
 });
 
 // 删除留言
-router.delete('/comment/del/:id', (req, res) => {
+router.delete('/del/:id', (req, res) => {
   let { id } = req.params;
   let sql = createSql
     .delete('comment')

@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取朋友圈
 export function getMsgBoardList(data) {
   return request({
-    url: '/sys/comment/list',
+    url: '/comment/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getMsgBoardList(data) {
 // 新增朋友圈记录
 export function addMsgBoard(data) {
   return request({
-    url: '/sys/comment/add',
+    url: '/comment/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addMsgBoard(data) {
 // 修改朋友圈记录
 export function editMsgBoard(data) {
   return request({
-    url: '/sys/comment/edit',
+    url: '/comment/edit',
     method: 'put',
     data
   });
@@ -38,7 +38,7 @@ export function editMsgBoard(data) {
 // 删除朋友圈记录
 export function delMsgBoard(id) {
   return request({
-    url: '/sys/comment/del/' + id,
+    url: '/comment/del/' + id,
     method: 'delete'
   });
 }

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 17:46:04
+ * @LastEditTime: 2024-08-30 22:17:08
  * @FilePath: /webseteUI/Server/src/router/blog/friendLink.js
  */
 const express = require('express');
@@ -12,7 +12,7 @@ const router = express.Router();
 const moment = require('moment');
 
 // 获取友情连接列表
-router.get('/friendLink/list', (req, res) => {
+router.get('/list', (req, res) => {
   let { name, startTime, endTime, isAll } = req.query;
   let sql = `select * from friend_link where 1 = 1 ${isAll ? '' : 'and status = 1'} ${name ? `and name like '%${name}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
@@ -51,7 +51,7 @@ router.get('/friendLink/list', (req, res) => {
 });
 
 // 新增友情连接
-router.post('/friendLink/add', (req, res) => {
+router.post('/add', (req, res) => {
   let { name, url, profile, isQQ, logo, status } = req.body;
 
   let sql = `insert into friend_link (name, url, profile, isQQ, logo, createTime, status) values (?, ?, ?, ?, ?, ?, ?)`;
@@ -82,7 +82,7 @@ router.post('/friendLink/add', (req, res) => {
 });
 
 // 编辑友情连接
-router.put('/friendLink/edit', (req, res) => {
+router.put('/edit', (req, res) => {
   let { id, name, url, profile, isQQ, logo, status } = req.body;
   let sql = `update friend_link set name = ?, url = ?, profile = ?, isQQ = ?, logo = ?, status = ? where id = ?`;
   let params = [name, url, profile, isQQ, logo, status, id];
@@ -112,7 +112,7 @@ router.put('/friendLink/edit', (req, res) => {
 });
 
 // 删除友情连接
-router.delete('/friendLink/del/:id', (req, res) => {
+router.delete('/del/:id', (req, res) => {
   let { id } = req.params;
   let sql = `delete from friend_link where id = ?`;
   let params = [id];

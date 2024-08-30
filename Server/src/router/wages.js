@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-25 19:21:20
+ * @LastEditTime: 2024-08-30 22:09:02
  * @FilePath: /webseteUI/Server/src/router/wages.js
  */
 const express = require('express');
@@ -19,7 +19,7 @@ const moment = require('moment');
 const path = require('path');
 
 // 获取收入列表
-router.get('/wages/list', async (req, res) => {
+router.get('/list', async (req, res) => {
   let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
   let { page, size, source, eDate, sDate } = req.query;
@@ -92,7 +92,7 @@ router.get('/wages/list', async (req, res) => {
 });
 
 // 新增收入
-router.post('/wages/add', async (req, res) => {
+router.post('/add', async (req, res) => {
   const { title, money, date, pic, source, remark } = req.body;
   let time = moment().format('HH:MM:ss');
   const sql = `INSERT INTO wages (title, money, date, pic, source, remark, del_flag, create_time) VALUES ('${title}', '${money}', '${date}-15 ${time}', '${pic}', '${source}', '${remark}', ?, ?);`;
@@ -107,7 +107,7 @@ router.post('/wages/add', async (req, res) => {
 });
 
 // 修改收入
-router.put('/wages/edit', async (req, res) => {
+router.put('/edit', async (req, res) => {
   let time = moment().format('HH:MM:ss');
   const { id, title, money, date, pic, source, remark } = req.body;
   const sql = `UPDATE wages SET title = '${title}', money = '${money}', date = '${date}-15 ${time}', pic = '${pic}', source = '${source}', remark = '${remark}' WHERE id = ${id}`;
@@ -121,7 +121,7 @@ router.put('/wages/edit', async (req, res) => {
 });
 
 // 删除收入
-router.delete('/wages/del/:id', async (req, res) => {
+router.delete('/del/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `UPDATE wages SET del_flag = 1 WHERE id = ${id}`;
   db.queryAsync(sql).then(ress => {
@@ -134,7 +134,7 @@ router.delete('/wages/del/:id', async (req, res) => {
 });
 
 // 导出
-router.get('/wages/export', async (req, res) => {
+router.get('/export', async (req, res) => {
   let { eDate, sDate, source, includePic } = req.query;
   let sql = `SELECT * FROM wages`;
   if (eDate && sDate) {

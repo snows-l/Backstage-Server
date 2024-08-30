@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取技能list
 export function getSkillList(data) {
   return request({
-    url: '/sys/skill/list',
+    url: '/skill/list',
     method: 'get',
     params: data
   });
@@ -25,7 +25,7 @@ export function importSkill(file, append = 1, name = '') {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/sys/skill/import/' + append,
+    url: '/skill/import/' + append,
     method: 'post',
     data: formData,
     headers: {
@@ -37,7 +37,7 @@ export function importSkill(file, append = 1, name = '') {
 // 导出技能
 export function exportSkill(data) {
   return request({
-    url: '/sys/skill/export',
+    url: '/skill/export',
     method: 'post',
     data,
     responseType: 'blob'

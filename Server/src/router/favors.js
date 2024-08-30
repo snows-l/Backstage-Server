@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-01 09:35:52
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-03 17:05:53
- * @FilePath: /Website/Server/src/router/favors.js
+ * @LastEditTime: 2024-08-30 22:02:38
+ * @FilePath: /webseteUI/Server/src/router/favors.js
  */
 const express = require('express');
 const db = require('../../utils/connDB');
@@ -14,7 +14,7 @@ const { generateToken, verifyToken } = require('../../utils/handleToken');
 const router = express.Router();
 
 // 分页查询人情来往列表
-router.get('/favors/list', (req, res) => {
+router.get('/list', (req, res) => {
   let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
   const { dictType, name, page, size } = req.query;
 
@@ -74,7 +74,7 @@ router.get('/favors/list', (req, res) => {
 });
 
 // 编辑人情来往
-router.post('/favors/edit', (req, res) => {
+router.post('/edit', (req, res) => {
   let { favors_id, favors_name, favors_timer, favors_money, favors_backMoney, remark } = req.body;
   let mobileSql = `update favors set favors_backMoney = '${favors_backMoney}', update_time = '${new Date()}' where favors_id = '${favors_id}';`;
   let sql = `update favors set favors_name = '${favors_name}', favors_timer = '${favors_timer}', favors_money = '${favors_money}', favors_backMoney = '${favors_backMoney}', remark = '${remark}', update_time = '${new Date()}' where favors_id = '${favors_id}';`;
@@ -96,7 +96,7 @@ router.post('/favors/edit', (req, res) => {
 });
 
 // 新增人情来往
-router.post('/favors/add', (req, res) => {
+router.post('/add', (req, res) => {
   let { favors_name, favors_timer, favors_money, favors_backMoney, remark } = req.body;
   let sql = `insert into favors (favors_name, favors_timer, favors_money, favors_backMoney, remark, create_time) values ('${favors_name}', '${favors_timer}', '${favors_money}', '${favors_backMoney}', '${remark}', '${new Date()}');`;
   db.queryAsync(sql)
@@ -117,7 +117,7 @@ router.post('/favors/add', (req, res) => {
 });
 
 // 删除
-router.delete('/favors/del', (req, res) => {
+router.delete('/del', (req, res) => {
   let { id } = req.query;
   let sql = `delete from favors where favors_id = '${id}';`;
   db.queryAsync(sql)
@@ -138,7 +138,7 @@ router.delete('/favors/del', (req, res) => {
 });
 
 // 导出
-router.get('/favors/export', (req, res) => {
+router.get('/export', (req, res) => {
   let { dictType, name } = req.query;
   let sql = `select * from favors`;
   if (dictType) {

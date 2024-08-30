@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取角色列表
 export function getRoleList(data) {
   return request({
-    url: '/sys/role/list',
+    url: '/role/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getRoleList(data) {
 // 新增角色
 export function addRole(data) {
   return request({
-    url: '/sys/role/add',
+    url: '/role/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addRole(data) {
 // 编辑角色
 export function editRole(data) {
   return request({
-    url: '/sys/role/edit',
+    url: '/role/edit',
     method: 'put',
     data
   });
@@ -38,7 +38,7 @@ export function editRole(data) {
 // 编辑角色权限
 export function editAuth(data) {
   return request({
-    url: '/sys/role/auth/edit',
+    url: '/role/auth/edit',
     method: 'post',
     data
   });
@@ -47,7 +47,7 @@ export function editAuth(data) {
 // 删除角色
 export function delRole(id) {
   return request({
-    url: `/sys/role/del/${id}`,
+    url: `/role/del/${id}`,
     method: 'delete'
   });
 }
