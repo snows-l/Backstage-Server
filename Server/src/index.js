@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-15 19:00:39
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:15:34
+ * @LastEditTime: 2024-08-30 17:39:16
  * @FilePath: /webseteUI/Server/src/index.js
  */
 
@@ -50,22 +50,22 @@ app.get('/', (req, res) => {
 
 // 路由
 app.use('/sys', sysRouter);
-app.use('/file', commonRouter);
-app.use('/dict', dictRouter);
-app.use('/favors', favorsRouter);
-app.use('/user', userRouter);
-app.use('/role', roleRouter);
-app.use('/menu', menuRouter);
-app.use('/musics', musicsRouter);
-app.use('/wages', wagesRouter);
-app.use('/skill', skillRouter);
-app.use('/home', homeRouter);
-app.use('/log', logRouter);
-app.use('/article', articleRouter);
-app.use('/comment', commentRouter);
-app.use('/zone', zoneRouter);
-app.use('/friendLink', friendLindkRouter);
-app.use('/blog', blogRouter);
+app.use('/sys', dictRouter);
+app.use('/sys', favorsRouter);
+app.use('/sys', userRouter);
+app.use('/sys', roleRouter);
+app.use('/sys', menuRouter);
+app.use('/sys', musicsRouter);
+app.use('/sys', wagesRouter);
+app.use('/sys', commonRouter);
+app.use('/sys', skillRouter);
+app.use('/sys', homeRouter);
+app.use('/sys', logRouter);
+app.use('/sys', articleRouter);
+app.use('/sys', commentRouter);
+app.use('/sys', zoneRouter);
+app.use('/sys', friendLindkRouter);
+app.use('/sys', blogRouter);
 
 //设置静态资源访问路径   这样就可以直接通过 http://localhost:3333/[path]/[filename] 访问public目录下的静态资源文件
 app.use(express.static(path.join(__dirname, '../public')));

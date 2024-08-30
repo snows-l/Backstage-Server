@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取菜单列表
 export function getMenuList(data) {
   return request({
-    url: '/menu/list',
+    url: '/sys/menu/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getMenuList(data) {
 // 新增菜单
 export function addMenu(data) {
   return request({
-    url: '/menu/add',
+    url: '/sys/menu/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addMenu(data) {
 // 修改菜单
 export function updateMenu(data) {
   return request({
-    url: '/menu/edit',
+    url: '/sys/menu/edit',
     method: 'put',
     data
   });
@@ -38,7 +38,7 @@ export function updateMenu(data) {
 // 删除菜单
 export function deleteMenu(id) {
   return request({
-    url: '/menu/delete/' + id,
+    url: '/sys/menu/delete/' + id,
     method: 'delete'
   });
 }

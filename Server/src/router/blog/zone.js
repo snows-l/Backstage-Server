@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:11:45
+ * @LastEditTime: 2024-08-30 17:46:06
  * @FilePath: /webseteUI/Server/src/router/blog/zone.js
  */
 const { getOS, getBrowserName } = require('../../../utils/common');
@@ -19,7 +19,7 @@ const moment = require('moment');
 const IP2Region = require('ip2region').default;
 
 // 获取朋友圈列表
-router.get('/list', (req, res) => {
+router.get('/zone/list', (req, res) => {
   let { page, size, text, startTime, endTime } = req.query;
   let offset = (page - 1) * size;
   let sql = `select * from zone where status = 1 ${text ? `and text like '%${text}%'` : ''} ${
@@ -59,7 +59,7 @@ router.get('/list', (req, res) => {
 });
 
 // 新增朋友圈
-router.post('/add', (req, res) => {
+router.post('/zone/add', (req, res) => {
   let { text, imgs, remark } = req.body;
 
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
@@ -104,7 +104,7 @@ router.post('/add', (req, res) => {
 });
 
 // 删除朋友圈
-router.delete('/del/:id', (req, res) => {
+router.delete('/zone/del/:id', (req, res) => {
   let { id } = req.params;
   let sql = `delete from zone where id = ?`;
   let params = [id];
@@ -134,7 +134,7 @@ router.delete('/del/:id', (req, res) => {
 });
 
 // 编辑朋友圈
-router.put('/edit', (req, res) => {
+router.put('/zone/edit', (req, res) => {
   let { id, text, imgs, remark } = req.body;
   let sql = `update zone set text = ?, imgs = ?, remark = ? where id = ?`;
   let params = [text, imgs, remark, id];

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:11:21
+ * @LastEditTime: 2024-08-30 17:46:12
  * @FilePath: /webseteUI/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
@@ -16,7 +16,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 // 获取文章列表
-router.get('/list', async (req, res) => {
+router.get('/article/list', async (req, res) => {
   let { page, size, title, type, isUnPage = true } = req.query;
   let offset = (page - 1) * size;
 
@@ -49,7 +49,7 @@ router.get('/list', async (req, res) => {
 });
 
 // 获取文章详情
-router.get('/detail/:id', async (req, res) => {
+router.get('/article/detail/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `SELECT * FROM article WHERE id = ${id}`;
   try {
@@ -74,7 +74,7 @@ router.get('/detail/:id', async (req, res) => {
 });
 
 // 更新评论次数
-router.put('/commentCount', async (req, res) => {
+router.put('/article/commentCount', async (req, res) => {
   const { id } = req.body;
   const sql = `UPDATE article SET commentCount = commentCount + 1 WHERE id = ${id}`;
   try {
@@ -95,7 +95,7 @@ router.put('/commentCount', async (req, res) => {
 });
 
 // 更新分享次数
-router.put('/shareCount', async (req, res) => {
+router.put('/article/shareCount', async (req, res) => {
   const { id } = req.body;
   const sql = `UPDATE article SET shareCount = shareCount + 1 WHERE id = ${id}`;
   try {
@@ -116,7 +116,7 @@ router.put('/shareCount', async (req, res) => {
 });
 
 // 新增文章
-router.post('/add', async (req, res) => {
+router.post('/article/add', async (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
   try {
     const user = verifyToken(token);
@@ -161,7 +161,7 @@ router.post('/add', async (req, res) => {
 });
 
 // 修改文章
-router.put('/edit', async (req, res) => {
+router.put('/article/edit', async (req, res) => {
   let { id, title, subTitle, cover, content, type, isPreview } = req.body;
   let data = {
     title,
@@ -197,7 +197,7 @@ router.put('/edit', async (req, res) => {
 });
 
 // 删除文章
-router.delete('/del/:id', async (req, res) => {
+router.delete('/article/del/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `UPDATE from article SET delFlag = ? WHERE id = ${id}`;
   const params = [1];
@@ -219,7 +219,7 @@ router.delete('/del/:id', async (req, res) => {
 });
 
 // 导出  // 没有实现
-router.get('/export', async (req, res) => {
+router.get('/article/export', async (req, res) => {
   let { eDate, sDate, source, includePic } = req.query;
   let sql = `SELECT * FROM article`;
   if (eDate && sDate) {

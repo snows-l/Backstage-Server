@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-30 17:03:07
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:12:42
+ * @LastEditTime: 2024-08-30 19:01:41
  * @FilePath: /webseteUI/Server/src/router/blog/index.js
  */
 const { getOS, getBrowserName } = require('../../../utils/common');
@@ -13,7 +13,7 @@ const router = express.Router();
 const moment = require('moment');
 const IP2Region = require('ip2region').default;
 
-router.get('/visit/add', (req, res) => {
+router.get('/blog/visit/add', (req, res) => {
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
   if (ip.includes(':')) {
     ip = ip.includes(':') ? ip.split(':').slice(-1)[0] : ip;
@@ -29,7 +29,7 @@ router.get('/visit/add', (req, res) => {
   const browser = getBrowserName(req.headers['user-agent']);
 
   try {
-    let querySql = `select * from logs where type = ${1} and ip = '${ip}' and create_time >= '${moment().format('YYYY-MM-DD')} 00:00:00' AND create_time <= '${moment().format(
+    let querySql = `select * from logs where ip='${ip}' and create_time >= '${moment().format('YYYY-MM-DD')} 00:00:00' AND create_time <= '${moment().format(
       'YYYY-MM-DD'
     )} 23:59:59'`;
     db.queryAsync(querySql).then(result => {
@@ -42,10 +42,7 @@ router.get('/visit/add', (req, res) => {
             code: 200,
             msg: 'add visit success',
             data: {
-              ip,
-              city,
-              os,
-              browser
+              ip
             }
           });
         });
@@ -54,10 +51,7 @@ router.get('/visit/add', (req, res) => {
           code: 200,
           msg: 'ip has been visited today',
           data: {
-            ip,
-            city,
-            os,
-            browser
+            ip
           }
         });
       }
@@ -74,8 +68,7 @@ router.get('/visit/add', (req, res) => {
   }
 });
 
-// blog 访问统计
-router.get('/visit/total', async (req, res) => {
+router.get('/blog/visit/total', async (req, res) => {
   let today = 0;
   let yeasterday = 0;
   let currentMonth = 0;

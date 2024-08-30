@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-24 12:21:11
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:18:28
- * @FilePath: /webseteUI/WebsiteUI/src/api/login.js
+ * @LastEditTime: 2024-04-01 09:35:29
+ * @FilePath: /Website/WebsiteUI/src/api/login.js
  */
 import request from '@/utils/request';
 

@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取收入
 export function getWagesList(data) {
   return request({
-    url: '/wages/list',
+    url: '/sys/wages/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getWagesList(data) {
 // 新增收入记录
 export function addWages(data) {
   return request({
-    url: '/wages/add',
+    url: '/sys/wages/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addWages(data) {
 // 修改收入记录
 export function editWages(data) {
   return request({
-    url: '/wages/edit',
+    url: '/sys/wages/edit',
     method: 'put',
     data
   });
@@ -38,7 +38,7 @@ export function editWages(data) {
 // 删除收入记录
 export function delWages(id) {
   return request({
-    url: '/wages/del/' + id,
+    url: '/sys/wages/del/' + id,
     method: 'delete'
   });
 }
@@ -46,7 +46,7 @@ export function delWages(id) {
 // 导出
 export function exportWages(data) {
   return request({
-    url: '/wages/export',
+    url: '/sys/wages/export',
     method: 'get',
     params: data,
     responseType: 'blob'

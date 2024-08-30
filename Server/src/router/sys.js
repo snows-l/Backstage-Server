@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-16 18:41:28
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:16:53
+ * @LastEditTime: 2024-07-25 19:32:47
  * @FilePath: /webseteUI/Server/src/router/sys.js
  */
 
@@ -425,39 +425,6 @@ router.post('/logout', (req, res) => {
     code: 200,
     msg: '退出登录成功！'
   });
-});
-
-// 修改项目配置
-router.post('/appconfig/update', (req, res) => {
-  const { appconfig } = req.body;
-  if (req.headers.authorization) {
-    const token = req.headers.authorization.split(' ')[1];
-    try {
-      const userInfo = verifyToken(token);
-      if (userInfo) {
-        const sql_update = `UPDATE sys_user SET app_config = ? WHERE user_id = ${userInfo.user_id}`;
-        db.queryAsync(sql_update, [appconfig]).then(() => {
-          res.send({
-            code: 200,
-            msg: '修改成功',
-            data: null
-          });
-        });
-      }
-    } catch (error) {
-      res.send({
-        code: 401,
-        data: null,
-        msg: '请重新登录'
-      });
-    }
-  } else {
-    res.send({
-      code: 200,
-      data: null,
-      msg: '本地配置，无需登录'
-    });
-  }
 });
 
 module.exports = router;

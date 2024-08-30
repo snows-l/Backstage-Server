@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-06-26 10:20:25
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:09:05
- * @FilePath: /webseteUI/Server/src/router/skill.js
+ * @LastEditTime: 2024-06-26 18:06:52
+ * @FilePath: /Website/Server/src/router/skill.js
  */
 const express = require('express');
 const db = require('../../utils/connDB');
@@ -14,7 +14,7 @@ const multer = require('multer');
 const router = express.Router();
 
 // 获取技能列表
-router.get('/list', (req, res) => {
+router.get('/skill/list', (req, res) => {
   const { page = 1, size = 20, name, level } = req.query;
   let offset = (page - 1) * size;
   let sql = 'SELECT * FROM skill';
@@ -51,7 +51,7 @@ router.get('/list', (req, res) => {
 });
 
 // 导出技能
-router.post('/export', (req, res) => {
+router.post('/skill/export', (req, res) => {
   const { template } = req.body;
   const sql = 'SELECT * FROM skill';
   db.queryAsync(sql)
@@ -120,7 +120,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 // 导入技能
-router.post('/import/:append', upload.single('file'), (req, res) => {
+router.post('/skill/import/:append', upload.single('file'), (req, res) => {
   const { append } = req.params;
 
   // 下一步

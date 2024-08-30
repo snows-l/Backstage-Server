@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取文章
 export function getArticleList(data) {
   return request({
-    url: '/article/list',
+    url: '/sys/article/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getArticleList(data) {
 // 获取文章详情
 export function getArticleDetail(id) {
   return request({
-    url: '/article/detail/' + id,
+    url: '/sys/article/detail/' + id,
     method: 'get'
   });
 }
@@ -28,7 +28,7 @@ export function getArticleDetail(id) {
 // 新增文章记录
 export function addArticle(data) {
   return request({
-    url: '/article/add',
+    url: '/sys/article/add',
     method: 'post',
     data
   });
@@ -37,7 +37,7 @@ export function addArticle(data) {
 // 修改文章记录
 export function editArticle(data) {
   return request({
-    url: '/article/edit',
+    url: '/sys/article/edit',
     method: 'put',
     data
   });
@@ -46,7 +46,7 @@ export function editArticle(data) {
 // 删除文章记录
 export function delArticle(id) {
   return request({
-    url: '/article/del/' + id,
+    url: '/sys/article/del/' + id,
     method: 'delete'
   });
 }

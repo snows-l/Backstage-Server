@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-02 17:47:57
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:09:41
+ * @LastEditTime: 2024-07-25 19:23:33
  * @FilePath: /webseteUI/Server/src/router/home.js
  */
 const express = require('express');
@@ -18,7 +18,7 @@ const axios = require('axios');
 const moment = require('moment');
 
 // 首页统计
-router.get('/count', async (req, res) => {
+router.get('/home/count', async (req, res) => {
   let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
   try {
     const resData = {
@@ -84,7 +84,7 @@ router.get('/count', async (req, res) => {
 });
 
 // 近年收入统计
-router.get('/yearIncome', async (req, res) => {
+router.get('/home/yearIncome', async (req, res) => {
   let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
   try {
     let currentMonth = moment().format('YYYY-MM') + '-28';
@@ -134,7 +134,7 @@ router.get('/yearIncome', async (req, res) => {
 });
 
 //  获取人情来往
-router.get('/favors/list', async (req, res) => {
+router.get('/home/favors/list', async (req, res) => {
   // const { timer = 2 } = req.query;
   let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 

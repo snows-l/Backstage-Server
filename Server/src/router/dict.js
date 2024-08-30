@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-07 14:41:16
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:02:37
+ * @LastEditTime: 2024-07-21 11:46:21
  * @FilePath: /webseteUI/Server/src/router/dict.js
  */
 const express = require('express');
@@ -17,7 +17,7 @@ const router = express.Router();
 const { tranListToTree } = require('../../utils/common');
 
 // 获取字典
-router.get('/list', (req, res) => {
+router.get('/dict/list', (req, res) => {
   let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
   const reqParams = req.query;
   let params = {
@@ -138,7 +138,7 @@ router.get('/list', (req, res) => {
 });
 
 // 删除字典
-router.delete('/delete', (req, res) => {
+router.delete('/dict/delete', (req, res) => {
   const reqParams = req.body;
   let params = {
     id: reqParams.id
@@ -205,7 +205,7 @@ router.delete('/delete', (req, res) => {
 });
 
 // 新增字典
-router.post('/add', (req, res) => {
+router.post('/dict/add', (req, res) => {
   const reqParams = req.body;
   let params = {
     label: reqParams.label,
@@ -234,7 +234,7 @@ router.post('/add', (req, res) => {
 });
 
 // 修改字典
-router.post('/edit', (req, res) => {
+router.post('/dict/edit', (req, res) => {
   const reqParams = req.body;
   let params = {
     id: reqParams.id,

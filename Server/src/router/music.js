@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:05:01
+ * @LastEditTime: 2024-07-23 20:15:10
  * @FilePath: /webseteUI/Server/src/router/music.js
  */
 const express = require('express');
@@ -19,7 +19,7 @@ const moment = require('moment');
 const path = require('path');
 
 // 获取音乐列表
-router.get('/list', async (req, res) => {
+router.get('/musics/list', async (req, res) => {
   let { page, size, title, type, isUnPage = true } = req.query;
   let offset = (page - 1) * size;
 
@@ -43,7 +43,7 @@ router.get('/list', async (req, res) => {
 });
 
 // 新增收入
-router.post('/add', async (req, res) => {
+router.post('/musics/add', async (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
   try {
     const user = verifyToken(token);
@@ -74,7 +74,7 @@ router.post('/add', async (req, res) => {
 });
 
 // 修改收入
-router.put('/edit', async (req, res) => {
+router.put('/musics/edit', async (req, res) => {
   const { id, title, artist, src, cover, remark, type } = req.body;
   const sql = `UPDATE musics SET title = '${title}', artist = '${artist}', src = '${src}', cover = '${cover}', remark = '${remark}', type = '${type}', update_time = ? WHERE id = ${id}`;
   const params = [new Date()];
@@ -88,7 +88,7 @@ router.put('/edit', async (req, res) => {
 });
 
 // 删除收入
-router.delete('/del/:id', async (req, res) => {
+router.delete('/musics/del/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `DELETE from musics  WHERE id = ${id}`;
   db.queryAsync(sql).then(ress => {
@@ -101,7 +101,7 @@ router.delete('/del/:id', async (req, res) => {
 });
 
 // 导出
-router.get('/export', async (req, res) => {
+router.get('/musics/export', async (req, res) => {
   let { eDate, sDate, source, includePic } = req.query;
   let sql = `SELECT * FROM musics`;
   if (eDate && sDate) {

@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-25 14:34:48
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:04:04
- * @FilePath: /webseteUI/Server/src/router/menu.js
+ * @LastEditTime: 2024-07-08 17:38:44
+ * @FilePath: /Website/Server/src/router/menu.js
  */
 const express = require('express');
 const db = require('../../utils/connDB');
@@ -12,7 +12,7 @@ const db = require('../../utils/connDB');
 const router = express.Router();
 
 // 菜单查询
-router.get('/list', async (req, res) => {
+router.get('/menu/list', async (req, res) => {
   const { menu_name, status } = req.query;
   let sql = `SELECT * FROM sys_menu`;
   if (menu_name) {
@@ -32,7 +32,7 @@ router.get('/list', async (req, res) => {
 });
 
 // 菜单新增
-router.post('/add', async (req, res) => {
+router.post('/menu/add', async (req, res) => {
   const { menu_name, parent_id, menu_type, icon, status, menu_sort, path, component, query, visible } = req.body;
 
   const sql = `INSERT INTO sys_menu (menu_name, parent_id, menu_type, icon, status, menu_sort, path,component, query, visible, create_time) VALUES ('${menu_name}', ${parent_id}, '${menu_type}', '${icon}', ${status}, ${menu_sort}, '${path}', '${component}', '${query}', '${visible}', ?)`;
@@ -46,7 +46,7 @@ router.post('/add', async (req, res) => {
 });
 
 // 菜单修改
-router.put('/edit', async (req, res) => {
+router.put('/menu/edit', async (req, res) => {
   const { menu_id, menu_name, parent_id, menu_type, icon, status, menu_sort, path, component, query, visible } = req.body;
 
   const sql = `UPDATE sys_menu SET menu_name = '${menu_name}', parent_id = ${parent_id}, menu_type = '${menu_type}', icon = '${icon}', status = ${status},menu_sort = ${menu_sort}, path = '${path}', component = '${component}', query = '${query}', visible = ${visible},create_time = ? WHERE menu_id = ${menu_id}`;
@@ -60,7 +60,7 @@ router.put('/edit', async (req, res) => {
 });
 
 // 菜单删除
-router.delete('/delete/:menu_id', async (req, res) => {
+router.delete('/menu/delete/:menu_id', async (req, res) => {
   const { menu_id } = req.params;
 
   const sql = `DELETE FROM sys_menu WHERE menu_id = ${menu_id}`;

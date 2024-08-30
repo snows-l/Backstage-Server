@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取收入
 export function getMusicList(data) {
   return request({
-    url: '/musics/list',
+    url: '/sys/musics/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getMusicList(data) {
 // 新增收入记录
 export function addMusic(data) {
   return request({
-    url: '/musics/add',
+    url: '/sys/musics/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addMusic(data) {
 // 修改收入记录
 export function editMusic(data) {
   return request({
-    url: '/musics/edit',
+    url: '/sys/musics/edit',
     method: 'put',
     data
   });
@@ -38,7 +38,7 @@ export function editMusic(data) {
 // 删除收入记录
 export function delMusic(id) {
   return request({
-    url: '/musics/del/' + id,
+    url: '/sys/musics/del/' + id,
     method: 'delete'
   });
 }
@@ -46,7 +46,7 @@ export function delMusic(id) {
 // 导出
 export function exportMusic(data) {
   return request({
-    url: '/musics/export',
+    url: '/sys/musics/export',
     method: 'get',
     params: data,
     responseType: 'blob'

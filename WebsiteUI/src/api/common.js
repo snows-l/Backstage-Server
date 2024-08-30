@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-28 15:20:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:19:40
+ * @LastEditTime: 2024-08-18 18:00:55
  * @FilePath: /webseteUI/WebsiteUI/src/api/common.js
  */
 import request from '@/utils/request';
@@ -19,7 +19,7 @@ export function uploadCommon(file, name) {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/common',
+    url: '/sys/file/upload/common',
     method: 'post',
     data: formData,
     headers: {
@@ -36,7 +36,7 @@ export function uploadAvatar(file) {
   let fileName = 'avatar_' + timeFormat + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/avatar',
+    url: '/sys/file/upload/avatar',
     method: 'post',
     data: formData,
     headers: {
@@ -54,7 +54,7 @@ export function uploadWages(file, name) {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/wages',
+    url: '/sys/file/upload/wages',
     method: 'post',
     data: formData,
     headers: {
@@ -72,7 +72,7 @@ export function uploadMusicCover(file, name) {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/music',
+    url: '/sys/file/upload/music',
     method: 'post',
     data: formData,
     headers: {
@@ -90,7 +90,7 @@ export function uploadArticleCover(file, name) {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/article',
+    url: '/sys/file/upload/article',
     method: 'post',
     data: formData,
     // bug: 这里的 headers 去掉，否则会报错
@@ -109,7 +109,7 @@ export function uploadMp3(file, name) {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/mp3',
+    url: '/sys/file/upload/mp3',
     method: 'post',
     data: formData,
     headers: {
@@ -127,7 +127,7 @@ export function uploadZoneCover(file, name) {
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/zone',
+    url: '/sys/file/upload/zone',
     method: 'post',
     data: formData,
     // bug: 这里的 headers 去掉，否则会报错

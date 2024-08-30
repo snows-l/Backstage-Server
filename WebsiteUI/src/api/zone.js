@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取朋友圈
 export function getZoneList(data) {
   return request({
-    url: '/zone/list',
+    url: '/sys/zone/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getZoneList(data) {
 // 获取朋友圈详情
 export function getZoneDetail(id) {
   return request({
-    url: '/zone/detail/' + id,
+    url: '/sys/zone/detail/' + id,
     method: 'get'
   });
 }
@@ -28,7 +28,7 @@ export function getZoneDetail(id) {
 // 新增朋友圈记录
 export function addZone(data) {
   return request({
-    url: '/zone/add',
+    url: '/sys/zone/add',
     method: 'post',
     data
   });
@@ -37,7 +37,7 @@ export function addZone(data) {
 // 修改朋友圈记录
 export function editZone(data) {
   return request({
-    url: '/zone/edit',
+    url: '/sys/zone/edit',
     method: 'put',
     data
   });
@@ -46,7 +46,7 @@ export function editZone(data) {
 // 删除朋友圈记录
 export function delZone(id) {
   return request({
-    url: '/zone/del/' + id,
+    url: '/sys/zone/del/' + id,
     method: 'delete'
   });
 }

@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取日志列表
 export function getLogsList(data) {
   return request({
-    url: '/log/list',
+    url: '/sys/log/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getLogsList(data) {
 // 新增日志
 export function addLogs(data) {
   return request({
-    url: '/log/add',
+    url: '/sys/log/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addLogs(data) {
 // 导出日志
 export function exportLogs(data) {
   return request({
-    url: '/log/export',
+    url: '/sys/log/export',
     method: 'get',
     params: data,
     responseType: 'blob'

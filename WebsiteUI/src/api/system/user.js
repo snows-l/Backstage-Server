@@ -11,7 +11,7 @@ import request from '@/utils/request';
 // 获取用户列表
 export function getUser(data) {
   return request({
-    url: '/user/list',
+    url: '/sys/user/list',
     method: 'get',
     params: data
   });
@@ -20,7 +20,7 @@ export function getUser(data) {
 // 新增用户
 export function addUser(data) {
   return request({
-    url: '/user/add',
+    url: '/sys/user/add',
     method: 'post',
     data
   });
@@ -29,7 +29,7 @@ export function addUser(data) {
 // 编辑用户
 export function editUser(data) {
   return request({
-    url: '/user/edit',
+    url: '/sys/user/edit',
     method: 'put',
     data
   });
@@ -38,7 +38,7 @@ export function editUser(data) {
 // 修改密码
 export function editPwd(data) {
   return request({
-    url: '/user/pwd/edit',
+    url: '/sys/user/pwd/edit',
     method: 'put',
     data
   });
@@ -47,7 +47,7 @@ export function editPwd(data) {
 // 删除用户
 export function delUser(id) {
   return request({
-    url: `/user/del/${id}`,
+    url: `/sys/user/del/${id}`,
     method: 'delete'
   });
 }
@@ -55,7 +55,7 @@ export function delUser(id) {
 // 获取用户信息
 export function getUserInfo() {
   return request({
-    url: `/user/info`,
+    url: `/sys/user/info`,
     method: 'get'
   });
 }
