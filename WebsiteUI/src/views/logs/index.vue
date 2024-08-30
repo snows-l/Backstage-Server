@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 00:10:50
+ * @LastEditTime: 2024-08-31 00:12:37
  * @FilePath: /webseteUI/WebsiteUI/src/views/logs/index.vue
 -->
 <template>
@@ -121,10 +121,10 @@ const columns = [
   { id: 2, label: '日志类型', minWidth: '100px', prop: 'type', align: 'center' },
   { id: 3, label: '主机IP', minWidth: '140px', prop: 'ip', align: 'center' },
   { id: 4, label: '登录地点', minWidth: '80px', prop: 'city', align: 'center' },
-  { id: 5, label: '操作系统', minWidth: '90px', prop: 'os' },
-  { id: 6, label: '浏览器', minWidth: '120px', prop: 'browser' },
-  { id: 8, label: '登录时间/第一次访问时间', minWidth: '180px', prop: 'create_time' },
-  { id: 9, label: '最后访问时间', minWidth: '120px', prop: 'last_visit_time', fixed: 'right' }
+  { id: 5, label: '操作系统', minWidth: '90px', prop: 'os', align: 'center' },
+  { id: 6, label: '浏览器', minWidth: '120px', prop: 'browser', align: 'center' },
+  { id: 8, label: '登录时间/第一次访问时间', minWidth: '180px', prop: 'create_time', align: 'center' },
+  { id: 9, label: '最后访问时间', minWidth: '120px', prop: 'last_visit_time', align: 'center' }
 ];
 
 // 获取列表
