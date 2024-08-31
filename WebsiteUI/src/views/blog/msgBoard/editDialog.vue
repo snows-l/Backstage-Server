@@ -149,7 +149,8 @@ const handleClose = () => {
 // 新增
 const add = () => {
   let params = {
-    ...state.form
+    ...state.form,
+    type: 0
   };
   addMsgBoard(params).then(res => {
     ElMessage.success('新增成功');
@@ -161,7 +162,8 @@ const add = () => {
 // 修改
 const edit = () => {
   let params = {
-    ...state.form
+    ...state.form,
+    type: 0
   };
   editMsgBoard(params).then(() => {
     ElMessage.success('修改成功');

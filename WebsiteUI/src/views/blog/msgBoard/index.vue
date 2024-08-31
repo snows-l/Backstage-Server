@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 15:59:45
+ * @LastEditTime: 2024-08-31 19:04:20
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/msgBoard/index.vue
 -->
 <template>
@@ -176,6 +176,7 @@ const getMsgBoardListFn = () => {
     text: state.form.title,
     page: state.page.page,
     size: state.page.size,
+    type: 0,
     startTime: state.form.date && state.form.date[0] ? moment(state.form.date[0]).format('YYYY-MM-DD HH:mm:ss') : null,
     endTime: state.form.date && state.form.date[1] ? moment(state.form.date[1]).format('YYYY-MM-DD HH:mm:ss') : null
   };

@@ -3,12 +3,12 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-23 21:56:13
+ * @LastEditTime: 2024-08-31 18:15:26
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
   <div class="editor-container-warp p20" id="editor-container-warp">
-    <div class="out-contet-warp">
+    <div class="out-contet-warp" v-loading="state.loading">
       <div class="content-warp">
         <Toolbar class="editor-toolbar" style="border: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
         <div class="editor-warp">
@@ -92,6 +92,7 @@ const state = reactive({
     isPreview: 0,
     content: ''
   },
+  loading: false,
   typeList: []
 });
 
@@ -244,20 +245,24 @@ editorConfig.MENU_CONF['fullScreen'] = {
 // 获取文章详情
 if (route.query.id) {
   state.id = route.query.id;
-  getArticleDetail(route.query.id).then(res => {
-    if (res.code === 200) {
-      state.form.title = res.data.title;
-      state.form.subTitle = res.data.subTitle.replace(/&#39;/g, "'");
-      state.form.type = res.data.type + '';
-      state.form.isPreview = res.data.isPreview == 1 ? 1 : 0;
-      state.form.coverLocal =
-        import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
-      state.form.cover = res.data.cover;
-      state.form.content = res.data.content.replace(/&#39;/g, "'");
-      valueHtml.value = decodeURIComponent(state.form.content);
-      console.log('-------- state, valueHtmls --------', state.form);
-    }
-  });
+  state.loading = true;
+  getArticleDetail(route.query.id)
+    .then(res => {
+      if (res.code === 200) {
+        state.form.title = res.data.title;
+        state.form.subTitle = res.data.subTitle.replace(/&#39;/g, "'");
+        state.form.type = res.data.type + '';
+        state.form.isPreview = res.data.isPreview == 1 ? 1 : 0;
+        state.form.coverLocal =
+          import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
+        state.form.cover = res.data.cover;
+        state.form.content = res.data.content.replace(/&#39;/g, "'");
+        valueHtml.value = decodeURIComponent(state.form.content);
+      }
+    })
+    .finally(() => {
+      state.loading = false;
+    });
 }
 
 //   标题输入框内容变化

@@ -695,7 +695,7 @@ export const appPCHeader = () => {
 
 // 获取项目PC footer
 export const appPCFooter = () => {
-  return import.meta.env.VITE_APP_PC_FOOTER || 'Copyright © 2018-2024 snows_l All Rights Reserved.';
+  return 'Copyright © 2018-' + new Date().getFullYear() + ' snows_l All Rights Reserved.';
 };
 
 // 获取项目 Mobile Header

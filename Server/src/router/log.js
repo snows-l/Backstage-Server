@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:10:13
+ * @LastEditTime: 2024-08-31 20:46:50
  * @FilePath: /webseteUI/Server/src/router/log.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -57,7 +57,6 @@ router.post('/add', (req, res) => {
 // 日志列表
 router.get('/list', (req, res) => {
   const { page, size, city, username, type } = req.query;
-  console.log('-------- type --------', type);
   let offset = (page - 1) * size;
   const sql = `SELECT * FROM logs WHERE 1=1 ${type ? `AND type = ${type}` : ''} ${city ? `AND city LIKE '%${city}%'` : ''} ${
     username ? `AND username LIKE '%${username}%'` : ''

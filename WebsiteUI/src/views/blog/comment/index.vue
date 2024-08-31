@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 18:22:38
- * @FilePath: /webseteUI/WebsiteUI/src/views/blog/zone/index.vue
+ * @LastEditTime: 2024-08-31 21:21:06
+ * @FilePath: /webseteUI/WebsiteUI/src/views/blog/comment/index.vue
 -->
 <template>
   <div class="musics-container-warp">
@@ -33,9 +33,7 @@
     </div>
     <div class="table-warp">
       <div class="content-top-warp">
-        <div class="opertion">
-          <el-button type="primary" @click="hanldeAdd(false)">新 增</el-button>
-        </div>
+        <div class="opertion"></div>
       </div>
       <div class="table-content-container">
         <el-table :data="state.tableSource" stripe row-key="id" v-loading="state.tableLoading" style="width: 100%; height: 100%" :size="state.isMobile ? 'small' : ''">
@@ -51,31 +49,30 @@
             :row-class-name="tableRowClassName">
             <template #default="{ row }">
               <template v-if="col.prop == 'operation'">
-                <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleEdit(row)">编辑</el-button>
-                <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleDel(row)">删除</el-button>
+                <el-button :disabled="row.children && row.children.length > 0" :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleDel(row)">
+                  删除
+                </el-button>
+                <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleView(row)">详情</el-button>
               </template>
-              <template v-if="col.prop == 'text'">
+              <template v-if="col.prop == 'comment' || col.prop == 'websiteUrl'">
                 <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
                   <div
                     class="remark-warp"
+                    @click="handleView(row)"
                     style="height: 30px; line-height: 15px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">
                     {{ row[col.prop] }}
                   </div>
                 </el-tooltip>
                 <span v-else></span>
               </template>
-              <template v-if="col.prop == 'imgs'">
-                <div class="cover" style="position: relative; display: flex; align-items: center; justify-content: center">
-                  <el-image
-                    v-for="(img, index) in row.imgSrcs"
-                    style="width: 90px; height: 65px; margin: 0 3px"
-                    loading="eager"
-                    preview-teleported
-                    hide-on-click-modal
-                    :src="img || defaultCover"
-                    :preview-src-list="row.imgSrcs"
-                    fit="cover" />
-                </div>
+
+              <template v-else-if="col.prop == 'avatarUrl'">
+                <img :src="row[col.prop]" style="width: 30px; height: 30px; border-radius: 50%" />
+              </template>
+
+              <template v-else-if="col.prop == 'isPrivacy' || col.prop == 'isEmailFeekback'">
+                <el-tag type="success" v-if="row[col.prop] === 1">是</el-tag>
+                <el-tag type="danger" v-else>否</el-tag>
               </template>
             </template>
           </el-table-column>
@@ -99,20 +96,17 @@
           @current-change="handleCurrentChange" />
       </div>
     </div>
-    <EditDialog ref="editDialogRef" :refreshCallBack="getZoneListFn" :is-mobile="state.isMobile" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { delZone, getZoneList } from '@/api/zone';
-import defaultCover from '@/assets/images/default_cover.png';
+import { delMsgBoard, getMsgBoardList } from '@/api/msgBoard';
 import { useAppStore } from '@/store/common';
 import { usePGCStore } from '@/store/projectGloabalConfig';
-import { isMobile } from '@/utils/common';
+import { isMobile, tranListToTree } from '@/utils/common';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import moment from 'moment';
 import { onBeforeUnmount, reactive, ref, watch } from 'vue';
-import EditDialog from './editDialog.vue';
 
 const appStore = useAppStore();
 const editDialogRef = ref<any>();
@@ -153,11 +147,19 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'center' },
-  { id: 1, label: '内容', width: '180px', prop: 'text', align: 'center' },
-  { id: 2, label: '图片', minWidth: '300px', prop: 'imgs' },
-  { id: 5, label: '创建日期', minWidth: '120px', prop: 'createTime' },
-  { id: 6, label: '更新日期', minWidth: '120px', prop: 'updateTime' },
+  { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'left' },
+  { id: 0, label: '文章id', width: '60px', prop: 'articleId', align: 'center' },
+  { id: 1, label: '内容', width: '200px', prop: 'comment', align: 'center' },
+  { id: 1, label: 'qq', width: '120px', prop: 'qq', align: 'center' },
+  { id: 2, label: '昵称', minWidth: '120px', prop: 'nickName' },
+  { id: 5, label: '头像', minWidth: '120px', prop: 'avatarUrl' },
+  { id: 5, label: '邮箱', minWidth: '120px', prop: 'email' },
+  { id: 5, label: '网址', minWidth: '120px', prop: 'websiteUrl' },
+  { id: 5, label: '是否私密评论', minWidth: '120px', prop: 'isPrivacy' },
+  { id: 5, label: '是否邮件通知', minWidth: '120px', prop: 'isEmailFeekback' },
+  { id: 5, label: '浏览器', minWidth: '120px', prop: 'browser' },
+  { id: 5, label: '操作系统', minWidth: '120px', prop: 'os' },
+  { id: 6, label: '更新日期', minWidth: '120px', prop: 'time' },
   { id: 7, label: '操作', minWidth: state.isMobile ? '150px' : '150px', prop: 'operation', fixed: state.isMobile ? null : 'right' }
 ];
 
@@ -168,37 +170,31 @@ const tableRowClassName = ({ row, rowIndex }) => {
 };
 
 // 获取列表
-const getZoneListFn = () => {
+const getMsgBoardListFn = () => {
   state.tableLoading = true;
   let parasms = {
     text: state.form.title,
     page: state.page.page,
     size: state.page.size,
+    type: 1,
     startTime: state.form.date && state.form.date[0] ? moment(state.form.date[0]).format('YYYY-MM-DD HH:mm:ss') : null,
     endTime: state.form.date && state.form.date[1] ? moment(state.form.date[1]).format('YYYY-MM-DD HH:mm:ss') : null
   };
-  getZoneList(parasms)
+  getMsgBoardList(parasms)
     .then((res: any) => {
-      res.data.forEach(item => {
-        item.imgSrcs = item.imgs
-          ? item.imgs.split(',').map(img => (import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + img : import.meta.env.VITE_PROD_BASE_SERVER + img))
-          : [];
-
-        item.imgs = item.imgs.split(',');
-      });
-      state.tableSource = res.data;
+      state.tableSource = tranListToTree(res.data, 'id', 'pId', 'children');
       state.page.total = res.total || 0;
     })
     .finally(() => {
       state.tableLoading = false;
     });
 };
-getZoneListFn();
+getMsgBoardListFn();
 
 // 查询
 const handleSelect = () => {
   state.page.page = 1;
-  getZoneListFn();
+  getMsgBoardListFn();
 };
 
 // 重置
@@ -209,42 +205,36 @@ const handleReset = () => {
   state.form.startTime = null;
   state.form.endTime = null;
   state.form.includeFile = false;
-  getZoneListFn();
+  getMsgBoardListFn();
 };
 
 // 改变分页
 const handleSizeChange = (size: number) => {
   state.page.page = 1;
   state.page.size = size;
-  getZoneListFn();
+  getMsgBoardListFn();
 };
 
 // 改变当前页
 const handleCurrentChange = (page: number) => {
   state.page.page = page;
-  getZoneListFn();
-};
-
-// 新增
-const hanldeAdd = () => {
-  editDialogRef.value.showDialog(false);
-};
-
-// 编辑
-const handleEdit = (row: any) => {
-  editDialogRef.value.showDialog(row);
+  getMsgBoardListFn();
 };
 
 // 删除
 const handleDel = (row: { id: number }) => {
   ElMessageBox.confirm('确认删除该记录？', '提示').then(() => {
-    delZone(row.id)
+    delMsgBoard(row.id)
       .then(() => {
         ElMessage.success('删除成功');
-        getZoneListFn();
+        getMsgBoardListFn();
       })
       .catch(() => {});
   });
+};
+
+const handleView = row => {
+  window.open('http://124.223.41.220/article/detail?id=' + row.articleId, '_blank');
 };
 
 const resizeCallback = () => {
@@ -355,5 +345,9 @@ watch(
   to {
     transform: rotate(360deg);
   }
+}
+.remark-warp {
+  color: v-bind(themeColor);
+  cursor: pointer;
 }
 </style>
