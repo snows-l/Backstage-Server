@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:11:21
+ * @LastEditTime: 2024-08-31 21:37:09
  * @FilePath: /webseteUI/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
@@ -52,15 +52,20 @@ router.get('/list', async (req, res) => {
 router.get('/detail/:id', async (req, res) => {
   const { id } = req.params;
   const sql = `SELECT * FROM article WHERE id = ${id}`;
+
+  let commentCountSql = `select* from comment where 1=1 and type = 1 and articleId =${id}`;
   try {
     db.queryAsync(sql, []).then(ress => {
       let result = ress.results[0];
-      res.send({
-        code: 200,
-        data: {
-          ...result
-        },
-        msg: '获取成功'
+      db.queryAsync(commentCountSql, []).then(commentCountRes => {
+        result.commentCount = commentCountRes.results.length;
+        res.send({
+          code: 200,
+          data: {
+            ...result
+          },
+          msg: '获取成功'
+        });
       });
       db.queryAsync(`UPDATE article SET readCount = readCount + 1 WHERE id = ${id}`, []);
     });
