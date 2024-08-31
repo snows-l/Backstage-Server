@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 18:22:38
+ * @LastEditTime: 2024-08-31 23:45:22
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/zone/index.vue
 -->
 <template>
@@ -18,7 +18,14 @@
         style="display: flex; align-items: center"
         :style="{ justifyContent: state.isMobile ? 'space-around' : 'flex-start' }">
         <el-form-item :label="state.isMobile ? '' : '发布时间:'" :style="{ width: state.isMobile ? '50%' : '' }">
-          <el-date-picker v-model="state.form.date" type="daterange" placeholder="开始日期" style="width: 200px" clearable @change="handleSelect" />
+          <el-date-picker
+            v-model="state.form.date"
+            type="daterange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            style="width: 200px"
+            clearable
+            @change="handleSelect" />
         </el-form-item>
 
         <el-form-item :label="state.isMobile ? '' : '内容:'" :style="{ width: state.isMobile ? '46%' : '' }">
@@ -66,15 +73,13 @@
               </template>
               <template v-if="col.prop == 'imgs'">
                 <div class="cover" style="position: relative; display: flex; align-items: center; justify-content: center">
-                  <el-image
+                  <Img
                     v-for="(img, index) in row.imgSrcs"
                     style="width: 90px; height: 65px; margin: 0 3px"
                     loading="eager"
                     preview-teleported
                     hide-on-click-modal
-                    :src="img || defaultCover"
-                    :preview-src-list="row.imgSrcs"
-                    fit="cover" />
+                    :src="img || defaultCover" />
                 </div>
               </template>
             </template>

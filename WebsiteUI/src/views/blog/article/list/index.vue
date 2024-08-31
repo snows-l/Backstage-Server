@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-18 16:48:48
+ * @LastEditTime: 2024-08-31 23:53:43
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/list/index.vue
 -->
 <template>
@@ -71,14 +71,7 @@
               </template>
               <template v-if="col.prop == 'coverLocal'">
                 <div class="cover" style="position: relative; display: flex; align-items: center; justify-content: center">
-                  <el-image
-                    style="width: 90px; height: 65px"
-                    loading="eager"
-                    preview-teleported
-                    hide-on-click-modal
-                    :src="row.coverLocal || defaultCover"
-                    :preview-src-list="[row.coverLocal || defaultCover]"
-                    fit="cover" />
+                  <Img style="width: 90px; height: 65px" preview-teleported hide-on-click-modal :src="row.coverLocal || defaultCover" fit="cover" />
                 </div>
               </template>
             </template>

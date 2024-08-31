@@ -3,12 +3,13 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2023-01-12 16:56:13
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-17 16:49:03
+ * @LastEditTime: 2024-08-31 23:40:42
  * @FilePath: /webseteUI/WebsiteUI/src/main.js
  */
 import '@/assets/css/base.scss';
 import '@/assets/css/common.scss';
 import '@/assets/css/reset.scss';
+import CustomImg from '@/components/CustomImg/index.vue'; // 图片组件
 import { useAppStore } from '@/store/common';
 import { Boot } from '@wangeditor/editor';
 import AppleMusicPlayer from 'apple-music-player';
@@ -49,6 +50,7 @@ app.component('CountTo', CountTo);
 app.component('IconSelect', IconSelect);
 app.component('Empty', Empty);
 app.component('FlipClock', FlipClock);
+app.component('Img', CustomImg);
 app.use(Vue3FlipClock);
 app.use(AppleMusicPlayer);
 

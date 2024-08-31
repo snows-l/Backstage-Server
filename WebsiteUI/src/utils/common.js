@@ -31,6 +31,10 @@ export const generateRoutes = routers => {
   return res;
 };
 
+// 根据QQ号获取QQ头像地址
+export const getQQAvatar = (qq = '37523953') => {
+  return 'http://q1.qlogo.cn/g?b=qq&nk=' + encodeURIComponent(qq) + '&s=640';
+};
 // 日期格式化
 export function parseTime(time, pattern) {
   if (arguments.length === 0 || !time) {

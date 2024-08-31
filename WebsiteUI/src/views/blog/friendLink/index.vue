@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-20 14:20:32
+ * @LastEditTime: 2024-08-31 23:17:19
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/friendLink/index.vue
 -->
 <template>
@@ -22,7 +22,14 @@
         </el-form-item>
 
         <el-form-item :label="state.isMobile ? '' : '发布时间:'" :style="{ width: state.isMobile ? '50%' : '' }">
-          <el-date-picker v-model="state.form.date" type="daterange" placeholder="开始日期" style="width: 200px" clearable @change="handleSelect" />
+          <el-date-picker
+            v-model="state.form.date"
+            type="daterange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            style="width: 200px"
+            clearable
+            @change="handleSelect" />
         </el-form-item>
 
         <el-form-item style="margin-left: 10px" v-if="!state.isMobile">

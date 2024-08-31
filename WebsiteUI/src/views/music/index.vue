@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-31 19:57:55
+ * @LastEditTime: 2024-08-31 23:44:40
  * @FilePath: /webseteUI/WebsiteUI/src/views/music/index.vue
 -->
 <template>
@@ -94,7 +94,7 @@
               </template>
               <template v-if="col.prop == 'coverLocal'">
                 <div class="cover" style="position: relative; display: flex; align-items: center; justify-content: center">
-                  <el-image
+                  <Img
                     :class="{ 'is-playing': row.isCurrentMusic && state.isMusicPlaying }"
                     style="width: 60px; height: 60px; border-radius: 50%"
                     loading="eager"

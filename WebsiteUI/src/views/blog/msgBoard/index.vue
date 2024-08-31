@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 19:04:20
+ * @LastEditTime: 2024-08-31 23:50:09
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/msgBoard/index.vue
 -->
 <template>
@@ -18,7 +18,14 @@
         style="display: flex; align-items: center"
         :style="{ justifyContent: state.isMobile ? 'space-around' : 'flex-start' }">
         <el-form-item :label="state.isMobile ? '' : '发布时间:'" :style="{ width: state.isMobile ? '50%' : '' }">
-          <el-date-picker v-model="state.form.date" type="daterange" placeholder="开始日期" style="width: 200px" clearable @change="handleSelect" />
+          <el-date-picker
+            v-model="state.form.date"
+            type="daterange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            style="width: 200px"
+            clearable
+            @change="handleSelect" />
         </el-form-item>
 
         <el-form-item :label="state.isMobile ? '' : '内容:'" :style="{ width: state.isMobile ? '46%' : '' }">
@@ -44,8 +51,8 @@
             :prop="col.prop"
             :key="col.id"
             :label="col.label"
-            :minWidth="col.minWidth || null"
             :width="col.width || null"
+            :minWidth="col.minWidth || null"
             :align="col.align || 'center'"
             :fixed="col.fixed || null"
             :row-class-name="tableRowClassName">
@@ -66,7 +73,7 @@
               </template>
 
               <template v-else-if="col.prop == 'avatarUrl'">
-                <img :src="row[col.prop]" style="width: 30px; height: 30px; border-radius: 50%" />
+                <Img :src="row[col.prop] || getQQAvatar(row.qq)" style="width: 40px; height: 40px; border-radius: 50%"></Img>
               </template>
 
               <template v-else-if="col.prop == 'isPrivacy' || col.prop == 'isEmailFeekback'">
@@ -103,7 +110,7 @@
 import { delMsgBoard, getMsgBoardList } from '@/api/msgBoard';
 import { useAppStore } from '@/store/common';
 import { usePGCStore } from '@/store/projectGloabalConfig';
-import { isMobile } from '@/utils/common';
+import { getQQAvatar, isMobile } from '@/utils/common';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import moment from 'moment';
 import { onBeforeUnmount, reactive, ref, watch } from 'vue';
@@ -151,8 +158,8 @@ const columns = [
   { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'center' },
   { id: 1, label: '内容', width: '200px', prop: 'comment', align: 'center' },
   { id: 1, label: 'qq', width: '120px', prop: 'qq', align: 'center' },
-  { id: 2, label: '昵称', minWidth: '120px', prop: 'nickName' },
-  { id: 5, label: '头像', minWidth: '120px', prop: 'avatarUrl' },
+  { id: 2, label: '昵称', minWidth: '120px', prop: 'nickName', align: 'center' },
+  { id: 5, label: '头像', width: '60px', prop: 'avatarUrl', align: 'center' },
   { id: 5, label: '邮箱', minWidth: '120px', prop: 'email' },
   { id: 5, label: '网址', minWidth: '120px', prop: 'websiteUrl' },
   { id: 5, label: '是否私密评论', minWidth: '120px', prop: 'isPrivacy' },

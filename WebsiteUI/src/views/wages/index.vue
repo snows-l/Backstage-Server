@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-11 12:19:32
- * @FilePath: /Website/WebsiteUI/src/views/wages/index.vue
+ * @LastEditTime: 2024-08-31 23:43:18
+ * @FilePath: /webseteUI/WebsiteUI/src/views/wages/index.vue
 -->
 <template>
   <div class="wages-container-warp">
@@ -91,14 +91,7 @@
                 <span v-else></span>
               </template>
               <template v-if="col.prop == 'pic'">
-                <el-image
-                  style="width: 80px; height: 80px"
-                  loading="eager"
-                  preview-teleported
-                  hide-on-click-modal
-                  :src="row.picLocal"
-                  :preview-src-list="[row.picLocal]"
-                  fit="cover" />
+                <Img style="width: 80px; height: 80px" loading="eager" preview-teleported hide-on-click-modal :src="row.picLocal" :preview-src-list="[row.picLocal]" fit="cover" />
               </template>
             </template>
           </el-table-column>
