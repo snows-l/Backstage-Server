@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 21:37:09
+ * @LastEditTime: 2024-09-01 16:26:19
  * @FilePath: /webseteUI/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
@@ -13,6 +13,7 @@ const router = express.Router();
 const Excel = require('exceljs');
 const { verifyToken } = require('../../../utils/handleToken');
 const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 
 // 获取文章列表
@@ -20,9 +21,9 @@ router.get('/list', async (req, res) => {
   let { page, size, title, type, isUnPage = true } = req.query;
   let offset = (page - 1) * size;
 
-  let sql = `SELECT * FROM article WHERE 1=1 ${title ? `AND title LIKE '%${title}%'` : ''} ${type ? `AND type = '${type}'` : ''} ${
-    !isUnPage || isUnPage == 'false' ? `ORDER BY id DESC` : `ORDER BY id DESC LIMIT ${size} OFFSET ${offset}`
-  }`;
+  let sql = `SELECT *, (SELECT COUNT(*) FROM comment WHERE type = 1 AND articleId = article.id) as commentCount FROM article WHERE 1=1 ${
+    title ? `AND title LIKE '%${title}%'` : ''
+  } ${type ? `AND type = '${type}'` : ''} and delFlag = 0 ${!isUnPage || isUnPage == 'false' ? `ORDER BY id DESC` : `ORDER BY id DESC LIMIT ${size} OFFSET ${offset}`}`;
   let lensql = `SELECT count('id') as total FROM article WHERE 1=1 ${title ? `AND title LIKE '%${title}%'` : ''} ${type ? `AND type = '${type}'` : ''}`;
 
   const params = [0];
@@ -204,7 +205,7 @@ router.put('/edit', async (req, res) => {
 // 删除文章
 router.delete('/del/:id', async (req, res) => {
   const { id } = req.params;
-  const sql = `UPDATE from article SET delFlag = ? WHERE id = ${id}`;
+  const sql = `UPDATE article SET delFlag = 1 WHERE id = ${id}`;
   const params = [1];
   try {
     db.queryAsync(sql, [params]).then(ress => {
@@ -325,6 +326,55 @@ router.get('/export', async (req, res) => {
       code: 500,
       data: null,
       msg: '导出失败'
+    });
+  }
+});
+
+// 预览 文章 html
+router.get('/preview/:id', async (req, res) => {
+  const { id } = req.params;
+  const sql = `SELECT content FROM article WHERE id = ${id}`;
+  try {
+    db.queryAsync(sql, []).then(ress => {
+      let content = ress.results[0].content;
+      content = decodeURIComponent(content);
+      let reg = /<!DOCTYPE html>.*<\/html>/s;
+      content = content.replace(/&#39;/g, "'");
+      content = content.replace(/&gt;/g, '>');
+      content = content.replace(/&lt;/g, '<');
+      content = content.replace(/&#39;/g, "'");
+      let htmlstr = content.match(reg) ? content.match(reg)[0] : '';
+      let pathstr = path.resolve(__dirname, '../../../public/html/preview.html');
+      fs.readFile(pathstr, 'utf8', (err, data) => {
+        if (err) {
+          return res.send({
+            code: 500,
+            data: null,
+            msg: '500 error=' + error
+          });
+        }
+        fs.writeFile(pathstr, htmlstr, 'utf8', err => {
+          if (err) {
+            return res.send({
+              code: 500,
+              data: null,
+              msg: '500 error=' + error
+            });
+          }
+          const url = 'http://124.223.41.220:3333/html/preview.html';
+          res.send({
+            code: 200,
+            data: url,
+            msg: '预览成功'
+          });
+        });
+      });
+    });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '500 error=' + error
     });
   }
 });

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 18:15:26
+ * @LastEditTime: 2024-09-01 16:32:48
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
@@ -28,7 +28,7 @@
             </el-form-item>
 
             <el-form-item label="类型：" prop="type" style="width: 100%">
-              <el-select style="width: 300px" v-model="state.form.type" placeholder="请选择歌曲类型" clearable>
+              <el-select style="width: 300px" v-model="state.form.type" placeholder="请选择类型" clearable>
                 <el-option v-for="item in state.typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -45,7 +45,7 @@
             </el-form-item>
           </el-form>
           <div class="btn-warp">
-            <el-button type="primary" class="btn" size="small" @click="handleSubmit">发 布</el-button>
+            <el-button type="primary" class="btn" size="small" :loading="state.submitLoading" @click="handleSubmit">发 布</el-button>
           </div>
         </div>
       </div>
@@ -93,6 +93,7 @@ const state = reactive({
     content: ''
   },
   loading: false,
+  submitLoading: false,
   typeList: []
 });
 
@@ -333,33 +334,43 @@ const handleSubmit = () => {
       };
       if (state.id) {
         params.id = state.id;
-        editArticle(params).then(res => {
-          if (res.code === 200) {
-            ElMessage.success('修改成功');
-            // 跳转到文章列表
-            router.push('/blog/article/list');
-          } else {
-            ElMessage.error('修改失败');
-          }
-        });
+        state.submitLoading = true;
+        editArticle(params)
+          .then(res => {
+            if (res.code === 200) {
+              ElMessage.success('修改成功');
+              // 跳转到文章列表
+              router.push('/blog/article/list');
+            } else {
+              ElMessage.error('修改失败');
+            }
+          })
+          .finally(() => {
+            state.submitLoading = false;
+          });
       } else {
-        addArticle(params).then(res => {
-          if (res.code === 200) {
-            ElMessage.success('发布成功');
-            // 重置表单
-            state.form.title = '';
-            state.form.subTitle = '';
-            state.form.type = '';
-            state.form.coverLocal = '';
-            state.form.cover = '';
-            // 重置编辑器
-            editorRef.value.clear();
-            // 跳转到文章列表
-            router.push('/blog/article/list');
-          } else {
-            ElMessage.error('发布失败');
-          }
-        });
+        state.submitLoading = true;
+        addArticle(params)
+          .then(res => {
+            if (res.code === 200) {
+              ElMessage.success('发布成功');
+              // 重置表单
+              state.form.title = '';
+              state.form.subTitle = '';
+              state.form.type = '';
+              state.form.coverLocal = '';
+              state.form.cover = '';
+              // 重置编辑器
+              editorRef.value.clear();
+              // 跳转到文章列表
+              router.push('/blog/article/list');
+            } else {
+              ElMessage.error('发布失败');
+            }
+          })
+          .finally(() => {
+            state.submitLoading = false;
+          });
       }
     } else {
       console.log('error submit');
