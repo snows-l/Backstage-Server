@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-01 16:39:27
+ * @LastEditTime: 2024-09-01 17:50:46
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/list/index.vue
 -->
 <template>
@@ -63,8 +63,14 @@
               <template v-if="col.prop == 'subTitle' || col.prop == 'title'">
                 <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
                   <div
+                    v-if="col.prop == 'title'"
                     @click="handleView(row)"
                     class="remark-warp"
+                    style="height: 30px; line-height: 15px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">
+                    {{ row[col.prop] }}
+                  </div>
+                  <div
+                    v-else
                     style="height: 30px; line-height: 15px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">
                     {{ row[col.prop] }}
                   </div>
@@ -251,7 +257,7 @@ const handleDel = (row: { id: number }) => {
 
 // 查看
 const handleView = row => {
-  window.open('http://124.223.41.220/article/detail?id=' + row.articleId, '_blank');
+  window.open('http://124.223.41.220/article/detail?id=' + row.id, '_blank');
 };
 
 const resizeCallback = () => {
