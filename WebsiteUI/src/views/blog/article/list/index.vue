@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:53:43
+ * @LastEditTime: 2024-09-01 16:39:27
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/list/index.vue
 -->
 <template>
@@ -55,6 +55,7 @@
               <template v-if="col.prop == 'operation'">
                 <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleEdit(row)">编辑</el-button>
                 <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleDel(row)">删除</el-button>
+                <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleView(row)">详情</el-button>
               </template>
               <template v-if="col.prop == 'type'">
                 <el-tag :type="tagType[row.type]">{{ state.typeList.find(item => item.value == row.type).label }}</el-tag>
@@ -62,6 +63,7 @@
               <template v-if="col.prop == 'subTitle' || col.prop == 'title'">
                 <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
                   <div
+                    @click="handleView(row)"
                     class="remark-warp"
                     style="height: 30px; line-height: 15px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">
                     {{ row[col.prop] }}
@@ -154,7 +156,7 @@ const columns = [
   { id: 4, label: '文章类型', minWidth: '120px', prop: 'type' },
   { id: 5, label: '创建日期', minWidth: '120px', prop: 'createTime' },
   { id: 6, label: '更新日期', minWidth: '120px', prop: 'updateTime' },
-  { id: 7, label: '操作', minWidth: state.isMobile ? '150px' : '150px', prop: 'operation', fixed: state.isMobile ? null : 'right' }
+  { id: 7, label: '操作', minWidth: state.isMobile ? '195px' : '195px', prop: 'operation', fixed: state.isMobile ? null : 'right' }
 ];
 
 // 获取歌曲类型列表
@@ -245,6 +247,11 @@ const handleDel = (row: { id: number }) => {
       })
       .catch(() => {});
   });
+};
+
+// 查看
+const handleView = row => {
+  window.open('http://124.223.41.220/article/detail?id=' + row.articleId, '_blank');
 };
 
 const resizeCallback = () => {
@@ -355,5 +362,9 @@ watch(
   to {
     transform: rotate(360deg);
   }
+}
+.remark-warp {
+  color: v-bind(themeColor);
+  cursor: pointer;
 }
 </style>
