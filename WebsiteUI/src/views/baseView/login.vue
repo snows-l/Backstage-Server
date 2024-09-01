@@ -135,6 +135,10 @@ getCode();
 const handleUsernameChange = () => {
  if(state.loginForm.username === 'snows_l' || state.loginForm.username === 'eternals_l') {
     state.loginForm.password = 'Snow100107@'
+  } else if(state.loginForm.username === 'snow') {
+     state.loginForm.password = 'snow123'
+  } else if(state.loginForm.username === 'luoxianfeng') {
+     state.loginForm.password = 'luoxianfeng'
   }
 }
 
