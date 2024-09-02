@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:52:40
+ * @LastEditTime: 2024-09-02 19:24:47
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/comment/index.vue
 -->
 <template>
@@ -43,7 +43,15 @@
         <div class="opertion"></div>
       </div>
       <div class="table-content-container">
-        <el-table :data="state.tableSource" stripe row-key="id" v-loading="state.tableLoading" style="width: 100%; height: 100%" :size="state.isMobile ? 'small' : ''">
+        <el-table
+          stripe
+          :data="state.tableSource"
+          row-key="id"
+          :default-expand-all="state.isExpandAll"
+          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+          v-loading="state.tableLoading"
+          style="width: 100%; height: 100%"
+          :size="state.isMobile ? 'small' : ''">
           <el-table-column
             v-for="col in columns"
             :prop="col.prop"
@@ -62,7 +70,7 @@
                 <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleView(row)">详情</el-button>
               </template>
               <template v-if="col.prop == 'comment' || col.prop == 'websiteUrl'">
-                <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
+                <el-tooltip style="display: inline-block" v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
                   <div
                     class="remark-warp"
                     @click="handleView(row)"
@@ -132,6 +140,7 @@ let state = reactive({
     endTime: null
   },
   typeList: [],
+  isExpandAll: false,
   page: {
     page: 1,
     size: 20,
@@ -154,9 +163,9 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'left' },
-  { id: 0, label: '文章id', width: '60px', prop: 'articleId', align: 'center' },
+  { id: 0, label: 'ID', width: '200px', prop: 'id', align: 'left' },
   { id: 1, label: '内容', width: '200px', prop: 'comment', align: 'center' },
+  { id: 0, label: '文章id', width: '60px', prop: 'articleId', align: 'center' },
   { id: 1, label: 'qq', width: '120px', prop: 'qq', align: 'center' },
   { id: 2, label: '昵称', minWidth: '120px', prop: 'nickName' },
   { id: 5, label: '头像', width: '60px', prop: 'avatarUrl' },

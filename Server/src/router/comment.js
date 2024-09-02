@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 21:10:28
+ * @LastEditTime: 2024-09-02 19:15:58
  * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -14,7 +14,7 @@ const IP2Region = require('ip2region').default;
 const { getOS, getBrowserName } = require('../../utils/common');
 const moment = require('moment');
 
-// 获取评论列表
+// 获取留言列表
 router.get('/list', (req, res) => {
   let { page = 1, size = 5, comment, type } = req.query;
   let offset = (page - 1) * size;
@@ -85,10 +85,12 @@ router.post('/add', (req, res) => {
     cityMap.province = cityMap.province ? cityMap.province + '-' : '';
     city = cityMap.province + cityMap.city;
   }
+  let id = (type == 1 ? 'PL' : 'LY') + moment().format('YYYYMMDDHHmmss');
 
   let sql = createSql
     .insert('comment')
     .set({
+      id,
       qq,
       nickName,
       comment,
@@ -109,7 +111,6 @@ router.post('/add', (req, res) => {
       time: moment().format('YYYY-MM-DD HH:mm:ss')
     })
     .end();
-  console.log('-------- sql --------', sql);
   try {
     db.queryAsync(sql).then(result => {
       res.send({
@@ -136,7 +137,7 @@ router.put('/edit', (req, res) => {
   let sql = createSql
     .update('comment')
     .set({ qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback })
-    .where('id=' + id)
+    .where('id=' + `'${id}'`)
     .end();
   try {
     db.queryAsync(sql).then(result => {
@@ -158,10 +159,7 @@ router.put('/edit', (req, res) => {
 // 删除留言
 router.delete('/del/:id', (req, res) => {
   let { id } = req.params;
-  let sql = createSql
-    .delete('comment')
-    .where('id=' + id)
-    .end();
+  let sql = `DELETE FROM comment WHERE id='${id}'`;
   try {
     db.queryAsync(sql).then(result => {
       res.send({
