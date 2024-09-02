@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-15 19:00:39
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:15:34
+ * @LastEditTime: 2024-09-02 20:54:40
  * @FilePath: /webseteUI/Server/src/index.js
  */
 
@@ -40,7 +40,9 @@ const jwtKey = process.env.APP_JWTKEY;
 // console.log('-------- jwtKey --------', jwtKey);
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '500mb' })); // 允许上传的最大文件为50MB
+app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
+// app.use(bodyParser.json());
 app.use(cors());
 
 // 访问服务的接口
