@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-11 14:17:50
- * @FilePath: /Website/WebsiteUI/src/views/system/role/index.vue
+ * @LastEditTime: 2024-09-03 19:24:58
+ * @FilePath: /webseteUI/WebsiteUI/src/views/system/role/index.vue
 -->
 <template>
   <div class="container-warp">
@@ -107,7 +107,6 @@ let state = reactive({
 let tableHeight = ref(state.isMobile ? 'calc(100% - 102px)' : 'calc(100% - 102px)');
 
 const columns = [
-  { id: 2, label: '角色ID', minWidth: '80px', prop: 'role_id', align: 'center' },
   { id: 3, label: '角色名', minWidth: '120px', prop: 'role_name' },
   { id: 3, label: '角色key', minWidth: '120px', prop: 'role_key' },
   { id: 5, label: '创建时间', minWidth: '180px', prop: 'create_time' },

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:45:22
+ * @LastEditTime: 2024-09-03 19:22:31
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/zone/index.vue
 -->
 <template>
@@ -158,7 +158,6 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'center' },
   { id: 1, label: '内容', width: '180px', prop: 'text', align: 'center' },
   { id: 2, label: '图片', minWidth: '300px', prop: 'imgs' },
   { id: 5, label: '创建日期', minWidth: '120px', prop: 'createTime' },

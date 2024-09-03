@@ -3,23 +3,22 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-28 15:20:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:19:40
+ * @LastEditTime: 2024-09-03 19:52:57
  * @FilePath: /webseteUI/WebsiteUI/src/api/common.js
  */
 import request from '@/utils/request';
 import moment from 'moment';
 
 // 公共上上传接口「上传图片」
-export function uploadCommon(file, name) {
-  // let suffix = file.type && file.type.split('')[1];
+export function uploadFile(file, name, dir) {
   let suffix = file.name && file.name.split('.')[1];
   let defaultName = file.name && file.name.split('.')[0];
   let formData = new FormData();
   // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix;
+  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '_.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix;
   formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/common',
+    url: '/file/upload',
     method: 'post',
     data: formData,
     headers: {

@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-11 12:20:17
- * @FilePath: /Website/WebsiteUI/src/views/favors/index.vue
+ * @LastEditTime: 2024-09-03 19:20:41
+ * @FilePath: /webseteUI/WebsiteUI/src/views/favors/index.vue
 -->
 <template>
   <div class="container-warp">
@@ -140,14 +140,13 @@ let state = reactive({
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 1, label: 'ID', minWidth: '60px', prop: 'favors_id', align: 'center' },
   { id: 2, label: '姓名', minWidth: '80px', prop: 'favors_name', align: 'center' },
   { id: 3, label: '金额', minWidth: '80px', prop: 'favors_money', align: 'center' },
   { id: 4, label: '回礼', minWidth: '80px', prop: 'favors_backMoney', align: 'center' },
   { id: 5, label: '时间点', minWidth: '90px', prop: 'favors_timer' },
   { id: 6, label: '创建时间', minWidth: '120px', prop: 'createTime' },
-  { id: 7, label: '备注', minWidth: '120px', prop: 'remark' },
   { id: 8, label: '更新时间', minWidth: '120px', prop: 'updateTime' },
+  { id: 7, label: '备注', minWidth: '120px', prop: 'remark' },
   { id: 10, label: '操作', minWidth: state.isMobile ? '120px' : '120px', prop: 'operation', fixed: state.isMobile ? null : 'right' }
 ];
 

@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-01 16:26:19
+ * @LastEditTime: 2024-09-03 19:11:05
  * @FilePath: /webseteUI/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
@@ -21,7 +21,7 @@ router.get('/list', async (req, res) => {
   let { page, size, title, type, isUnPage = true } = req.query;
   let offset = (page - 1) * size;
 
-  let sql = `SELECT *, (SELECT COUNT(*) FROM comment WHERE type = 1 AND articleId = article.id) as commentCount FROM article WHERE 1=1 ${
+  let sql = `SELECT id, title, subTitle, cover, createTime, updateTime, type, readCount, shareCount, (SELECT COUNT(*) FROM comment WHERE type = 1 AND articleId = article.id) as commentCount FROM article WHERE 1=1 ${
     title ? `AND title LIKE '%${title}%'` : ''
   } ${type ? `AND type = '${type}'` : ''} and delFlag = 0 ${!isUnPage || isUnPage == 'false' ? `ORDER BY id DESC` : `ORDER BY id DESC LIMIT ${size} OFFSET ${offset}`}`;
   let lensql = `SELECT count('id') as total FROM article WHERE 1=1 ${title ? `AND title LIKE '%${title}%'` : ''} ${type ? `AND type = '${type}'` : ''}`;

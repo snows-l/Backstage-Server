@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 18:10:41
+ * @LastEditTime: 2024-09-03 19:25:18
  * @FilePath: /webseteUI/WebsiteUI/src/views/logs/login/index.vue
 -->
 <template>
@@ -106,7 +106,6 @@ const pagination = reactive({
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 1, label: 'ID', minWidth: '60px', prop: 'id', align: 'center' },
   { id: 2, label: '登录账号', minWidth: '100px', prop: 'username', align: 'center' },
   { id: 3, label: '主机IP', minWidth: '140px', prop: 'ip', align: 'center' },
   { id: 4, label: '登录地点', minWidth: '80px', prop: 'city', align: 'center' },

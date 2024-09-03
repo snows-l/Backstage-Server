@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:44:40
+ * @LastEditTime: 2024-09-03 19:21:13
  * @FilePath: /webseteUI/WebsiteUI/src/views/music/index.vue
 -->
 <template>
@@ -140,7 +140,6 @@ import { getDict } from '@/api/system/dict';
 import defaultCover from '@/assets/images/default_cover.png';
 import playingGif from '@/assets/images/playing1.gif';
 import $bus from '@/bus';
-// import PlayingAnimation from '@/components/golbal/musicPlayer/playingAnimation.vue';
 import { useAppStore } from '@/store/common';
 import { usePGCStore } from '@/store/projectGloabalConfig';
 import { isMobile } from '@/utils/common';
@@ -187,7 +186,6 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'center' },
   { id: 1, label: '歌名', width: '180px', prop: 'title', align: 'center' },
   { id: 4, label: '封面', minWidth: '100px', prop: 'coverLocal' },
   { id: 2, label: '歌手', minWidth: '100px', prop: 'artist' },

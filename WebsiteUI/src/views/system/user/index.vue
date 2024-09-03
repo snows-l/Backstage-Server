@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-11 12:32:51
- * @FilePath: /Website/WebsiteUI/src/views/system/user/index.vue
+ * @LastEditTime: 2024-09-03 19:24:45
+ * @FilePath: /webseteUI/WebsiteUI/src/views/system/user/index.vue
 -->
 <template>
   <div class="container-warp">
@@ -124,7 +124,6 @@ getDict({ dictType: 'user_sex' }).then(res => {
 });
 
 const columns = [
-  { id: 2, label: '用户名ID', minWidth: '120px', prop: 'user_id', align: 'center' },
   { id: 3, label: '用户名', minWidth: '120px', prop: 'user_name' },
   { id: 3, label: '昵称', minWidth: '120px', prop: 'nick_name' },
   { id: 3, label: '角色', minWidth: '120px', prop: 'role' },

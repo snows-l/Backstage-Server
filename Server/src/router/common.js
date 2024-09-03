@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-06-18 09:23:08
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:17:11
+ * @LastEditTime: 2024-09-03 19:51:25
  * @FilePath: /webseteUI/Server/src/router/common.js
  */
 
@@ -13,6 +13,7 @@ const db = require('../../utils/connDB');
 const router = express.Router();
 const path = require('path');
 const moment = require('moment');
+const fs = require('fs');
 // 设置token
 const { generateToken, verifyToken } = require('../../utils/handleToken');
 
@@ -24,18 +25,23 @@ const multer = require('multer');
 let commonFileName = '';
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/common');
+    const path = '../public/common';
+    // 检测路径文件夹是否存在 不存在则创建
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
     const time = moment().format('YYYYMMDDHHmmss');
-    commonFileName = 'common_file_' + file.originalname.replace(ext, '') + time + ext;
+    commonFileName = 'file_' + file.originalname.replace(ext, '') + time + ext;
     cb(null, commonFileName);
   }
 });
 const upload = multer({ storage: storage });
 // 公共上传文件;
-router.post('/upload/common', upload.single('file'), (req, res) => {
+router.post('/upload', upload.single('file'), (req, res) => {
   try {
     const file = req.file;
     let path = `/common/${commonFileName}`;
@@ -63,7 +69,12 @@ router.post('/upload/common', upload.single('file'), (req, res) => {
  */
 const avatarStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/imgs/avatars');
+    const path = '../public/imgs/avatars';
+    // 检测路径文件夹是否存在 不存在则创建
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -106,7 +117,12 @@ router.post('/upload/avatar', avatarUpload.single('file'), (req, res) => {
 let wagesFileName = '';
 const wagesStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/imgs/wages');
+    const path = '../public/imgs/wages';
+    // 检测路径文件夹是否存在 不存在则创建
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -146,7 +162,11 @@ router.post('/upload/wages', wagesUpload.single('file'), (req, res) => {
 let musicsFileName = '';
 const musicsStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/imgs/musics');
+    const path = '../public/imgs/musics';
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -157,7 +177,7 @@ const musicsStorage = multer.diskStorage({
 });
 const musicsUpload = multer({ storage: musicsStorage });
 // 歌曲封面
-router.post('/upload/music', musicsUpload.single('file'), (req, res) => {
+router.post('/upload/music', musicsUpload.single('file', { a: '11111' }), (req, res) => {
   try {
     const file = req.file;
     let path = `/imgs/musics/${musicsFileName}`;
@@ -186,7 +206,11 @@ router.post('/upload/music', musicsUpload.single('file'), (req, res) => {
 let articleFileName = '';
 const articleStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/imgs/article');
+    const path = '../public/imgs/article';
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -226,7 +250,11 @@ router.post('/upload/article', articleUpload.single('file'), (req, res) => {
 let musicSrcFileName = '';
 const musicSrcStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/mp3');
+    const path = '../public/mp3';
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -266,7 +294,11 @@ router.post('/upload/mp3', musicSrcUpload.single('file'), (req, res) => {
 let zoneFileName = '';
 const zoneStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/imgs/zone');
+    const path = '../public/imgs/zone';
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+    cb(null, path);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);

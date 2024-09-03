@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:43:18
+ * @LastEditTime: 2024-09-03 19:19:59
  * @FilePath: /webseteUI/WebsiteUI/src/views/wages/index.vue
 -->
 <template>
@@ -68,8 +68,8 @@
             :prop="col.prop"
             :key="col.id"
             :label="col.label"
-            :minWidth="col.minWidth || null"
             :width="col.width || null"
+            :minWidth="col.minWidth || null"
             :align="col.align || 'center'"
             :fixed="col.fixed || null">
             <template #default="{ row }">
@@ -191,11 +191,10 @@ getDict({ dictType: 'wages_source' }).then(res => {
 });
 
 const columns = [
-  { id: 0, label: 'ID', width: '60px', prop: 'id', align: 'center' },
   { id: 1, label: '标题', width: '160px', prop: 'title', align: 'center' },
   { id: 2, label: '收入月份', minWidth: '120px', prop: 'date' },
   { id: 3, label: '收入金额(元)', minWidth: '120px', prop: 'money' },
-  { id: 4, label: '工资截图', minWidth: '120px', prop: 'pic' },
+  { id: 4, label: '工资截图', width: '80px', prop: 'pic' },
   { id: 5, label: '就职于', minWidth: '120px', prop: 'source' },
   { id: 6, label: '创建日期', minWidth: '120px', prop: 'create_time' },
   { id: 7, label: '备注', minWidth: '120px', prop: 'remark' },
