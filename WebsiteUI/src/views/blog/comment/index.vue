@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 20:12:30
+ * @LastEditTime: 2024-09-03 21:31:21
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/comment/index.vue
 -->
 <template>
@@ -292,7 +292,7 @@ watch(
     background-color: var(--contentBgc);
     overflow: hidden;
     .table-content-container {
-      height: calc(100% - 100px);
+      height: calc(100% - 68px);
       overflow-y: auto;
     }
     .music-title-warp {
