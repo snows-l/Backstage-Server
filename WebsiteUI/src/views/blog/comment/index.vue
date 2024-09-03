@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:23:34
+ * @LastEditTime: 2024-09-03 20:12:30
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/comment/index.vue
 -->
 <template>
@@ -163,7 +163,7 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 1, label: 'qq', width: '120px', prop: 'qq', align: 'left' },
+  { id: 1, label: 'qq', width: '200px', prop: 'qq', align: 'left' },
   { id: 1, label: '内容', width: '200px', prop: 'comment', align: 'center' },
   { id: 0, label: '文章id', width: '60px', prop: 'articleId', align: 'center' },
   { id: 2, label: '昵称', minWidth: '120px', prop: 'nickName' },
