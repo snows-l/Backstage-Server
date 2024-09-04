@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-09-03 22:13:51
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 13:22:07
+ * @LastEditTime: 2024-09-04 14:15:25
  * @FilePath: /backstage/Server/utils/email.js
  */
 
@@ -39,21 +39,21 @@ function sendEmail(mailOptions) {
    * path: 路径
    * comment 评论内容
    * username 评论者用户名,
-   * isBack: 回复/留言
+   * isBack: 回复/评论
    */
   const options = {
     ...defaultMailOptions,
     to: mailOptions.to,
-    subject: `snows_l's BLOG评论${mailOptions.isBack ? '回复' : ''}通知`,
+    subject: `snows_l's BLOG 评论${mailOptions.isBack ? '回复' : ''}通知`,
     html: `<div id="email-content" style="border:1px solid #ccc;border-radius:10px;box-shadow:2px 2px 5px #ccc;background:linear-gradient(-45deg, #23a6d5, #23d5ab);background-image:url(${base64});background-repeat:no-repeat;background-size:cover;background-position:center;max-width:500px;display:inline-block;background-size: 100% 100%;">
             <div style="font-size:16px;line-height:1.5; padding:10px 10px;">您有新的评论回复</div>
             <div style="padding:0 30px 20px 30px">
               <div style="font-size:14px;line-height:1.5;margin-bottom:6px">
                 ${mailOptions.username} 在 snows_l's BLOG ${
-      mailOptions.isBack ? '回复了您' : '给您留言'
+      mailOptions.isBack ? '回复了您' : '给您的文章评论了'
     }：请前往 <a style="text-decoration: none" target="_blank" href="http://124.223.41.220${mailOptions.path ? mailOptions.path : ''}">snows_l's BLOG</a> 查看
               </div>
-              <div style="color:#333;font-size:12px;line-height:20px;wdith:100%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;">回复内容：${
+              <div style="color:#333;font-size:12px;line-height:20px;wdith:100%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;">评论内容：${
                 mailOptions.comment
               }</div>
             </div>

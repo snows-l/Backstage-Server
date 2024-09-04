@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 13:22:11
+ * @LastEditTime: 2024-09-04 14:21:15
  * @FilePath: /backstage/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -70,9 +70,10 @@ router.get('/list2', (req, res) => {
 
 // 新增评论
 router.post('/add', (req, res) => {
-  let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, articleId, toQQ, toEmail, toNickName } = req.body;
-  isPrivacy = isPrivacy ? 1 : 0;
-  isEmailFeekback = isEmailFeekback ? 1 : 0;
+  let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, articleId, toQQ, toEmail, toNickName, toisEmailFeekback } = req.body;
+  isPrivacy = isPrivacy || isPrivacy == 'true' ? 1 : 0;
+  isEmailFeekback = isEmailFeekback || isEmailFeekback == 'true' ? 1 : 0;
+  toisEmailFeekback = toisEmailFeekback || toisEmailFeekback == 'true' ? 1 : 0;
   const os = getOS(req.headers['user-agent']);
   const browser = getBrowserName(req.headers['user-agent']);
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
@@ -108,6 +109,7 @@ router.post('/add', (req, res) => {
       city,
       ip,
       toEmail,
+      toisEmailFeekback,
       toQQ,
       toNickName,
       time: moment().format('YYYY-MM-DD HH:mm:ss')
@@ -120,24 +122,30 @@ router.post('/add', (req, res) => {
         data: null,
         msg: 'success'
       });
-      if (type == 1 && isEmailFeekback == 1) {
+      // 评论
+      if (type == 1) {
         if (pId != 0) {
-          let toEmail = toEmail ? toEmail : toQQ + '@qq.com';
-          sendEmail({
-            to: toEmail,
-            path: '/article/detail?id=' + articleId,
-            comment: comment,
-            username: toNickName,
-            isBack: true
-          });
+          // 回复并且允许邮件通知
+          if (toisEmailFeekback == 1) {
+            let toEmail = toEmail ? toEmail : toQQ + '@qq.com';
+            sendEmail({
+              to: toEmail,
+              path: '/article/detail?id=' + articleId,
+              comment: comment,
+              username: toNickName,
+              isBack: true
+            });
+          }
         } else {
-          sendEmail({
+          // 有人评论 通知博主
+          const params = {
             to: 'snows_l@163.com',
             path: '/article/detail?id=' + articleId,
             comment: comment,
             username: nickName,
             isBack: false
-          });
+          };
+          sendEmail(params);
         }
       }
     });
