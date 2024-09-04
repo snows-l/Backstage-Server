@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 14:21:15
+ * @LastEditTime: 2024-09-04 15:55:22
  * @FilePath: /backstage/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -70,10 +70,9 @@ router.get('/list2', (req, res) => {
 
 // 新增评论
 router.post('/add', (req, res) => {
-  let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, articleId, toQQ, toEmail, toNickName, toisEmailFeekback } = req.body;
+  let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, toNickName, articleId, toId = 0 } = req.body;
   isPrivacy = isPrivacy || isPrivacy == 'true' ? 1 : 0;
   isEmailFeekback = isEmailFeekback || isEmailFeekback == 'true' ? 1 : 0;
-  toisEmailFeekback = toisEmailFeekback || toisEmailFeekback == 'true' ? 1 : 0;
   const os = getOS(req.headers['user-agent']);
   const browser = getBrowserName(req.headers['user-agent']);
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
@@ -105,13 +104,11 @@ router.post('/add', (req, res) => {
       browser,
       type,
       pId,
+      toId,
+      toNickName: '',
       articleId,
       city,
       ip,
-      toEmail,
-      toisEmailFeekback,
-      toQQ,
-      toNickName,
       time: moment().format('YYYY-MM-DD HH:mm:ss')
     })
     .end();
@@ -124,18 +121,20 @@ router.post('/add', (req, res) => {
       });
       // 评论
       if (type == 1) {
-        if (pId != 0) {
-          // 回复并且允许邮件通知
-          if (toisEmailFeekback == 1) {
-            let toEmail = toEmail ? toEmail : toQQ + '@qq.com';
-            sendEmail({
+        if (toId != 0) {
+          let sql2 = 'select* from comment where 1=1 and id =' + `'${toId}'`;
+          db.queryAsync(sql2).then(result2 => {
+            let toEmail = result2.results[0].email ? result2.results[0].email : result2.results[0].qq + '@qq.com';
+            // 回复并且允许邮件通知
+            const params = {
               to: toEmail,
               path: '/article/detail?id=' + articleId,
               comment: comment,
-              username: toNickName,
+              username: result2.results[0].nickName,
               isBack: true
-            });
-          }
+            };
+            sendEmail(params);
+          });
         } else {
           // 有人评论 通知博主
           const params = {
