@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 15:55:22
+ * @LastEditTime: 2024-09-04 16:21:55
  * @FilePath: /backstage/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -124,16 +124,19 @@ router.post('/add', (req, res) => {
         if (toId != 0) {
           let sql2 = 'select* from comment where 1=1 and id =' + `'${toId}'`;
           db.queryAsync(sql2).then(result2 => {
-            let toEmail = result2.results[0].email ? result2.results[0].email : result2.results[0].qq + '@qq.com';
             // 回复并且允许邮件通知
-            const params = {
-              to: toEmail,
-              path: '/article/detail?id=' + articleId,
-              comment: comment,
-              username: result2.results[0].nickName,
-              isBack: true
-            };
-            sendEmail(params);
+            if (result2.results[0].isEmailFeekback == 1) {
+              let toEmail = result2.results[0].email ? result2.results[0].email : result2.results[0].qq + '@qq.com';
+              // 回复并且允许邮件通知
+              const params = {
+                to: toEmail,
+                path: '/article/detail?id=' + articleId,
+                comment: comment,
+                username: result2.results[0].nickName,
+                isBack: true
+              };
+              sendEmail(params);
+            }
           });
         } else {
           // 有人评论 通知博主
@@ -146,6 +149,16 @@ router.post('/add', (req, res) => {
           };
           sendEmail(params);
         }
+      } else {
+        // 留言
+        const params = {
+          to: 'snows_l@163.com',
+          path: '//msg-board',
+          comment: comment,
+          username: nickName,
+          isBack: false
+        };
+        sendEmail(params);
       }
     });
   } catch (error) {
