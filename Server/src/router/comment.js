@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 16:21:55
- * @FilePath: /backstage/Server/src/router/comment.js
+ * @LastEditTime: 2024-09-04 19:58:21
+ * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
 const express = require('express');
@@ -105,7 +105,7 @@ router.post('/add', (req, res) => {
       type,
       pId,
       toId,
-      toNickName: '',
+      toNickName,
       articleId,
       city,
       ip,
@@ -133,7 +133,8 @@ router.post('/add', (req, res) => {
                 path: '/article/detail?id=' + articleId,
                 comment: comment,
                 username: result2.results[0].nickName,
-                isBack: true
+                isBack: true,
+                isComment: true
               };
               sendEmail(params);
             }
@@ -145,7 +146,8 @@ router.post('/add', (req, res) => {
             path: '/article/detail?id=' + articleId,
             comment: comment,
             username: nickName,
-            isBack: false
+            isBack: false,
+            isComment: true
           };
           sendEmail(params);
         }
@@ -153,10 +155,11 @@ router.post('/add', (req, res) => {
         // 留言
         const params = {
           to: 'snows_l@163.com',
-          path: '//msg-board',
+          path: '/msg-board',
           comment: comment,
           username: nickName,
-          isBack: false
+          isBack: false,
+          isComment: false
         };
         sendEmail(params);
       }
