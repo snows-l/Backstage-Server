@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-15 19:00:39
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-02 20:54:40
+ * @LastEditTime: 2024-09-03 23:22:04
  * @FilePath: /webseteUI/Server/src/index.js
  */
 
@@ -13,6 +13,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // 主要用来解决客户端请求与服务端的跨域问题
 const cors = require('cors');
+const { sendEmail, verifyEmail } = require('../utils/email');
 
 // 引入路由
 const sysRouter = require('./router/sys');
@@ -48,6 +49,15 @@ app.use(cors());
 // 访问服务的接口
 app.get('/', (req, res) => {
   res.send('hello node server');
+});
+
+verifyEmail();
+sendEmail({
+  to: 'snows_l@163.com',
+  articleTitle: '测试标题',
+  articleId: '9',
+  comment: '惊喜一个',
+  username: 'snows_l'
 });
 
 // 路由
