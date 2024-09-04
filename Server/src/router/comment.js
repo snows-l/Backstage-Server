@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-02 19:15:58
- * @FilePath: /webseteUI/Server/src/router/comment.js
+ * @LastEditTime: 2024-09-04 13:22:11
+ * @FilePath: /backstage/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
 const express = require('express');
@@ -13,6 +13,7 @@ const router = express.Router();
 const IP2Region = require('ip2region').default;
 const { getOS, getBrowserName } = require('../../utils/common');
 const moment = require('moment');
+const { sendEmail } = require('../../utils/email');
 
 // 获取留言列表
 router.get('/list', (req, res) => {
@@ -69,7 +70,7 @@ router.get('/list2', (req, res) => {
 
 // 新增评论
 router.post('/add', (req, res) => {
-  let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, articleId, toQQ, toNickName } = req.body;
+  let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, articleId, toQQ, toEmail, toNickName } = req.body;
   isPrivacy = isPrivacy ? 1 : 0;
   isEmailFeekback = isEmailFeekback ? 1 : 0;
   const os = getOS(req.headers['user-agent']);
@@ -106,6 +107,7 @@ router.post('/add', (req, res) => {
       articleId,
       city,
       ip,
+      toEmail,
       toQQ,
       toNickName,
       time: moment().format('YYYY-MM-DD HH:mm:ss')
@@ -118,6 +120,26 @@ router.post('/add', (req, res) => {
         data: null,
         msg: 'success'
       });
+      if (type == 1 && isEmailFeekback == 1) {
+        if (pId != 0) {
+          let toEmail = toEmail ? toEmail : toQQ + '@qq.com';
+          sendEmail({
+            to: toEmail,
+            path: '/article/detail?id=' + articleId,
+            comment: comment,
+            username: toNickName,
+            isBack: true
+          });
+        } else {
+          sendEmail({
+            to: 'snows_l@163.com',
+            path: '/article/detail?id=' + articleId,
+            comment: comment,
+            username: nickName,
+            isBack: false
+          });
+        }
+      }
     });
   } catch (error) {
     res.send({
