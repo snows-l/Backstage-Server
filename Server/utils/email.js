@@ -51,7 +51,7 @@ function sendEmail(mailOptions) {
             <div style="padding:0 30px 20px 30px">
               <div style="font-size:14px;line-height:1.5;margin-bottom:6px">
                 ${mailOptions.username} 在 snows_l's BLOG ${
-      mailOptions.isBack ? '回复了您' : mailOptions.isComment ? '给您的文章评论了' : '给您留言了'
+      mailOptions.isBack ? '回复了您' : mailOptions.isComment ? '给您的文章评论了' : '给您留言'
     }：请前往 <a style="text-decoration: none" target="_blank" href="http://124.223.41.220${mailOptions.path ? mailOptions.path : ''}">snows_l's BLOG</a> 查看
               </div>
               <div style="color:#333;font-size:12px;line-height:20px;wdith:100%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;">内容：${

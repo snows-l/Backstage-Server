@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 19:58:21
- * @FilePath: /webseteUI/Server/src/router/comment.js
+ * @LastEditTime: 2024-09-05 12:08:36
+ * @FilePath: /backstage/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
 const express = require('express');
@@ -132,7 +132,7 @@ router.post('/add', (req, res) => {
                 to: toEmail,
                 path: '/article/detail?id=' + articleId,
                 comment: comment,
-                username: result2.results[0].nickName,
+                username: nickName,
                 isBack: true,
                 isComment: true
               };
