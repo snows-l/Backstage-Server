@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-07 16:14:40
+ * @LastEditTime: 2024-09-07 16:23:34
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/msgBoard/index.vue
 -->
 <template>
@@ -59,7 +59,9 @@
             <template #default="{ row }">
               <template v-if="col.prop == 'operation'">
                 <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleEdit(row)">编辑</el-button>
-                <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleDel(row)">删除</el-button>
+                <el-button :disabled="!row.children || row.children.length == 0" :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleDel(row)">
+                  删除
+                </el-button>
               </template>
               <template v-if="col.prop == 'comment' || col.prop == 'websiteUrl'">
                 <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">

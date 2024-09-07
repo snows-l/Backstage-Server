@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-07 16:10:55
+ * @LastEditTime: 2024-09-07 16:19:44
  * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -196,8 +196,8 @@ router.post('/add', (req, res) => {
 // 编辑留言
 router.put('/edit', (req, res) => {
   let { id, qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback } = req.body;
-  isPrivacy = isPrivacy ? 1 : 0;
-  isEmailFeekback = isEmailFeekback ? 1 : 0;
+  isPrivacy = isPrivacy || isPrivacy == 'true' ? 1 : 0;
+  isEmailFeekback = isEmailFeekback || isEmailFeekback == 'true' ? 1 : 0;
 
   let sql = createSql
     .update('comment')

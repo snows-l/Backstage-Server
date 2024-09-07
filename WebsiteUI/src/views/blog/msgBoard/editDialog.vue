@@ -58,7 +58,7 @@
         <el-row :gutter="20">
           <el-col>
             <el-form-item label="邮件通知：" prop="isEmailFeekback" style="width: 100%">
-              <el-radio-group v-model="state.form.isQQ">
+              <el-radio-group v-model="state.form.isEmailFeekback">
                 <el-radio :value="1">是</el-radio>
                 <el-radio :value="0">否</el-radio>
               </el-radio-group>
