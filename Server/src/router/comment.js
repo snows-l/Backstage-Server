@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-05 12:08:36
- * @FilePath: /backstage/Server/src/router/comment.js
+ * @LastEditTime: 2024-09-07 16:10:55
+ * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
 const express = require('express');
@@ -121,7 +121,7 @@ router.post('/add', (req, res) => {
       });
       // 评论
       if (type == 1) {
-        if (toId != 0) {
+        if (toId != 0 && toId != '') {
           let sql2 = 'select* from comment where 1=1 and id =' + `'${toId}'`;
           db.queryAsync(sql2).then(result2 => {
             // 回复并且允许邮件通知
@@ -152,16 +152,36 @@ router.post('/add', (req, res) => {
           sendEmail(params);
         }
       } else {
-        // 留言
-        const params = {
-          to: 'snows_l@163.com',
-          path: '/msg-board',
-          comment: comment,
-          username: nickName,
-          isBack: false,
-          isComment: false
-        };
-        sendEmail(params);
+        if (toId != 0 && toId != '') {
+          let sql2 = 'select* from comment where 1=1 and id =' + `'${toId}'`;
+          db.queryAsync(sql2).then(result2 => {
+            // 回复并且允许邮件通知
+            if (result2.results[0].isEmailFeekback == 1) {
+              let toEmail = result2.results[0].email ? result2.results[0].email : result2.results[0].qq + '@qq.com';
+              // 回复并且允许邮件通知
+              const params = {
+                to: toEmail,
+                path: '/msg-board',
+                comment: comment,
+                username: nickName,
+                isBack: true,
+                isComment: false
+              };
+              sendEmail(params);
+            }
+          });
+        } else {
+          // 留言
+          const params = {
+            to: 'snows_l@163.com',
+            path: '/msg-board',
+            comment: comment,
+            username: nickName,
+            isBack: false,
+            isComment: false
+          };
+          sendEmail(params);
+        }
       }
     });
   } catch (error) {

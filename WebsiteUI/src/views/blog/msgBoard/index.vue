@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:22:41
+ * @LastEditTime: 2024-09-07 16:14:40
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/msgBoard/index.vue
 -->
 <template>
@@ -110,7 +110,7 @@
 import { delMsgBoard, getMsgBoardList } from '@/api/msgBoard';
 import { useAppStore } from '@/store/common';
 import { usePGCStore } from '@/store/projectGloabalConfig';
-import { getQQAvatar, isMobile } from '@/utils/common';
+import { getQQAvatar, isMobile, tranListToTree } from '@/utils/common';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import moment from 'moment';
 import { onBeforeUnmount, reactive, ref, watch } from 'vue';
@@ -155,8 +155,8 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
+  { id: 1, label: 'qq', width: '120px', prop: 'qq', align: 'left' },
   { id: 1, label: '内容', width: '200px', prop: 'comment', align: 'center' },
-  { id: 1, label: 'qq', width: '120px', prop: 'qq', align: 'center' },
   { id: 2, label: '昵称', minWidth: '120px', prop: 'nickName', align: 'center' },
   { id: 5, label: '头像', width: '60px', prop: 'avatarUrl', align: 'center' },
   { id: 5, label: '邮箱', minWidth: '120px', prop: 'email' },
@@ -188,7 +188,7 @@ const getMsgBoardListFn = () => {
   };
   getMsgBoardList(parasms)
     .then((res: any) => {
-      state.tableSource = res.data;
+      state.tableSource = tranListToTree(res.data, 'id', 'pId', 'children');
       state.page.total = res.total || 0;
     })
     .finally(() => {
