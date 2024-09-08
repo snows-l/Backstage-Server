@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-08 15:53:14
+ * @LastEditTime: 2024-09-08 21:27:14
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
@@ -61,7 +61,7 @@
 
 <script setup>
 import { addArticle, editArticle, getArticleDetail } from '@/api/article';
-import { uploadArticleCover } from '@/api/common';
+import { uploadFile } from '@/api/common';
 import { getDict } from '@/api/system/dict';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
@@ -185,7 +185,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
     console.error('onError', file, err, res);
   },
   async customUpload(file, interImg) {
-    uploadArticleCover(file, file.name).then(res => {
+    uploadFile(file, '/imgs/article', file.name).then(res => {
       if (res.code === 200) {
         let url = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
         interImg(url);
@@ -304,7 +304,7 @@ const beforeUpload = file => {
 // 上传文章封面
 const handleUpload = file => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadArticleCover(file.file, name).then(res => {
+  uploadFile(file.file, '/imgs/article', name).then(res => {
     state.form.coverLocal =
       import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.form.cover = res.data.path;

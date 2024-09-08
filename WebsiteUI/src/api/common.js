@@ -3,134 +3,28 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-28 15:20:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-08 20:01:11
+ * @LastEditTime: 2024-09-08 21:47:24
  * @FilePath: /webseteUI/WebsiteUI/src/api/common.js
  */
 import request from '@/utils/request';
-import moment from 'moment';
 
+/**
+ * @description: 公共上传接口
+ * @param {*} file 上传的文件
+ * @param {*} dir 上传到服务器哪个目录 如：/upload/image
+ * @param {*} name
+ * @returns
+ */
 // 公共上上传接口「上传图片」
-export function uploadFile(file, name, dir) {
-  let suffix = file.name && file.name.split('.')[1];
-  let defaultName = file.name && file.name.split('.')[0];
-  let formData = new FormData();
-  // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '_.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix;
+export function uploadFile(file, dir, name) {
+  const fileName = (name || file.name).replace(/[\u4e00-\u9fa5]/g, '_');
   formData.append('file', file, fileName);
   formData.append('dir', dir);
-  return request({
-    url: '/file/upload',
-    method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-}
 
-//  上传头像
-export function uploadAvatar(file) {
-  let suffix = file.name && file.name.split('.')[1];
-  let formData = new FormData();
-  let timeFormat = moment().format('YYYYMMDDHHmmss');
-  let fileName = 'avatar_' + timeFormat + '.' + suffix;
-  formData.append('file', file, fileName);
   return request({
-    url: '/file/upload/avatar',
+    url: '/upload/file',
     method: 'post',
     data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-}
-
-//  上传 工资 文件
-export function uploadWages(file, name) {
-  let suffix = file.name && file.name.split('.')[1];
-  let defaultName = file.name && file.name.split('.')[0];
-  let formData = new FormData();
-  // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
-  formData.append('file', file, fileName);
-  return request({
-    url: '/file/upload/wages',
-    method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-}
-
-//  上传 歌曲封面 文件
-export function uploadMusicCover(file, name) {
-  let suffix = file.name && file.name.split('.')[1];
-  let defaultName = file.name && file.name.split('.')[0];
-  let formData = new FormData();
-  // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
-  formData.append('file', file, fileName);
-  return request({
-    url: '/file/upload/music',
-    method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-}
-
-//  上传 文章封面 文件
-export function uploadArticleCover(file, name) {
-  let suffix = file.name && file.name.split('.')[1];
-  let defaultName = file.name && file.name.split('.')[0];
-  let formData = new FormData();
-  // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
-  formData.append('file', file, fileName);
-  return request({
-    url: '/file/upload/article',
-    method: 'post',
-    data: formData,
-    // bug: 这里的 headers 去掉，否则会报错
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-}
-
-//  上传 歌曲 文件
-export function uploadMp3(file, name) {
-  let suffix = file.name && file.name.split('.')[1];
-  let defaultName = file.name && file.name.split('.')[0];
-  let formData = new FormData();
-  // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
-  formData.append('file', file, fileName);
-  return request({
-    url: '/file/upload/mp3',
-    method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-}
-
-//  上传 文章封面 文件
-export function uploadZoneCover(file, name) {
-  let suffix = file.name && file.name.split('.')[1];
-  let defaultName = file.name && file.name.split('.')[0];
-  let formData = new FormData();
-  // 去掉中文
-  let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '.' + suffix;
-  formData.append('file', file, fileName);
-  return request({
-    url: '/file/upload/zone',
-    method: 'post',
-    data: formData,
-    // bug: 这里的 headers 去掉，否则会报错
     headers: {
       'Content-Type': 'multipart/form-data'
     }

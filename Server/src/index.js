@@ -3,8 +3,8 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-15 19:00:39
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 13:06:37
- * @FilePath: /backstage/Server/src/index.js
+ * @LastEditTime: 2024-09-08 21:21:16
+ * @FilePath: /webseteUI/Server/src/index.js
  */
 
 const path = require('path');
@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
 
 // 路由
 app.use('/sys', sysRouter);
-app.use('/file', commonRouter);
+app.use('/upload', commonRouter);
 app.use('/dict', dictRouter);
 app.use('/favors', favorsRouter);
 app.use('/user', userRouter);

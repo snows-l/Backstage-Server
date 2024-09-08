@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { uploadAvatar } from '@/api/common';
+import { uploadFile } from '@/api/common';
 import { useAppStore } from '@/store/common';
 import { debounce } from '@/utils/common';
 import { RefreshLeft, RefreshRight, ZoomIn, ZoomOut } from '@element-plus/icons-vue';
@@ -149,7 +149,7 @@ const blobToFile = (blob, fileName = '') => {
 const uploadImg = () => {
   cropperRef.value.getCropBlob(data => {
     let file = blobToFile(data);
-    uploadAvatar(file).then(response => {
+    uploadFile(file, '/imgs/avatars').then(response => {
       state.open = false;
       state.options.img =
         import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + response.data.path : import.meta.env.VITE_PROD_BASE_SERVER + response.data.path;

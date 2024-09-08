@@ -117,7 +117,7 @@ const rules = {
 
 const handleUpload = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadFile(file.file, name, '/imgs/musics').then(res => {
+  uploadFile(file.file, '/imgs/musics', name).then(res => {
     state.itemRecord.coverLocal =
       import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.itemRecord.cover = res.data.path;
@@ -152,7 +152,7 @@ const beforeUploadMp3 = (file: any) => {
 
 const handleUploadMp3 = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadFile(file.file, name, '/mp3').then(res => {
+  uploadFile(file.file, '/mp3', name).then(res => {
     state.itemRecord.musicList = [{ ...file.file, name: file.file.name, url: res.data.path }];
     state.itemRecord.src = res.data.path;
   });

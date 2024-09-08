@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { uploadWages } from '@/api/common';
+import { uploadFile } from '@/api/common';
 import { addWages, editWages } from '@/api/wages';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import moment from 'moment';
@@ -106,7 +106,7 @@ const rules = {
 
 const handleUpload = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadWages(file.file, name).then(res => {
+  uploadFile(file.file, '/imgs/wages').then(res => {
     state.itemRecord.picLocal =
       import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.itemRecord.pic = res.data.path;

@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { uploadZoneCover } from '@/api/common';
+import { uploadFile } from '@/api/common';
 import { addZone, editZone } from '@/api/zone';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { reactive, ref } from 'vue';
@@ -79,7 +79,7 @@ const rules = {
 
 const handleUpload = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadZoneCover(file.file, name).then(res => {
+  uploadFile(file.file, '/imgs/zone', name).then(res => {
     state.itemRecord.file.push({
       name: file.file.name,
       url: import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path,
