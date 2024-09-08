@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-01 16:32:48
+ * @LastEditTime: 2024-09-08 15:53:14
  * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
@@ -30,6 +30,12 @@
             <el-form-item label="类型：" prop="type" style="width: 100%">
               <el-select style="width: 300px" v-model="state.form.type" placeholder="请选择类型" clearable>
                 <el-option v-for="item in state.typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="标签：" prop="labels" style="width: 100%">
+              <el-select multiple style="width: 300px" v-model="state.form.labels" placeholder="请选择标签" clearable>
+                <el-option v-for="item in state.labelList" :key="item.label" :label="item.label" :value="item.label"></el-option>
               </el-select>
             </el-form-item>
 
@@ -79,7 +85,8 @@ const rules = {
   subTitle: [{ required: true, message: '请输入摘要', trigger: 'blur' }],
   type: [{ required: true, message: '请选择类型', trigger: 'change' }],
   coverLocal: [{ required: true, message: '请上传封面', trigger: 'change' }],
-  isPreview: [{ required: true, message: '请选择是否支持预览', trigger: 'change' }]
+  isPreview: [{ required: true, message: '请选择是否支持预览', trigger: 'change' }],
+  labels: [{ required: true, message: '请选择标签', trigger: 'change' }]
 };
 
 const state = reactive({
@@ -90,11 +97,13 @@ const state = reactive({
     coverLocal: '',
     cover: '',
     isPreview: 0,
-    content: ''
+    content: '',
+    labels: []
   },
   loading: false,
   submitLoading: false,
-  typeList: []
+  typeList: [],
+  labelList: []
 });
 
 const toolbarConfig = {
@@ -275,6 +284,10 @@ const handleTitleChange = e => {
 getDict({ dictType: 'article_type' }).then(res => {
   state.typeList = res.data;
 });
+// 获取 文章 类型列表
+getDict({ dictType: 'blog_label' }).then(res => {
+  state.labelList = res.data;
+});
 
 // 上传文章封面之前的校验
 const beforeUpload = file => {
@@ -309,6 +322,21 @@ const handleCreated = editor => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 
+// 重置编辑器
+const handleReset = () => {
+  // 重置表单
+  state.form.title = '';
+  state.form.subTitle = '';
+  state.form.type = '';
+  state.form.coverLocal = '';
+  state.form.cover = '';
+  state.form.isPreview = 1;
+  state.form.content = '';
+  state.form.labels = [];
+  // 重置编辑器
+  editorRef.value.clear();
+};
+
 // 发布文章
 const handleSubmit = () => {
   if (!state.form.title) {
@@ -324,13 +352,12 @@ const handleSubmit = () => {
     if (valid) {
       let params = {
         title: state.form.title,
-        // subTitle: state.form.subTitle,
         subTitle: state.form.subTitle.replace(/'/g, '&#39;'),
         type: state.form.type,
         cover: state.form.cover,
         isPreview: state.form.isPreview,
-        // content: valueHtml.value
-        content: valueHtml.value.replace(/'/g, '&#39;')
+        content: valueHtml.value.replace(/'/g, '&#39;'),
+        labels: state.form.labels.join(',')
       };
       if (state.id) {
         params.id = state.id;
@@ -339,6 +366,7 @@ const handleSubmit = () => {
           .then(res => {
             if (res.code === 200) {
               ElMessage.success('修改成功');
+              handleReset();
               // 跳转到文章列表
               router.push('/blog/article/list');
             } else {
@@ -354,14 +382,7 @@ const handleSubmit = () => {
           .then(res => {
             if (res.code === 200) {
               ElMessage.success('发布成功');
-              // 重置表单
-              state.form.title = '';
-              state.form.subTitle = '';
-              state.form.type = '';
-              state.form.coverLocal = '';
-              state.form.cover = '';
-              // 重置编辑器
-              editorRef.value.clear();
+              handleReset();
               // 跳转到文章列表
               router.push('/blog/article/list');
             } else {

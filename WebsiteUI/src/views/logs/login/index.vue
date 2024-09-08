@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:25:18
+ * @LastEditTime: 2024-09-08 11:00:53
  * @FilePath: /webseteUI/WebsiteUI/src/views/logs/login/index.vue
 -->
 <template>
@@ -47,7 +47,6 @@
             :fixed="col.fixed || null">
             <template #default="{ row }">
               <template v-if="col.prop == 'operation'">
-                <el-button :size="state.isMobile ? 'small' : ''" type="primary" link @click="handleEdit(row)">编辑</el-button>
                 <el-button :size="state.isMobile ? 'small' : ''" type="primary" link @click="handleDel(row)">删除</el-button>
               </template>
               <template v-if="col.prop == 'create_time'">
@@ -79,9 +78,9 @@
 </template>
 
 <script setup>
-import { exportLogs, getLogsList } from '@/api/logs';
+import { delLogs, exportLogs, getLogsList } from '@/api/logs';
 import { isMobile, parseTime } from '@/utils/common';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import moment from 'moment';
 import { onUnmounted, reactive, ref } from 'vue';
 let state = reactive({
@@ -111,7 +110,8 @@ const columns = [
   { id: 4, label: '登录地点', minWidth: '80px', prop: 'city', align: 'center' },
   { id: 5, label: '操作系统', minWidth: '90px', prop: 'os', align: 'center' },
   { id: 6, label: '浏览器', minWidth: '120px', prop: 'browser', align: 'center' },
-  { id: 8, label: '登录时间', minWidth: '180px', prop: 'create_time', align: 'center' }
+  { id: 8, label: '登录时间', minWidth: '180px', prop: 'create_time', align: 'center' },
+  { id: 9, label: '操作', minWidth: '100px', prop: 'operation', align: 'center' }
 ];
 
 // 获取列表
@@ -181,6 +181,22 @@ const handleExport = () => {
     })
     .finally(() => {
       state.exportLoading = false;
+    });
+};
+
+// 删除
+const handleDel = row => {
+  ElMessageBox.confirm('确认删除该记录？', '提示')
+    .then(() => {
+      delLogs(row.id).then(res => {
+        if (res.code === 200) {
+          ElMessage.success('删除成功！');
+          getListFn();
+        }
+      });
+    })
+    .catch(() => {
+      ElMessage.info('已取消删除');
     });
 };
 

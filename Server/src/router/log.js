@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 20:46:50
+ * @LastEditTime: 2024-09-08 10:53:07
  * @FilePath: /webseteUI/Server/src/router/log.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -81,6 +81,27 @@ router.get('/list', (req, res) => {
       data: null,
       msg: '服务器错误',
       total: 0
+    });
+  }
+});
+
+// 删除日志
+router.post('/del/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM logs WHERE id = ?`;
+  const params = [id];
+  try {
+    db.queryAsync(sql, params).then(_ => {
+      res.send({
+        code: 200,
+        msg: 'success'
+      });
+    });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '服务器错误'
     });
   }
 });
