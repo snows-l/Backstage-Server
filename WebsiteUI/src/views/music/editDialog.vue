@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { uploadMp3, uploadMusicCover } from '@/api/common';
+import { uploadFile } from '@/api/common';
 import { addMusic, editMusic } from '@/api/musics';
 import defaultCover from '@/assets/images/default_cover.png';
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -111,15 +111,13 @@ const state = reactive({
 
 const rules = {
   title: [{ required: true, message: '请输入收标题', trigger: 'blur' }],
-  // artist: [{ required: true, message: '请输入歌手', trigger: 'blur' }],
   type: [{ required: true, message: '请选择歌曲类型', trigger: 'change' }],
-  // coverLocal: [{ required: true, message: '请上传封面', trigger: 'change' }],
   musicList: [{ required: true, message: '请上传歌曲', trigger: 'change' }]
 };
 
 const handleUpload = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadMusicCover(file.file, name).then(res => {
+  uploadFile(file.file, name, '/imgs/musics').then(res => {
     state.itemRecord.coverLocal =
       import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.path : import.meta.env.VITE_PROD_BASE_SERVER + res.data.path;
     state.itemRecord.cover = res.data.path;
@@ -154,7 +152,7 @@ const beforeUploadMp3 = (file: any) => {
 
 const handleUploadMp3 = (file: any) => {
   let name = file.file.name && file.file.name.split('.')[0];
-  uploadMp3(file.file, name).then(res => {
+  uploadFile(file.file, name, '/mp3').then(res => {
     state.itemRecord.musicList = [{ ...file.file, name: file.file.name, url: res.data.path }];
     state.itemRecord.src = res.data.path;
   });

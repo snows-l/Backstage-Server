@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-28 15:20:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:52:57
+ * @LastEditTime: 2024-09-08 20:01:11
  * @FilePath: /webseteUI/WebsiteUI/src/api/common.js
  */
 import request from '@/utils/request';
@@ -17,6 +17,7 @@ export function uploadFile(file, name, dir) {
   // 去掉中文
   let fileName = name ? name.replace(/[\u4e00-\u9fa5]/g, '') + '_.' + suffix : defaultName.replace(/[\u4e00-\u9fa5]/g, '') + '__.' + suffix;
   formData.append('file', file, fileName);
+  formData.append('dir', dir);
   return request({
     url: '/file/upload',
     method: 'post',
