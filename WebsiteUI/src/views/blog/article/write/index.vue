@@ -263,6 +263,7 @@ if (route.query.id) {
         state.form.subTitle = res.data.subTitle.replace(/&#39;/g, "'");
         state.form.type = res.data.type + '';
         state.form.isPreview = res.data.isPreview == 1 ? 1 : 0;
+        state.form.labels = res.data.labels ? res.data.labels.split(',') : [];
         state.form.coverLocal =
           import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
         state.form.cover = res.data.cover;
