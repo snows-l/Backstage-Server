@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-08 15:15:57
- * @FilePath: /webseteUI/Server/src/router/blog/article.js
+ * @LastEditTime: 2024-09-11 10:17:00
+ * @FilePath: /backstage/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
 const express = require('express');
@@ -104,12 +104,15 @@ router.put('/commentCount', async (req, res) => {
 router.put('/shareCount', async (req, res) => {
   const { id } = req.body;
   const sql = `UPDATE article SET shareCount = shareCount + 1 WHERE id = ${id}`;
+  const shareCountSql = `SELECT shareCount FROM article WHERE id = ${id}`;
   try {
     db.queryAsync(sql, []).then(ress => {
-      res.send({
-        code: 200,
-        data: null,
-        msg: '更新成功'
+      db.queryAsync(shareCountSql, []).then(shareCountRes => {
+        res.send({
+          code: 200,
+          data: shareCountRes.results[0].shareCount,
+          msg: '更新成功'
+        });
       });
     });
   } catch (error) {
