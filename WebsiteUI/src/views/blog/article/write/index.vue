@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-13 16:41:45
+ * @LastEditTime: 2024-09-13 16:48:45
  * @FilePath: /backstage/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
@@ -365,7 +365,8 @@ const handleSubmit = () => {
         cover: state.form.cover,
         isPreview: state.form.isPreview,
         content: valueHtml.value.replace(/'/g, '&#39;'),
-        labels: state.form.labels.join(',')
+        labels: state.form.labels.join(','),
+        game: state.form.game || 0
       };
       if (state.id) {
         params.id = state.id;
