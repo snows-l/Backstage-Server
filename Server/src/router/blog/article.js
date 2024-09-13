@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-13 16:38:47
+ * @LastEditTime: 2024-09-13 17:22:53
  * @FilePath: /backstage/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
@@ -18,15 +18,15 @@ const axios = require('axios');
 
 // 获取文章列表
 router.get('/list', async (req, res) => {
-  let { page, size, title, type, geme, isUnPage = true } = req.query;
+  let { page, size, title, type, game, isUnPage = true } = req.query;
   let offset = (page - 1) * size;
 
-  let sql = `SELECT id, title, subTitle, cover, createTime, updateTime, type, labels, readCount, shareCount, (SELECT COUNT(*) FROM comment WHERE type = 1 AND articleId = article.id) as commentCount FROM article WHERE 1=1 ${
+  let sql = `SELECT id, title, subTitle, cover, createTime, updateTime, type, game, labels, readCount, shareCount, (SELECT COUNT(*) FROM comment WHERE type = 1 AND articleId = article.id) as commentCount FROM article WHERE 1=1 ${
     title ? `AND title LIKE '%${title}%'` : ''
-  } ${geme ? `AND geme = '${geme}'` : ''} ${type ? `AND type = '${type}'` : ''} and delFlag = 0 ${
+  } ${game ? `AND game = '${game}'` : ''} ${type ? `AND type = '${type}'` : ''} and delFlag = 0 ${
     !isUnPage || isUnPage == 'false' ? `ORDER BY id DESC` : `ORDER BY id DESC LIMIT ${size} OFFSET ${offset}`
   }`;
-  let lensql = `SELECT count('id') as total FROM article WHERE 1=1 ${title ? `AND title LIKE '%${title}%'` : ''} ${geme ? `AND geme = '${geme}'` : ''} ${
+  let lensql = `SELECT count('id') as total FROM article WHERE 1=1 ${title ? `AND title LIKE '%${title}%'` : ''} ${game ? `AND game = '${game}'` : ''} ${
     type ? `AND type = '${type}'` : ''
   }`;
 
@@ -140,7 +140,7 @@ router.post('/add', async (req, res) => {
         msg: '请先登录'
       });
     }
-    let { title, subTitle, cover, content, type, isPreview, labels, geme = 0 } = req.body;
+    let { title, subTitle, cover, content, type, isPreview, labels, game = 0 } = req.body;
     let sql = createSql
       .insert('article')
       .set({
@@ -154,7 +154,7 @@ router.post('/add', async (req, res) => {
         delFlag: 0,
         isPreview,
         labels,
-        geme
+        game
       })
       .end();
     // const sql = `INSERT INTO article (title, subTitle, cover, content, type, createTime, status, delFlag) VALUES ('${title}', '${subTitle}', '${cover}', '${content}', ${type}, ?, ?, ?);`;
@@ -177,7 +177,7 @@ router.post('/add', async (req, res) => {
 
 // 修改文章
 router.put('/edit', async (req, res) => {
-  let { id, title, subTitle, cover, content, type, isPreview, labels, geme } = req.body;
+  let { id, title, subTitle, cover, content, type, isPreview, labels, game } = req.body;
   let data = {
     title,
     subTitle,
@@ -186,7 +186,7 @@ router.put('/edit', async (req, res) => {
     type,
     isPreview,
     labels,
-    geme,
+    game,
     updateTime: new Date()
   };
 

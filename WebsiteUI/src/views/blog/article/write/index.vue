@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-19 15:22:10
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-13 16:48:45
+ * @LastEditTime: 2024-09-13 17:19:56
  * @FilePath: /backstage/WebsiteUI/src/views/blog/article/write/index.vue
 -->
 <template>
@@ -18,7 +18,7 @@
           <Editor class="editor-content-warp" v-model="valueHtml" :defaultConfig="editorConfig" :mode="mode" @onCreated="handleCreated" @customPaste="customPaste" />
         </div>
         <div class="form-warp">
-          <el-form :model="state.form" ref="formRef" :rules="rules" label-width="70px">
+          <el-form :model="state.form" ref="formRef" :rules="rules" label-width="90px">
             <el-form-item label="摘要：" prop="subTitle" style="width: 100%">
               <el-input type="textarea" :rows="10" v-model="state.form.subTitle" placeholder="请输入" :show-word-limit="true"></el-input>
             </el-form-item>
@@ -28,7 +28,7 @@
             </el-form-item>
 
             <el-form-item label="小游戏：" prop="game" style="width: 100%">
-              <el-switch v-model="state.form.geme" :active-value="1" :inactive-value="0"></el-switch>
+              <el-switch v-model="state.form.game" :active-value="1" :inactive-value="0"></el-switch>
             </el-form-item>
 
             <el-form-item label="类型：" prop="type" style="width: 100%">
@@ -270,6 +270,7 @@ if (route.query.id) {
         state.form.type = res.data.type + '';
         state.form.isPreview = res.data.isPreview == 1 ? 1 : 0;
         state.form.labels = res.data.labels ? res.data.labels.split(',') : [];
+        state.form.game = res.data.game || 0;
         state.form.coverLocal =
           import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + res.data.cover : import.meta.env.VITE_PROD_BASE_SERVER + res.data.cover;
         state.form.cover = res.data.cover;
@@ -366,7 +367,7 @@ const handleSubmit = () => {
         isPreview: state.form.isPreview,
         content: valueHtml.value.replace(/'/g, '&#39;'),
         labels: state.form.labels.join(','),
-        game: state.form.game || 0
+        game: state.form.game
       };
       if (state.id) {
         params.id = state.id;

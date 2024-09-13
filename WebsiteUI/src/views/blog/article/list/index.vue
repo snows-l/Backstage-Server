@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-08 15:56:12
- * @FilePath: /webseteUI/WebsiteUI/src/views/blog/article/list/index.vue
+ * @LastEditTime: 2024-09-13 17:21:54
+ * @FilePath: /backstage/WebsiteUI/src/views/blog/article/list/index.vue
 -->
 <template>
   <div class="musics-container-warp">
@@ -63,6 +63,11 @@
 
               <template v-if="col.prop == 'label'">
                 <el-tag style="margin-right: 5px" type="infm" v-for="item in row.labels" :key="item">{{ item }}</el-tag>
+              </template>
+              <template v-if="col.prop == 'game'">
+                <el-tag :type="row.game == 1 ? 'success' : 'danger'">
+                  {{ row.game == 1 ? '是' : '否' }}
+                </el-tag>
               </template>
               <template v-if="col.prop == 'subTitle' || col.prop == 'title'">
                 <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
@@ -177,6 +182,7 @@ const columns = [
   { id: 2, label: '封面', minWidth: '100px', prop: 'coverLocal' },
   { id: 3, label: '描述', minWidth: '100px', prop: 'subTitle' },
   { id: 4, label: '文章类型', minWidth: '120px', prop: 'type' },
+  { id: 9, label: '是否是小游戏', minWidth: '100px', prop: 'game' },
   { id: 8, label: '文章标签', minWidth: '200px', prop: 'label' },
   { id: 5, label: '创建日期', minWidth: '120px', prop: 'createTime' },
   { id: 6, label: '更新日期', minWidth: '120px', prop: 'updateTime' },

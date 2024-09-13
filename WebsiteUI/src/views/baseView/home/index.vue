@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-24 10:22:55
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-06 14:45:36
- * @FilePath: /webseteUI/WebsiteUI/src/views/baseView/home/index.vue
+ * @LastEditTime: 2024-09-13 17:08:40
+ * @FilePath: /backstage/WebsiteUI/src/views/baseView/home/index.vue
 -->
 
 <template>
