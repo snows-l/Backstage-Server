@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-08 10:53:07
+ * @LastEditTime: 2024-09-15 22:48:12
  * @FilePath: /webseteUI/Server/src/router/log.js
  */
 const { getOS, getBrowserName } = require('../../utils/common');
@@ -81,6 +81,67 @@ router.get('/list', (req, res) => {
       data: null,
       msg: '服务器错误',
       total: 0
+    });
+  }
+});
+
+// 统计34个省份的访问统计
+router.get('/province', (req, res) => {
+  let citys = [
+    '北京',
+    '天津',
+    '河北',
+    '山西',
+    '内蒙古',
+    '辽宁',
+    '吉林',
+    '黑龙江',
+    '上海',
+    '江苏',
+    '浙江',
+    '安徽',
+    '福建',
+    '江西',
+    '山东',
+    '河南',
+    '湖北',
+    '湖南',
+    '广东',
+    '广西',
+    '海南',
+    '重庆',
+    '四川',
+    '贵州',
+    '云南',
+    '西藏',
+    '陕西',
+    '甘肃',
+    '青海',
+    '宁夏',
+    '新疆',
+    '台湾',
+    '香港',
+    '澳门'
+  ];
+  // const sql = `SELECT city, COUNT(*) as total FROM logs WHERE 1=1 and type = 1 GROUP BY city ORDER BY total DESC LIMIT 34`;
+  let sql = ``;
+  citys.forEach(city => {
+    sql += `SELECT '${city}' as city, COUNT(*) as total FROM logs WHERE 1=1 and type = 1 AND city LIKE '%${city}%' UNION `;
+  });
+  sql = sql.substring(0, sql.length - 7);
+  try {
+    db.queryAsync(sql, []).then(ress => {
+      res.send({
+        code: 200,
+        msg: 'success',
+        data: ress.results
+      });
+    });
+  } catch (error) {
+    res.send({
+      code: 500,
+      data: null,
+      msg: '服务器错误'
     });
   }
 });
