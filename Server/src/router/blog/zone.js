@@ -3,10 +3,10 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:11:45
+ * @LastEditTime: 2024-09-16 21:53:48
  * @FilePath: /webseteUI/Server/src/router/blog/zone.js
  */
-const { getOS, getBrowserName } = require('../../../utils/common');
+const { getOS, getBrowserName, getCityByIp } = require('../../../utils/common');
 const createSql = require('../../../utils/sql');
 const express = require('express');
 const db = require('../../../utils/connDB');
@@ -59,20 +59,14 @@ router.get('/list', (req, res) => {
 });
 
 // 新增朋友圈
-router.post('/add', (req, res) => {
+router.post('/add', async (req, res) => {
   let { text, imgs, remark } = req.body;
 
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
   if (ip.includes(':')) {
     ip = ip.includes(':') ? ip.split(':').slice(-1)[0] : ip;
   }
-  const cityMap = new IP2Region().search(ip);
-  let city = '';
-  if (cityMap) {
-    cityMap.country = cityMap.country ? cityMap.country + '-' : '';
-    cityMap.province = cityMap.province ? cityMap.province + '-' : '';
-    city = cityMap.province + cityMap.city;
-  }
+  let city = await getCityByIp(ip);
   const os = getOS(req.headers['user-agent']);
   const browser = getBrowserName(req.headers['user-agent']);
 

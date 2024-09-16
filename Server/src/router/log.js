@@ -3,21 +3,20 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-15 22:48:12
+ * @LastEditTime: 2024-09-16 21:50:41
  * @FilePath: /webseteUI/Server/src/router/log.js
  */
-const { getOS, getBrowserName } = require('../../utils/common');
+const { getOS, getBrowserName, getCityByIp } = require('../../utils/common');
 const express = require('express');
-const { generateToken, verifyToken } = require('../../utils/handleToken');
+const { verifyToken } = require('../../utils/handleToken');
 // 数据库操作
 const db = require('../../utils/connDB');
 const Excel = require('exceljs');
-const IP2Region = require('ip2region').default;
 
 const router = express.Router();
 
 // 新增日志
-router.post('/add', (req, res) => {
+router.post('/add', async (req, res) => {
   try {
     if (req.headers.authorization) {
       let token = req.headers.authorization.split(' ')[1];
@@ -26,13 +25,7 @@ router.post('/add', (req, res) => {
       if (ip.includes(':')) {
         ip = ip.includes(':') ? ip.split(':').slice(-1)[0] : ip;
       }
-      const cityMap = new IP2Region().search(ip);
-      let city = '';
-      if (cityMap) {
-        cityMap.country = cityMap.country ? cityMap.country + '-' : '';
-        cityMap.province = cityMap.province ? cityMap.province + '-' : '';
-        city = cityMap.province + cityMap.city;
-      }
+      let city = await getCityByIp(ip);
       const os = getOS(req.headers['user-agent']);
       const browser = getBrowserName(req.headers['user-agent']);
       const sql = `INSERT INTO logs (username, ip, city, browser, os, create_time, type) VALUES (?,?,?,?,?,?)`;

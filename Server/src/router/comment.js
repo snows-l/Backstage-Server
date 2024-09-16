@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-13 19:33:14
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-07 16:19:44
+ * @LastEditTime: 2024-09-16 21:52:30
  * @FilePath: /webseteUI/Server/src/router/comment.js
  */
 const createSql = require('../../utils/sql');
@@ -11,7 +11,7 @@ const express = require('express');
 const db = require('../../utils/connDB');
 const router = express.Router();
 const IP2Region = require('ip2region').default;
-const { getOS, getBrowserName } = require('../../utils/common');
+const { getOS, getBrowserName, getCityByIp } = require('../../utils/common');
 const moment = require('moment');
 const { sendEmail } = require('../../utils/email');
 
@@ -69,7 +69,7 @@ router.get('/list2', (req, res) => {
 });
 
 // 新增评论
-router.post('/add', (req, res) => {
+router.post('/add', async (req, res) => {
   let { qq, nickName, comment, avatarUrl, email, websiteUrl, isPrivacy, isEmailFeekback, type = 0, pId = 0, toNickName, articleId, toId = 0 } = req.body;
   isPrivacy = isPrivacy || isPrivacy == 'true' ? 1 : 0;
   isEmailFeekback = isEmailFeekback || isEmailFeekback == 'true' ? 1 : 0;
@@ -79,13 +79,7 @@ router.post('/add', (req, res) => {
   if (ip.includes(':')) {
     ip = ip.includes(':') ? ip.split(':').slice(-1)[0] : ip;
   }
-  const cityMap = new IP2Region().search(ip);
-  let city = '';
-  if (cityMap) {
-    cityMap.country = cityMap.country ? cityMap.country + '-' : '';
-    cityMap.province = cityMap.province ? cityMap.province + '-' : '';
-    city = cityMap.province + cityMap.city;
-  }
+  let city = await getCityByIp(ip);
   let id = (type == 1 ? 'PL' : 'LY') + moment().format('YYYYMMDDHHmmss');
 
   let sql = createSql

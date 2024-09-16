@@ -3,28 +3,21 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-30 17:03:07
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 00:08:31
+ * @LastEditTime: 2024-09-16 21:51:10
  * @FilePath: /webseteUI/Server/src/router/blog/index.js
  */
-const { getOS, getBrowserName } = require('../../../utils/common');
+const { getOS, getBrowserName, getCityByIp } = require('../../../utils/common');
 const express = require('express');
 const db = require('../../../utils/connDB');
 const router = express.Router();
 const moment = require('moment');
-const IP2Region = require('ip2region').default;
 
-router.get('/visit/add', (req, res) => {
+router.get('/visit/add', async (req, res) => {
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
   if (ip.includes(':')) {
     ip = ip.includes(':') ? ip.split(':').slice(-1)[0] : ip;
   }
-  const cityMap = new IP2Region().search(ip);
-  let city = '';
-  if (cityMap) {
-    cityMap.country = cityMap.country ? cityMap.country + '-' : '';
-    cityMap.province = cityMap.province ? cityMap.province + '-' : '';
-    city = cityMap.province + cityMap.city;
-  }
+  let city = await getCityByIp(ip);
   const os = getOS(req.headers['user-agent']);
   const browser = getBrowserName(req.headers['user-agent']);
 

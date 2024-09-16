@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-17 09:36:26
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-06 13:01:15
+ * @LastEditTime: 2024-09-16 21:48:32
  * @FilePath: /webseteUI/Server/utils/common.js
  */
 
@@ -11,6 +11,7 @@ const moment = require('moment');
 const IP2Region = require('ip2region').default;
 const db = require('../utils/connDB');
 const { decryptToken } = require('../utils/handleToken');
+const axios = require('axios');
 
 /**
  * @description: 根据token获取当前用户的用户信息
@@ -147,10 +148,33 @@ function getBrowserName(userAgent) {
   return browserName;
 }
 
+async function getCityByIp(ip) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const cityMap = new IP2Region().search(ip);
+      let city = '';
+      if (cityMap) {
+        cityMap.country = cityMap.country ? cityMap.country + '-' : '';
+        cityMap.province = cityMap.province ? cityMap.province + '-' : '';
+        city = cityMap.province + cityMap.city;
+      }
+      if (!city) {
+        const cityObj = await axios.get('https://qifu-api.baidubce.com/ip/geo/v1/district?ip=' + ip);
+        const cityData = cityObj.data.data;
+        city = (cityData.prov ? cityData.prov : '') + (cityData.prov ? '-' : '') + (cityData.city ? cityData.city : '');
+      }
+      resolve(city);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 module.exports = {
   getUserInfoByToken,
   tranListToTree,
   perfMenuObj,
   getOS,
-  getBrowserName
+  getBrowserName,
+  getCityByIp
 };

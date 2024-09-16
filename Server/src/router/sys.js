@@ -3,7 +3,7 @@
  * @Creater: snows_l snows_l@163.com
  * @Date: 2023-04-16 18:41:28
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-30 22:16:53
+ * @LastEditTime: 2024-09-16 21:56:15
  * @FilePath: /webseteUI/Server/src/router/sys.js
  */
 
@@ -15,13 +15,12 @@ const { decryptPwd, encrypt } = require('../../utils/node-rsa');
 // 数据库操作
 const db = require('../../utils/connDB');
 // list转tree的函数
-const { tranListToTree, perfMenuObj, getOS, getBrowserName } = require('../../utils/common');
+const { tranListToTree, perfMenuObj, getOS, getBrowserName, getCityByIp } = require('../../utils/common');
 const svgCaptcha = require('svg-captcha'); // 生成svg验证码
 // const formidable = require('formidable'); // 上传图片
 const multer = require('multer');
 const { default: axios } = require('axios');
 const moment = require('moment');
-const IP2Region = require('ip2region').default;
 
 const router = express.Router();
 let globlCode = ''; // 存放生成的验证码
@@ -73,13 +72,7 @@ router.post('/login', (req, res) => {
           if (ip.includes(':')) {
             ip = ip.includes(':') ? ip.split(':').slice(-1)[0] : ip;
           }
-          const cityMap = new IP2Region().search(ip);
-          let city = '';
-          if (cityMap) {
-            cityMap.country = cityMap.country ? cityMap.country + '-' : '';
-            cityMap.province = cityMap.province ? cityMap.province + '-' : '';
-            city = cityMap.province + cityMap.city;
-          }
+          let city = await getCityByIp(ip);
           const os = getOS(req.headers['user-agent']);
           const browser = getBrowserName(req.headers['user-agent']);
           const sql = `INSERT INTO logs (username, ip, city, browser, os, create_time) VALUES (?,?,?,?,?,?)`;
