@@ -12,7 +12,7 @@
 
         <el-row :gutter="20">
           <el-col>
-            <el-form-item label="照片：" prop="file" style="width: 100%">
+            <el-form-item label="照片/视频：" prop="file" style="width: 100%">
               <el-upload
                 class="avatar-uploader"
                 list-type="picture-card"
@@ -93,10 +93,7 @@ const handleRemove = () => {
 };
 
 const beforeUpload = (file: any) => {
-  if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/gif') {
-    ElMessage.error('请上传jpeg, jpg, png, gif格式的图片!');
-    return false;
-  } else if (file.size / 1024 / 1024 > 10) {
+  if (file.size / 1024 / 1024 > 20) {
     ElMessage.error('附件不能大于10M!');
     return false;
   }
