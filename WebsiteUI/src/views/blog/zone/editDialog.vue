@@ -1,18 +1,18 @@
 <template>
   <div class="dict-dialog-container-warp">
     <XDialog :title="state.title" v-model="open" :before-close="handleClose" :size="isMobile ? '90vw' : '40vw'" :style="{ width: isMobile ? '90vw' : '50vw' }">
-      <el-form :model="state.itemRecord" ref="formRef" :rules="rules" label-width="120px" :inline="true">
+      <el-form style="width: 100%" :model="state.itemRecord" ref="formRef" :rules="rules" label-position="top" label-width="0px" :inline="false">
         <el-row :gutter="20">
           <el-col>
             <el-form-item label="内容：" prop="text" style="width: 100%">
-              <el-input type="textarea" rows="6" style="width: 80%" clearable v-model="state.itemRecord.text" placeholder="请输入"></el-input>
+              <el-input type="textarea" rows="12" style="width: 100%" clearable v-model="state.itemRecord.text" placeholder="请输入"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
           <el-col>
-            <el-form-item label="照片/视频：" prop="file" style="width: 100%">
+            <el-form-item label="图片：" prop="file" style="width: 100%">
               <el-upload
                 class="avatar-uploader"
                 list-type="picture-card"
@@ -29,7 +29,7 @@
         <el-row :gutter="20">
           <el-col>
             <el-form-item label="备注：" prop="remark" style="width: 100%">
-              <el-input type="textarea" rows="4" clearable style="width: 80%" placeholder="请输入备注" v-model="state.itemRecord.remark"></el-input>
+              <el-input type="textarea" rows="4" clearable style="width: 100%" placeholder="请输入备注" v-model="state.itemRecord.remark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -88,8 +88,8 @@ const handleUpload = (file: any) => {
   });
 };
 
-const handleRemove = () => {
-  state.itemRecord.file = [];
+const handleRemove = (file: any, fileList: any) => {
+  state.itemRecord.file = fileList;
 };
 
 const beforeUpload = (file: any) => {
