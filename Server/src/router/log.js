@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-07-05 15:45:41
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-16 21:50:41
- * @FilePath: /webseteUI/Server/src/router/log.js
+ * @LastEditTime: 2024-09-18 14:14:45
+ * @FilePath: /backstage/Server/src/router/log.js
  */
 const { getOS, getBrowserName, getCityByIp } = require('../../utils/common');
 const express = require('express');
@@ -78,7 +78,7 @@ router.get('/list', (req, res) => {
   }
 });
 
-// 统计34个省份的访问统计
+// 统计34个省份的访问统计以及其他统计
 router.get('/province', (req, res) => {
   let citys = [
     '北京',
@@ -116,12 +116,13 @@ router.get('/province', (req, res) => {
     '香港',
     '澳门'
   ];
-  // const sql = `SELECT city, COUNT(*) as total FROM logs WHERE 1=1 and type = 1 GROUP BY city ORDER BY total DESC LIMIT 34`;
   let sql = ``;
+  let other = `SELECT '其他' as city, COUNT(*) as total FROM logs WHERE 1=1 and type = 1 `;
   citys.forEach(city => {
     sql += `SELECT '${city}' as city, COUNT(*) as total FROM logs WHERE 1=1 and type = 1 AND city LIKE '%${city}%' UNION `;
+    other += `AND city NOT LIKE '%${city}%' `;
   });
-  sql = sql.substring(0, sql.length - 7);
+  sql = sql + other;
   try {
     db.queryAsync(sql, []).then(ress => {
       res.send({
