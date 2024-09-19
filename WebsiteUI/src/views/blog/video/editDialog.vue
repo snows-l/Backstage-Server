@@ -3,7 +3,7 @@
     <XDialog :title="state.title" v-model="open" :before-close="handleClose" :size="isMobile ? '90vw' : '40vw'" :style="{ width: isMobile ? '90vw' : '50vw' }">
       <el-form style="width: 100%" :model="state.itemRecord" ref="formRef" :rules="rules" label-width="100px" :inline="true">
         <el-row :gutter="16">
-          <el-col :span="16">
+          <el-col :span="20">
             <el-form-item label="视频bvid：" prop="text" style="width: 100%">
               <el-input v-model="state.itemRecord.text" placeholder="请输入" clearable />
             </el-form-item>
@@ -11,7 +11,7 @@
         </el-row>
 
         <el-row :gutter="16">
-          <el-col :span="16">
+          <el-col :span="20">
             <el-form-item label="标题：" prop="remark" style="width: 100%">
               <el-input v-model="state.itemRecord.remark" placeholder="请输入" clearable />
             </el-form-item>
@@ -19,7 +19,7 @@
         </el-row>
 
         <el-row :gutter="16">
-          <el-col :span="16">
+          <el-col :span="20">
             <el-form-item label="封面：" prop="file" style="width: 100%">
               <el-upload
                 class="avatar-uploader"
