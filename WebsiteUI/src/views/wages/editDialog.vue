@@ -139,7 +139,7 @@ const handleClose = () => {
 
 // 新增
 const add = () => {
-  addWages({ ...state.itemRecord, date: moment(state.itemRecord.date).format('YYYY-MM'), type: 1 }).then(() => {
+  addWages({ ...state.itemRecord, date: moment(state.itemRecord.date).format('YYYY-MM') }).then(() => {
     ElMessage.success('新增成功');
     handleClose();
     props.refreshCallBack && props.refreshCallBack();
@@ -148,7 +148,7 @@ const add = () => {
 
 // 修改
 const edit = () => {
-  editWages({ ...state.itemRecord, date: moment(state.itemRecord.date).format('YYYY-MM'), type: 1 }).then(() => {
+  editWages({ ...state.itemRecord, date: moment(state.itemRecord.date).format('YYYY-MM') }).then(() => {
     ElMessage.success('修改成功');
     handleClose();
     props.refreshCallBack && props.refreshCallBack();

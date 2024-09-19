@@ -117,7 +117,8 @@ const add = () => {
   let params = {
     text: state.itemRecord.text,
     imgs: state.itemRecord.file.map(item => item.src).join(','),
-    remark: state.itemRecord.remark
+    remark: state.itemRecord.remark,
+    type: 1
   };
   addZone(params).then(res => {
     ElMessage.success('新增成功');
@@ -132,7 +133,8 @@ const edit = () => {
     id: state.itemRecord.id,
     text: state.itemRecord.text,
     imgs: state.itemRecord.file.map(item => item.src).join(','),
-    remark: state.itemRecord.remark
+    remark: state.itemRecord.remark,
+    type: 1
   };
   editZone(params).then(() => {
     ElMessage.success('修改成功');
