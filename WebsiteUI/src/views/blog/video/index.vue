@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-19 11:08:00
+ * @LastEditTime: 2024-09-19 12:20:46
  * @FilePath: /backstage/WebsiteUI/src/views/blog/video/index.vue
 -->
 <template>
@@ -159,6 +159,7 @@ let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)'
 
 const columns = [
   { id: 1, label: '视频bvid', width: '180px', prop: 'text', align: 'center' },
+  { id: 3, label: '标题', width: '180px', prop: 'remark', align: 'center' },
   { id: 2, label: '封面', minWidth: '120px', prop: 'imgs' },
   { id: 5, label: '创建日期', minWidth: '120px', prop: 'createTime' },
   { id: 6, label: '更新日期', minWidth: '120px', prop: 'updateTime' },
