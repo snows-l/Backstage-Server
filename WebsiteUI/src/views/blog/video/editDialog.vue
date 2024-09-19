@@ -4,7 +4,7 @@
       <el-form style="width: 100%" :model="state.itemRecord" ref="formRef" :rules="rules" label-width="100px" :inline="true">
         <el-row :gutter="16">
           <el-col :span="20">
-            <el-form-item label="视频bvid：" prop="text" style="width: 100%">
+            <el-form-item label="标题：" prop="text" style="width: 100%">
               <el-input v-model="state.itemRecord.text" placeholder="请输入" clearable />
             </el-form-item>
           </el-col>
@@ -12,7 +12,7 @@
 
         <el-row :gutter="16">
           <el-col :span="20">
-            <el-form-item label="标题：" prop="remark" style="width: 100%">
+            <el-form-item label="视频bvid：" prop="remark" style="width: 100%">
               <el-input v-model="state.itemRecord.remark" placeholder="请输入" clearable />
             </el-form-item>
           </el-col>
@@ -24,6 +24,7 @@
               <el-upload
                 class="avatar-uploader"
                 list-type="picture-card"
+                :limit="1"
                 :file-list="state.itemRecord.file"
                 :before-upload="beforeUpload"
                 :http-request="handleUpload"
@@ -74,7 +75,8 @@ const state = reactive({
 });
 
 const rules = {
-  text: [{ required: true, message: '请输入收标题', trigger: 'blur' }]
+  text: [{ required: true, message: '请输入', trigger: 'blur' }],
+  remark: [{ required: true, message: '请输入', trigger: 'blur' }]
 };
 
 const handleUpload = (file: any) => {
