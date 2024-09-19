@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-08-18 16:49:23
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-16 21:53:48
- * @FilePath: /webseteUI/Server/src/router/blog/zone.js
+ * @LastEditTime: 2024-09-19 11:03:47
+ * @FilePath: /backstage/Server/src/router/blog/zone.js
  */
 const { getOS, getBrowserName, getCityByIp } = require('../../../utils/common');
 const createSql = require('../../../utils/sql');
@@ -18,14 +18,19 @@ const axios = require('axios');
 const moment = require('moment');
 const IP2Region = require('ip2region').default;
 
+/**
+ *
+ * 朋友圈以及 视频管理
+ */
+
 // 获取朋友圈列表
 router.get('/list', (req, res) => {
-  let { page, size, text, startTime, endTime } = req.query;
+  let { page, size, text, startTime, endTime, type = 0 } = req.query;
   let offset = (page - 1) * size;
-  let sql = `select * from zone where status = 1 ${text ? `and text like '%${text}%'` : ''} ${
+  let sql = `select * from zone where status = 1 and type = ${type} ${text ? `and text like '%${text}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
   } order by createTime desc limit ${size} offset ${offset}`;
-  let sqlCount = `select count(*) as total from zone where status = 1 ${text ? `and text like '%${text}%'` : ''} ${
+  let sqlCount = `select count(*) as total from zone where status = 1 and type = ${type} ${text ? `and text like '%${text}%'` : ''} ${
     startTime && endTime ? `and createTime between '${startTime}' and '${endTime}'` : ''
   }`;
   db.queryAsync(sqlCount, [])
@@ -60,7 +65,7 @@ router.get('/list', (req, res) => {
 
 // 新增朋友圈
 router.post('/add', async (req, res) => {
-  let { text, imgs, remark } = req.body;
+  let { text, imgs, remark, type = 0 } = req.body;
 
   let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown';
   if (ip.includes(':')) {
@@ -70,8 +75,8 @@ router.post('/add', async (req, res) => {
   const os = getOS(req.headers['user-agent']);
   const browser = getBrowserName(req.headers['user-agent']);
 
-  let sql = `insert into zone (text, imgs, createTime, city, remark, os, browser, status) values (?, ?, ?, ?, ?, ?, ?, 1)`;
-  let params = [text, imgs, moment().format('YYYY-MM-DD HH:mm:ss'), city, remark, os, browser];
+  let sql = `insert into zone (text, imgs, createTime, city, remark, os, browser, status, type) values (?, ?, ?, ?, ?, ?, ?, 1, ?)`;
+  let params = [text, imgs, moment().format('YYYY-MM-DD HH:mm:ss'), city, remark, os, browser, type];
   try {
     db.queryAsync(sql, params)
       .then(result => {
@@ -129,9 +134,9 @@ router.delete('/del/:id', (req, res) => {
 
 // 编辑朋友圈
 router.put('/edit', (req, res) => {
-  let { id, text, imgs, remark } = req.body;
-  let sql = `update zone set text = ?, imgs = ?, remark = ? where id = ?`;
-  let params = [text, imgs, remark, id];
+  let { id, text, imgs, remark, type = 0 } = req.body;
+  let sql = `update zone set text = ?, imgs = ?, remark = ?, type = ? where id = ?`;
+  let params = [text, imgs, remark, type, id];
   try {
     db.queryAsync(sql, params)
       .then(result => {
