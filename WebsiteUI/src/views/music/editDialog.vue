@@ -59,7 +59,7 @@
         <el-row :gutter="20">
           <el-col>
             <el-form-item label="备注：" prop="remark" style="width: 100%">
-              <el-input type="textarea" rows="4" clearable style="width: 80%" placeholder="请输入备注" v-model="state.itemRecord.remark"></el-input>
+              <el-input type="textarea" :rows="4" clearable style="width: 80%" placeholder="请输入备注" v-model="state.itemRecord.remark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
