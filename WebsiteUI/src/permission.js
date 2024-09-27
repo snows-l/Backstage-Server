@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-24 11:01:38
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-20 15:33:41
- * @FilePath: /webseteUI/WebsiteUI/src/permission.js
+ * @LastEditTime: 2024-09-27 14:33:54
+ * @FilePath: /backstage/WebsiteUI/src/permission.js
  */
 import router from '@/router';
 import { useAppStore } from '@/store/common';
@@ -59,7 +59,6 @@ function routeNext(to, next, store, isAdd) {
 
 // 路由后置守卫
 router.beforeEach((to, from, next) => {
-  console.log('-------- to --------', to.path);
   NProgress.start();
   if (getToken()) {
     const store = useAppStore();

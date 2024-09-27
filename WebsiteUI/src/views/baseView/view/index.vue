@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-24 17:51:09
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:42:16
- * @FilePath: /webseteUI/WebsiteUI/src/views/baseView/view/index.vue
+ * @LastEditTime: 2024-09-27 14:33:02
+ * @FilePath: /backstage/WebsiteUI/src/views/baseView/view/index.vue
 -->
 <template>
   <div class="content-container" style="width: 100vw">
@@ -153,8 +153,8 @@ const handleRefreshSaying = () => {
 const handleSelect = () => {
   let urlObj = {
     1: `https://www.baidu.com/s?wd=${state.keyword}`,
-    2: `https://www.baidu.com/s?wd=${state.keyword}`,
-    3: `https://cn.bing.com/search?q=${state.keyword}`
+    2: `https://cn.bing.com/search?q=${state.keyword}`,
+    3: `https://www.google.com/search?q=${state.keyword}`
   };
   let url = urlObj[state.type];
   window.open(url);
@@ -170,7 +170,7 @@ const handleTo = path => {
       title: '提示',
       message: '用PC端访问效果更佳哦',
       type: 'info',
-      duration: 5000
+      duration: 2000
     });
   }
 };

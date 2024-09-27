@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2023-01-12 16:56:13
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-08-31 23:40:42
- * @FilePath: /webseteUI/WebsiteUI/src/main.js
+ * @LastEditTime: 2024-09-27 14:34:36
+ * @FilePath: /backstage/WebsiteUI/src/main.js
  */
 import '@/assets/css/base.scss';
 import '@/assets/css/common.scss';
@@ -38,7 +38,7 @@ import router from './router';
 
 const app = createApp(App).use(pinia);
 useAppStore().isLoadingRouter = false; // 每次刷新页面，将获取菜单表标识 isLoadingRouter 重置为false
-console.log('是不是开发环境', import.meta.env.DEV);
+console.log('current env: ', import.meta.env.DEV);
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 // 注册el-icon图标

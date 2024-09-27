@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:21:13
- * @FilePath: /webseteUI/WebsiteUI/src/views/music/index.vue
+ * @LastEditTime: 2024-09-27 14:29:29
+ * @FilePath: /backstage/WebsiteUI/src/views/music/index.vue
 -->
 <template>
   <div class="musics-container-warp">
@@ -55,13 +55,7 @@
               <template v-if="col.prop == 'operation'">
                 <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleEdit(row)">编辑</el-button>
                 <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" link @click="handleDel(row)">删除</el-button>
-                <el-button
-                  :size="state.isMobile ? 'small' : 'default'"
-                  type="primary"
-                  :disabled="state.downLoading"
-                  v-loading="state.downLoading"
-                  link
-                  @click="handleDownload(row)">
+                <el-button :size="state.isMobile ? 'small' : 'default'" type="primary" :disabled="row.downLoading" v-loading="row.downLoading" link @click="handleDownload(row)">
                   下载
                 </el-button>
               </template>
@@ -229,6 +223,9 @@ const getMusicListFn = () => {
         }
       });
       state.tableSource = res.data;
+      state.tableSource.forEach(item => {
+        item.downLoading = false;
+      });
       if (state.currentPlayingMusicId) {
         state.tableSource.forEach(item => {
           if (item.id === state.currentPlayingMusicId) {
@@ -294,8 +291,9 @@ const handleDel = (row: { id: number }) => {
 };
 
 // 下载
-const handleDownload = ({ src, title }) => {
-  state.downLoading = true;
+const handleDownload = ({ id, src, title, artist }) => {
+  let index = state.tableSource.findIndex(item => item.id === id);
+  state.tableSource[index].downLoading = true;
   let url = import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + src : import.meta.env.VITE_PROD_BASE_SERVER + src;
   const x = new XMLHttpRequest();
   x.open('GET', url, true);
@@ -305,12 +303,12 @@ const handleDownload = ({ src, title }) => {
     const elink = document.createElement('a');
     elink.href = url;
     elink.target = '_self'; // 当前也 target打开新页面
-    elink.setAttribute('download', title + '.mp3');
+    elink.setAttribute('download', artist + '-' + title + '.mp3');
     elink.style.display = 'none';
     document.body.appendChild(elink);
     elink.click();
     document.body.removeChild(elink);
-    state.downLoading = false;
+    state.tableSource[index].downLoading = false;
   };
   x.send();
 };
