@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-25 20:11:54
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-17 10:34:33
- * @FilePath: /Website/WebsiteUI/src/layout/Header/index.vue
+ * @LastEditTime: 2024-09-28 16:39:46
+ * @FilePath: /webseteUI/WebsiteUI/src/layout/Header/index.vue
 -->
 <template>
   <div class="header">
@@ -33,6 +33,10 @@
         <div class="sub-menu">
           <!-- <div class="tool-item" @click="handleTo('/')"><i style="margin-right: 5px; font-size: 20px" class="iconfont to icon-home"></i></div> -->
           <div class="tool-item" @click="handleTo('/m/favors')"><img style="width: 20px; height: 20px; margin-right: 5px" src="../../assets/icon/华为mate40pro.png" /></div>
+          <div class="tool-item" v-if="state.isScreenFull" @click="handleToggleFullscreen">
+            <img style="width: 20px; height: 20px; margin-right: 5px" src="../../assets/icon/unfullscreen.svg" />
+          </div>
+          <div class="tool-item" v-else @click="handleToggleFullscreen"><img style="width: 20px; height: 20px; margin-right: 5px" src="../../assets/icon/fullscreen.svg" /></div>
           <div class="tool-item">
             <project-config-dialog>
               <i style="font-size: 16px" class="iconfont icon-shezhi" />
@@ -100,6 +104,7 @@ const weekConfig = {
 
 const state = reactive({
   timer: null,
+  isScreenFull: false,
   currentTime: moment().format('HH:mm:ss'),
   currentDate: moment().format('MM月DD日'),
   week: moment().day(),
@@ -138,6 +143,36 @@ const handleLogout = () => {
         message: '已取消'
       });
     });
+};
+
+// 切换全屏/退出全屏
+const handleToggleFullscreen = () => {
+  if (!document.fullscreenElement) {
+    // 进入全屏
+    var requestMethod =
+      document.documentElement.requestFullScreen || //W3C
+      document.documentElement.webkitRequestFullScreen || //Chrome等
+      document.documentElement.mozRequestFullScreen || //FireFox
+      document.documentElement.msRequestFullscreen; //IE11
+
+    if (requestMethod) {
+      requestMethod.call(document.documentElement);
+      state.clockSize = isMobi.value ? 0.7 : 2;
+      state.isScreenFull = true;
+    } else if (typeof window.ActiveXObject !== 'undefined') {
+      var wscript = new ActiveXObject('WScript.Shell');
+      if (wscript !== null) {
+        wscript.SendKeys('{F11}');
+      }
+    }
+  } else {
+    // 退出全屏
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      state.clockSize = isMobi.value ? 0.5 : 1;
+      state.isScreenFull = false;
+    }
+  }
 };
 
 watch(

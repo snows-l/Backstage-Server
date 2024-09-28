@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:24:58
+ * @LastEditTime: 2024-09-28 16:23:17
  * @FilePath: /webseteUI/WebsiteUI/src/views/system/role/index.vue
 -->
 <template>
@@ -104,7 +104,7 @@ let state = reactive({
   rules: {},
   tableLoading: false
 });
-let tableHeight = ref(state.isMobile ? 'calc(100% - 102px)' : 'calc(100% - 102px)');
+let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
   { id: 3, label: '角色名', minWidth: '120px', prop: 'role_name' },
@@ -188,7 +188,7 @@ const handleAuth = row => {
 
 const resizeCallback = () => {
   state.isMobile = isMobile(1000);
-  tableHeight.value = state.isMobile ? 'calc(100% - 102px)' : 'calc(100% - 102px)';
+  tableHeight.value = state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)';
 };
 window.addEventListener('resize', resizeCallback, { passive: true });
 
@@ -203,7 +203,7 @@ onBeforeUnmount(() => {
   height: 100%;
   background-color: var(--containerBgc);
   .select-warp {
-    padding: 20px 10px;
+    padding: 10px 10px;
     background-color: var(--contentBgc);
     .el-form-item {
       margin: 10px 0;
