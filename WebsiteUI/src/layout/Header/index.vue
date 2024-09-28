@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-25 20:11:54
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-28 16:39:46
+ * @LastEditTime: 2024-09-28 17:34:40
  * @FilePath: /webseteUI/WebsiteUI/src/layout/Header/index.vue
 -->
 <template>
@@ -157,19 +157,17 @@ const handleToggleFullscreen = () => {
 
     if (requestMethod) {
       requestMethod.call(document.documentElement);
-      state.clockSize = isMobi.value ? 0.7 : 2;
-      state.isScreenFull = true;
     } else if (typeof window.ActiveXObject !== 'undefined') {
       var wscript = new ActiveXObject('WScript.Shell');
       if (wscript !== null) {
         wscript.SendKeys('{F11}');
       }
     }
+    state.isScreenFull = true;
   } else {
     // 退出全屏
     if (document.exitFullscreen) {
       document.exitFullscreen();
-      state.clockSize = isMobi.value ? 0.5 : 1;
       state.isScreenFull = false;
     }
   }
