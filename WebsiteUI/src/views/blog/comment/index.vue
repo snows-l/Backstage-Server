@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 21:31:21
- * @FilePath: /webseteUI/WebsiteUI/src/views/blog/comment/index.vue
+ * @LastEditTime: 2024-09-29 16:04:50
+ * @FilePath: /backstage/WebsiteUI/src/views/blog/comment/index.vue
 -->
 <template>
   <div class="musics-container-warp">
@@ -251,7 +251,8 @@ const handleDel = (row: { id: number }) => {
 };
 
 const handleView = row => {
-  window.open('http://124.223.41.220/article/detail?id=' + row.articleId, '_blank');
+  const url = import.meta.env.VITE_BLOG_URL + '/article/detail?id=' + row.articleId;
+  window.open(url, '_blank');
 };
 
 const resizeCallback = () => {

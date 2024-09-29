@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-13 17:21:54
+ * @LastEditTime: 2024-09-29 16:07:19
  * @FilePath: /backstage/WebsiteUI/src/views/blog/article/list/index.vue
 -->
 <template>
@@ -62,7 +62,7 @@
               </template>
 
               <template v-if="col.prop == 'label'">
-                <el-tag style="margin-right: 5px" type="infm" v-for="item in row.labels" :key="item">{{ item }}</el-tag>
+                <el-tag style="margin-right: 5px" type="info" v-for="item in row.labels" :key="item">{{ item }}</el-tag>
               </template>
               <template v-if="col.prop == 'game'">
                 <el-tag :type="row.game == 1 ? 'success' : 'danger'">
@@ -282,7 +282,8 @@ const handleDel = (row: { id: number }) => {
 
 // 查看
 const handleView = row => {
-  window.open('http://124.223.41.220/article/detail?id=' + row.id, '_blank');
+  const url = import.meta.env.VITE_BLOG_URL + '/article/detail?id=' + row.id;
+  window.open(url, '_blank');
 };
 
 const resizeCallback = () => {

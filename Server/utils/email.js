@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-09-03 22:13:51
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-04 16:20:30
+ * @LastEditTime: 2024-09-29 16:02:48
  * @FilePath: /backstage/Server/utils/email.js
  */
 
@@ -28,7 +28,7 @@ const defaultMailOptions = {
   to: 'snows_l@163.com', // 收件人
   subject: "snows_l's BLOG评论回复通知", // 邮件标题"
   text: '', // 文本内容
-  html: `<div>您有新的评论回复，请前往<a href="http://124.223.41.220">snows_l的博客</a>查看</div>` // HTML内容
+  html: `<div>您有新的评论回复，请前往<a href="${import.meta.env.VITE_BLOG_URL}">snows_l的博客</a>查看</div>` // HTML内容
 };
 
 // 发送邮件函数
@@ -52,14 +52,14 @@ function sendEmail(mailOptions) {
               <div style="font-size:14px;line-height:1.5;margin-bottom:6px">
                 ${mailOptions.username} 在 snows_l's BLOG ${
       mailOptions.isBack ? '回复了您' : mailOptions.isComment ? '给您的文章评论了' : '给您留言'
-    }：请前往 <a style="text-decoration: none" target="_blank" href="http://124.223.41.220${mailOptions.path ? mailOptions.path : ''}">snows_l's BLOG</a> 查看
+    }：请前往 <a style="text-decoration: none" target="_blank" href="${import.meta.env.VITE_BLOG_URL}${mailOptions.path ? mailOptions.path : ''}">snows_l's BLOG</a> 查看
               </div>
               <div style="color:#333;font-size:12px;line-height:20px;wdith:100%;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;">内容：${
                 mailOptions.comment
               }</div>
             </div>
             <div style="padding:10px 0;display:flex;justify-content:center;align-items:center;border-top:1px solid #ccc;font-size:16px">
-              <a style="text-decoration: none" target="_blank" href="http://124.223.41.220${mailOptions.path ? mailOptions.path : ''}">立即前往</a>
+              <a style="text-decoration: none" target="_blank" href="${import.meta.env.VITE_BLOG_URL}${mailOptions.path ? mailOptions.path : ''}">立即前往</a>
             </div>
           </div>
     `

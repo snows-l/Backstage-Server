@@ -3,8 +3,8 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 14:55:27
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-03 19:22:31
- * @FilePath: /webseteUI/WebsiteUI/src/views/blog/zone/index.vue
+ * @LastEditTime: 2024-09-29 16:53:04
+ * @FilePath: /backstage/WebsiteUI/src/views/blog/zone/index.vue
 -->
 <template>
   <div class="musics-container-warp">
@@ -65,21 +65,24 @@
                 <el-tooltip v-if="row[col.prop]" :content="row[col.prop]" placement="top" effect="dark">
                   <div
                     class="remark-warp"
+                    @click="handleView(row)"
                     style="height: 30px; line-height: 15px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">
                     {{ row[col.prop] }}
                   </div>
                 </el-tooltip>
                 <span v-else></span>
               </template>
-              <template v-if="col.prop == 'imgs'">
+              <template v-if="col.prop == 'attachment'">
                 <div class="cover" style="position: relative; display: flex; align-items: center; justify-content: center">
+                  <video v-if="row.mp4s.length" style="width: 120px; height: 120px" :src="row.mp4s[0]" controls muted loop>您的浏览器不支持播放该视频</video>
+                  <audio v-else-if="row.mp3s.length" style="width: 120px; height: 40px" :src="row.mp3s[0]" controls loop>您的浏览器不支持播放该音频</audio>
                   <Img
-                    v-for="(img, index) in row.imgSrcs"
+                    v-else-if="row.images.length"
                     style="width: 90px; height: 65px; margin: 0 3px"
                     loading="eager"
                     preview-teleported
                     hide-on-click-modal
-                    :src="img || defaultCover" />
+                    :src="row.images[0] || defaultCover" />
                 </div>
               </template>
             </template>
@@ -158,8 +161,8 @@ const tagType = {
 let tableHeight = ref(state.isMobile ? 'calc(100% - 82px)' : 'calc(100% - 82px)');
 
 const columns = [
-  { id: 1, label: '内容', width: '180px', prop: 'text', align: 'center' },
-  { id: 2, label: '图片', minWidth: '300px', prop: 'imgs' },
+  { id: 1, label: '内容', width: '260px', prop: 'text', align: 'center' },
+  { id: 2, label: '图片', minWidth: '120px', prop: 'attachment' },
   { id: 5, label: '创建日期', minWidth: '120px', prop: 'createTime' },
   { id: 6, label: '更新日期', minWidth: '120px', prop: 'updateTime' },
   { id: 7, label: '操作', minWidth: state.isMobile ? '150px' : '150px', prop: 'operation', fixed: state.isMobile ? null : 'right' }
@@ -169,6 +172,11 @@ const columns = [
 const tableRowClassName = ({ row, rowIndex }) => {
   if (row.isCurrentMusic) return 'playing-row';
   else return '';
+};
+
+const handleView = (row: any) => {
+  const url = import.meta.env.VITE_BLOG_URL + '/about/zone';
+  window.open(url, '_blank');
 };
 
 // 获取列表
@@ -187,10 +195,30 @@ const getZoneListFn = () => {
         item.imgSrcs = item.imgs
           ? item.imgs.split(',').map(img => (import.meta.env.VITE_CURRENT_ENV == 'dev' ? import.meta.env.VITE_DEV_BASE_SERVER + img : import.meta.env.VITE_PROD_BASE_SERVER + img))
           : [];
+        item.images = item.imgSrcs.filter(item => {
+          let suffix = item.substring(item.lastIndexOf('.')).toLowerCase();
+          return ['.jpg', '.png', '.jpeg', '.gif'].includes(suffix);
+        });
+        item.mp3s = item.imgSrcs.filter(item => {
+          let suffix = item.substring(item.lastIndexOf('.')).toLowerCase();
+          return ['.mp3'].includes(suffix);
+        });
+        item.mp4s = item.imgSrcs.filter(item => {
+          let suffix = item.substring(item.lastIndexOf('.')).toLowerCase();
+          return ['.mp4'].includes(suffix);
+        });
 
         item.imgs = item.imgs.split(',');
+        item.imageName = item.imgs.filter(item => {
+          let suffix = item.substring(item.lastIndexOf('.')).toLowerCase();
+          return ['.jpg', '.png', '.jpeg', '.gif'].includes(suffix);
+        });
+        item.audioName = item.imgs.filter(item => {
+          return ['.mp3', '.mp4'].includes(item.substring(item.lastIndexOf('.')).toLowerCase());
+        });
       });
       state.tableSource = res.data;
+      console.log('------- stya -------', state.tableSource);
       state.page.total = res.total || 0;
     })
     .finally(() => {
@@ -359,5 +387,10 @@ watch(
   to {
     transform: rotate(360deg);
   }
+}
+
+.remark-warp {
+  color: v-bind(themeColor);
+  cursor: pointer;
 }
 </style>

@@ -177,7 +177,8 @@ const handleTo = path => {
 
 // 跳转到博客
 const handleBlog = () => {
-  window.open('http://124.223.41.220', '_blank');
+  const url = import.meta.env.VITE_BLOG_URL;
+  window.open(url, '_blank');
 };
 
 // 全屏/退出全屏 兼容性处理
