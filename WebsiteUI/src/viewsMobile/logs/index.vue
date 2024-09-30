@@ -3,18 +3,21 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 16:51:19
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-07-15 15:47:22
- * @FilePath: /Website/WebsiteUI/src/viewsMobile/logs/index.vue
+ * @LastEditTime: 2024-09-30 11:05:24
+ * @FilePath: /backstage/WebsiteUI/src/viewsMobile/logs/index.vue
 -->
 <template>
   <div class="container-warp">
     <div class="form-warp">
       <el-form class="form" :model="state.form" ref="form" :rules="state.rules" label-width="0" :inline="true">
         <el-form-item size="">
-          <el-input style="width: 180px" v-model="state.form.username" placeholder="请输入登录账号" clearable @blur="handleSelect"></el-input>
+          <el-select style="width: 180px" v-model="state.form.type" placeholder="请选择日志类型" clearable @change="handleSelect">
+            <el-option v-for="item in state.typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
         </el-form-item>
+
         <el-form-item size="">
-          <el-input style="width: 180px" v-model="state.form.city" placeholder="请输入登录地点" clearable @blur="handleSelect"></el-input>
+          <el-input style="width: 180px" v-model="state.form.city" placeholder="请输入地点" clearable @blur="handleSelect"></el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -48,6 +51,10 @@
         <div class="card-warp bgc-container p10" v-if="state.tableSource.length">
           <div class="card-item" v-for="item in state.tableSource" :key="item.id" :style="{ boxShadow: state.boxShadow }">
             <div class="username row">
+              <div class="label">日志类型</div>
+              <div class="value">{{ item.type == 0 ? '后台登录' : 'BLOG访问' }}</div>
+            </div>
+            <div class="username row" v-if="item.type == 0">
               <div class="label">登录账号</div>
               <div class="value">{{ item.username }}</div>
             </div>
@@ -113,9 +120,14 @@ let state = reactive({
   sum: 0,
   form: {
     username: '',
-    city: ''
+    city: '',
+    type: ''
   },
   tableSource: [],
+  typeList: [
+    { value: '0', label: '登录日志' },
+    { value: '1', label: 'BLOG访问日志' }
+  ],
   rules: {},
   page: {
     page: 1,
@@ -136,6 +148,7 @@ const sourceType = {
 };
 
 const columns = [
+  // { id: 1, label: '日志类型', minWidth: '60px', prop: 'type' },
   { id: 2, label: '登录账号', minWidth: '85px', prop: 'username' },
   { id: 3, label: '登录IP', minWidth: '85px', prop: 'ip' },
   { id: 4, label: '登录地点', minWidth: '100px', prop: 'city' },
@@ -146,6 +159,7 @@ const columns = [
 const getListFn = () => {
   state.loading = true;
   let params = {
+    type: state.form.type,
     username: state.form.username,
     city: state.form.city,
     page: state.page.page,
