@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-03-26 16:51:19
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-09-30 11:05:24
+ * @LastEditTime: 2024-09-30 11:10:10
  * @FilePath: /backstage/WebsiteUI/src/viewsMobile/logs/index.vue
 -->
 <template>
@@ -336,6 +336,12 @@ watch(
     margin: 0;
     .el-form-item__content {
       border-radius: 20px;
+      .el-select {
+        border-radius: 20px;
+        .el-select__wrapper {
+          border-radius: 20px;
+        }
+      }
       .el-input {
         border-radius: 20px;
         .el-input__wrapper {
