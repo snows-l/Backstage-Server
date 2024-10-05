@@ -3,7 +3,7 @@
  * @Author: snows_l snows_l@163.com
  * @Date: 2024-04-15 14:29:31
  * @LastEditors: snows_l snows_l@163.com
- * @LastEditTime: 2024-10-05 14:35:50
+ * @LastEditTime: 2024-10-05 14:52:32
  * @FilePath: /webseteUI/Server/src/router/blog/article.js
  */
 const createSql = require('../../../utils/sql');
@@ -106,7 +106,7 @@ router.put('/commentCount', async (req, res) => {
 
 // 获取访问量前三的文章
 router.get('/topRead', async (req, res) => {
-  const sql = `SELECT id, title, cover, readCount FROM article WHERE delFlag = 0 ORDER BY readCount DESC LIMIT 3`;
+  const sql = `SELECT id, title, cover, readCount, creaeTime FROM article WHERE delFlag = 0 ORDER BY readCount DESC LIMIT 3`;
   try {
     db.queryAsync(sql, []).then(ress => {
       res.send({
